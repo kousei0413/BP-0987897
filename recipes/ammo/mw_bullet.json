@@ -1,0 +1,1 @@
+{"format_version":"1.12","minecraft:recipe_shaped":{"description":{"identifier":"5mm_bullet"},"key":{"A":{"data":0,"item":"minecraft:copper_ingot"},"B":{"data":0,"item":"minecraft:gunpowder"}},"pattern":["A","B","A"],"result":{"count":32,"item":"mw:5mmbullet"},"tags":["crafting_table"]}}

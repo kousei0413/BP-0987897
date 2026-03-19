@@ -1,0 +1,1 @@
+{"format_version":"1.12","minecraft:recipe_shaped":{"description":{"identifier":"ammo_box"},"key":{"A":{"data":0,"item":"mw:smallammobox"},"B":{"data":0,"item":"minecraft:iron_block"}},"pattern":["AAA","ABA","AAA"],"result":{"count":4,"item":"mw:ammobox"},"tags":["crafting_table"]}}
