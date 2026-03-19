@@ -1,0 +1,67 @@
+{
+  "capabilities": [
+    "script_eval",
+    "This Pack Is For RezeVN"
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server-gametest",
+      "version": "1.0.0-beta"
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.2.0-beta"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.1.0-beta"
+    },
+    {
+      "uuid": "5de97616-69ca-4da7-a689-3b13a7d42605",
+      "version": [
+        0,
+        1,
+        9
+      ]
+    }
+  ],
+  "format_version": 2,
+  "header": {
+    "description": "SC V0.2 By Shadow",
+    "min_engine_version": [
+      1,
+      17,
+      0
+    ],
+    "name": "Shadow Company V0.2",
+    "uuid": "61362c6c-65a9-4f79-9354-30d6118e517f",
+    "version": [
+      0,
+      1,
+      9
+    ]
+  },
+  "modules": [
+    {
+      "entry": "scripts/Main.js",
+      "language": "javascript",
+      "type": "script",
+      "uuid": "f2ef58d8-1876-4ca4-ad3b-b664553f8d12",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "description": "SC V0.2 By Shadow",
+      "type": "data",
+      "uuid": "b8b7c30a-ae06-4beb-acea-d49419e4c1a5",
+      "version": [
+        0,
+        1,
+        9
+      ]
+    }
+  ]
+}
