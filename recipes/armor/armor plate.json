@@ -1,0 +1,1 @@
+{"format_version":"1.12","minecraft:recipe_shaped":{"description":{"identifier":"armorplate"},"key":{"B":{"data":0,"item":"minecraft:iron_ingot"}},"pattern":["#B","BBB","BBB"],"result":{"count":1,"item":"mw:armorplate"},"tags":["crafting_table"]}}
