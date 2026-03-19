@@ -1,0 +1,2087 @@
+{
+    "animation_controllers": {
+        "controller.animation.mp7": {
+            "initial_state": "setup",
+            "states": {
+                "attach": {
+                    "on_entry": [
+                        "@s attachment:idle",
+                        "/event entity @s stop:mp7",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_start": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_sneaking && !q.is_sprinting && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7')"
+                        },
+                        {
+                            "end_attach": "(!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'))"
+                        }
+                    ]
+                },
+                "attachment_end": {
+                    "on_entry": [
+                        "@s attachment:hide_button",
+                        "v.time = q.life_time;",
+                        "@s attachment:end",
+                        "/playsound attachment.end @s",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/tag @s remove select"
+                    ],
+                    "transitions": [
+                        {
+                            "attach": "(q.life_time - v.time) >=0.25 && q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "end_attach": "(!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && (q.life_time - v.time) >=0.25)"
+                        }
+                    ]
+                },
+                "attachment_grip": {
+                    "on_entry": [
+                        "@s attachment:grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:grip_select",
+                        "/event entity @s[has_property={mw:gungrip=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gungrip') == 'normal' && q.scoreboard('grip')>=1"
+                        },
+                        {
+                            "attachment_grip_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gungrip') == 'attach'"
+                        },
+                        {
+                            "attachment_grip_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('grip')==0"
+                        }
+                    ]
+                },
+                "attachment_grip_attach": {
+                    "on_entry": [
+                        "@s gun:grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mp7attachgrip dummy",
+                        "/scoreboard players set @s mp7attachgrip 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_grip_button": {
+                    "on_entry": [
+                        "@s attachment:grip_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_grip_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Underbarrel Unlock At Lvl-65 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_grip": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_grip_unattach": {
+                    "on_entry": [
+                        "@s gun:ungrip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mp7attachgrip 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser": {
+                    "on_entry": [
+                        "@s attachment:laser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.mag @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:laser_select",
+                        "/event entity @s[has_property={mw:gunlaser=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunlaser') == 'normal' && q.scoreboard('laser')>=1"
+                        },
+                        {
+                            "attachment_laser_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('laser')==0"
+                        },
+                        {
+                            "attachment_laser_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunlaser') == 'attach'"
+                        }
+                    ]
+                },
+                "attachment_laser_attach": {
+                    "on_entry": [
+                        "@s gun:laser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mp7attachlaser dummy",
+                        "/scoreboard players set @s mp7attachlaser 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser_button": {
+                    "on_entry": [
+                        "@s attachment:laser_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Laser Unlock At Lvl-5 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_laser": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_laser_unattach": {
+                    "on_entry": [
+                        "@s gun:unlaser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mp7attachlaser 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag": {
+                    "on_entry": [
+                        "@s attachment:mag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.sup @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:mag_select",
+                        "/event entity @s[has_property={mw:gunmag=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunmag') == 'normal' && q.scoreboard('mag')>=1 && q.scoreboard('mp7')>=40"
+                        },
+                        {
+                            "attachment_mag_attach_fail": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunmag') == 'normal' && q.scoreboard('mag')>=1 && q.scoreboard('mp7')<=39"
+                        },
+                        {
+                            "attachment_mag_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunmag') == 'attach' && q.scoreboard('mp7')>=60"
+                        },
+                        {
+                            "attachment_mag_unattach_fail": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunmag') == 'attach' && q.scoreboard('mp7')<=59"
+                        },
+                        {
+                            "attachment_mag_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('mag')==0"
+                        }
+                    ]
+                },
+                "attachment_mag_attach": {
+                    "on_entry": [
+                        "@s gun:mag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mp7attachmag dummy",
+                        "/scoreboard players set @s mp7attachmag 1",
+                        "/scoreboard players set @s mp7 60"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_attach_fail": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Reload Your Gun To Equip Extended Magazine !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_mag_button": {
+                    "on_entry": [
+                        "@s attachment:mag_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Magazine Unlock At Lvl-135 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_mag_unattach": {
+                    "on_entry": [
+                        "@s gun:unmag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mp7attachmag 0",
+                        "/scoreboard players set @s mp7 40"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_unattach_fail": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Reload Your Gun To Unequip Extended Magazine !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_muzzle_button": {
+                    "on_entry": [
+                        "@s attachment:muzzle_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_sup": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_normal": {
+                    "on_entry": [
+                        "@s attachment:normal",
+                        "v.time = q.life_time;",
+                        "@s stop:mp7",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_sup": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic": {
+                    "on_entry": [
+                        "@s attachment:optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:optic_select",
+                        "/event entity @s[has_property={mw:gunoptic=\"attach\"}] attachment:green_select",
+                        "/event entity @s[has_property={mw:gunoptic=\"attach2\"}] attachment:green_select2",
+                        "/event entity @s[has_property={mw:gunoptic=\"attach3\"}] attachment:green_select3",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunoptic') == 'normal' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunoptic') == 'attach' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_attach3": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunoptic') == 'attach2' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunoptic') == 'attach3'"
+                        },
+                        {
+                            "attachment_optic_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('optic')==0"
+                        }
+                    ]
+                },
+                "attachment_optic_attach": {
+                    "on_entry": [
+                        "@s gun:optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mp7attachoptic dummy",
+                        "/scoreboard players set @s mp7attachoptic 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_attach2": {
+                    "on_entry": [
+                        "@s gun:optic2",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select2",
+                        "/scoreboard objectives add mp7attachoptic dummy",
+                        "/scoreboard players set @s mp7attachoptic 2"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach3": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_attach3": {
+                    "on_entry": [
+                        "@s gun:optic3",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select3",
+                        "/scoreboard objectives add mp7attachoptic dummy",
+                        "/scoreboard players set @s mp7attachoptic 3"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_button": {
+                    "on_entry": [
+                        "@s attachment:optic_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Optic Unlock At Lvl-100 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_optic": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_optic_unattach": {
+                    "on_entry": [
+                        "@s gun:unoptic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mp7attachoptic 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_start": {
+                    "on_entry": [
+                        "@s attachment:start",
+                        "v.time = q.life_time;",
+                        "/event entity @s stop:mp7",
+                        "/playsound attachment.start @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock": {
+                    "on_entry": [
+                        "@s attachment:stock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:stock_select",
+                        "/event entity @s[has_property={mw:gunstock=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunstock') == 'normal' && q.scoreboard('stock')>=1"
+                        },
+                        {
+                            "attachment_stock_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunstock') == 'attach'"
+                        },
+                        {
+                            "attachment_stock_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('stock')==0"
+                        }
+                    ]
+                },
+                "attachment_stock_attach": {
+                    "on_entry": [
+                        "@s gun:stock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mp7attachstock dummy",
+                        "/scoreboard players set @s mp7attachstock 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock_button": {
+                    "on_entry": [
+                        "@s attachment:stock_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Stock Unlock At Lvl-15 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_stock": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_stock_unattach": {
+                    "on_entry": [
+                        "@s gun:unstock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mp7attachstock 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_sup": {
+                    "on_entry": [
+                        "@s attachment:sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:muzzle_select",
+                        "/event entity @s[has_property={mw:gunsup=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunsup') == 'normal' && q.scoreboard('muzzle')>=1"
+                        },
+                        {
+                            "attachment_sup_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunsup') == 'attach'"
+                        },
+                        {
+                            "attachment_sup_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('sup')==0"
+                        }
+                    ]
+                },
+                "attachment_sup_attach": {
+                    "on_entry": [
+                        "@s gun:sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mp7attachsup dummy",
+                        "/scoreboard players set @s mp7attachsup 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_sup_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Muzzle Unlock At Lvl-30 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_sup": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_sup_unattach": {
+                    "on_entry": [
+                        "@s gun:unsup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mp7attachsup 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "empty": {
+                    "on_entry": [
+                        "/scoreboard players set @s mp7 0",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.skin_id ==100 && q.mark_variant ==10 && !q.is_saddled &&q.scoreboard('mp7')==0 && q.is_using_item && q.scoreboard('mp7ammo')>=1"
+                        },
+                        {
+                            "mp7_semi": "v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' &&"
+                        },
+                        {
+                            "mp7_full": "v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' &&"
+                        },
+                        {
+                            "inspect_empty": "variable.mp7laymp7beh = 6.73; variable.previous_timemp7beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')==0);"
+                        },
+                        {
+                            "mp7_firemode_end": "q.scoreboard('mp7')>=1"
+                        }
+                    ]
+                },
+                "empty2": {
+                    "animations": [
+                        {
+                            "mp7mag": "q.scoreboard('mp7ammo')==0"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s mp7 0",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.skin_id ==100 && q.mark_variant ==10 && !q.is_saddled &&q.scoreboard('mp7')==0 && q.is_using_item && q.scoreboard('mp7ammo')>=1"
+                        },
+                        {
+                            "mp7_semi": "v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' &&"
+                        },
+                        {
+                            "mp7_full": "v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' &&"
+                        },
+                        {
+                            "inspect_empty": "variable.mp7laymp7beh = 6.73; variable.previous_timemp7beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')==0);"
+                        },
+                        {
+                            "mp7_firemode_end": "q.scoreboard('mp7')>=1"
+                        }
+                    ]
+                },
+                "end_attach": {
+                    "on_entry": [
+                        "@s attachment:reset"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_start": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && !q.is_sprinting && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7')"
+                        },
+                        {
+                            "mp7": "q.property('mw:gunmag') == 'normal'"
+                        },
+                        {
+                            "mp7_ext": "q.property('mw:gunmag') == 'attach'"
+                        }
+                    ]
+                },
+                "fail": {
+                    "animations": [
+                        {
+                            "rootmp7": "!q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add mp7 dummy",
+                        "/scoreboard players set @s mp7 0",
+                        "@s unreload",
+                        "/stopsound @s mp7.reload_ext",
+                        "/stopsound @s mp7.reload",
+                        "/stopsound @a[rm=1,r=20] mp7.reload_ext1",
+                        "/stopsound @a[rm=1,r=20] mp7.reload1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.mark_variant ==10 &&!q.is_saddled && q.skin_id ==100 && q.health >0 && q.scoreboard('mp7ammo')>=1"
+                        }
+                    ]
+                },
+                "fail2": {
+                    "animations": [
+                        {
+                            "rootmp7": "!q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unreload",
+                        "/stopsound @s mp7.reload_ext2",
+                        "/stopsound @s mp7.reload2",
+                        "/stopsound @a[rm=1,r=20] mp7.reload_ext21",
+                        "/stopsound @a[rm=1,r=20] mp7.reload21",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.mark_variant ==10 &&!q.is_saddled && q.skin_id ==100 && q.health >0 && q.scoreboard('mp7ammo')>=1"
+                        }
+                    ]
+                },
+                "fail_ext": {
+                    "on_entry": [
+                        "@s unreload",
+                        "/stopsound @s mp7.reload_change",
+                        "/stopsound @a[rm=1,r=20] mp7.reload_change1",
+                        "/stopsound @a[rm=1,r=20] mp7.reload_change21",
+                        "/stopsound @s mp7.reload_change2",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_to_ext": "q.skin_id ==100"
+                        }
+                    ]
+                },
+                "fail_normal": {
+                    "on_entry": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_to_normal": "q.skin_id ==100"
+                        }
+                    ]
+                },
+                "inspect": {
+                    "animations": [
+                        {
+                            "mp7inspect": "!q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s mp7.show",
+                        "/stopsound @s mp7.show_ext",
+                        "/stopsound @a[r=20] mp7.show1",
+                        "/stopsound @a[r=20] mp7.show_ext1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7": "(query.life_time - variable.previous_timemp7beh ) >= variable.mp7laymp7beh && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "mp71": "(q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "inspect2": {
+                    "animations": [
+                        {
+                            "mp7inspect": "!q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s mp7.show",
+                        "/stopsound @s mp7.show_ext",
+                        "/stopsound @a[r=20] mp7.show1",
+                        "/stopsound @a[r=20] mp7.show_ext1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_ext": "(query.life_time - variable.previous_timemp7beh ) >= variable.mp7laymp7beh && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "mp72": "(q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "inspect_empty": {
+                    "animations": [
+                        {
+                            "mp7inspectempty": "!q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspectempty",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s mp7.show_empty",
+                        "/stopsound @s mp7.show_ext_empty",
+                        "/stopsound @a[rm=1,r=20] mp7.show_empty1",
+                        "/stopsound @a[rm=1,r=20] mp7.show_ext_empty1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(query.life_time - variable.previous_timemp7beh ) >= variable.mp7laymp7beh && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "empty2": "(q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "mag": {
+                    "animations": [
+                        {
+                            "rootmp7": "!q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add mp7 dummy",
+                        "/scoreboard objectives add mp7ammo dummy",
+                        "/scoreboard players set @s mp7 40",
+                        "/scoreboard players set @s[scores={mp7ammo=0}] mp7ammo 80",
+                        "@s attachment:reset"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7": "(1.0)"
+                        }
+                    ]
+                },
+                "magext": {
+                    "animations": [
+                        {
+                            "rootmp7": "!q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add mp7 dummy",
+                        "/scoreboard objectives add mp7ammo dummy",
+                        "/scoreboard players set @s mp7 60",
+                        "/scoreboard players set @s[scores={mp7ammo=0}] mp7ammo 120",
+                        "@s attachment:reset"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_ext": "(1.0)"
+                        }
+                    ]
+                },
+                "mp7": {
+                    "animations": [
+                        {
+                            "gunrest": "q.scoreboard('mp7')>=1 && !q.is_stackable && !q.is_using_item"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s sig516:unreload",
+                        "@s un:mp7",
+                        "/tag @s remove gunmag",
+                        "/tag @s remove mp7stop",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.skin_id ==100 && !q.is_riding && q.health > 0 && q.scoreboard('mp7')>=2 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.scoreboard('mp7')>=1"
+                        },
+                        {
+                            "mp7_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.skin_id ==100 && !q.is_riding && q.health > 0 && q.scoreboard('mp7')==1"
+                        },
+                        {
+                            "inspect": "variable.mp7laymp7beh = 6.76; variable.previous_timemp7beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=40);"
+                        },
+                        {
+                            "inspect_empty": "variable.mp7laymp7beh = 6.76; variable.previous_timemp7beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')==0);"
+                        },
+                        {
+                            "reload": "q.skin_id ==100 && q.mark_variant ==10 && !q.is_using_item && !q.is_saddled && v.attack_time &&q.scoreboard('mp7')<=39 && !q.is_sprinting && q.scoreboard('mp7ammo')>=1"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==100 && q.mark_variant ==10 && !q.is_saddled &&q.scoreboard('mp7')==0 && q.is_using_item && q.scoreboard('mp7ammo')>=1"
+                        },
+                        {
+                            "mp7_semi": "(v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.scoreboard('mp7')>=40 && q.scoreboard('mp7ammo')>=1) || (v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.property('mw:firemode') == 'fullauto' && q.scoreboard('mp7ammo')==0)"
+                        },
+                        {
+                            "mp7_full": "(v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.scoreboard('mp7')>=40 && q.scoreboard('mp7ammo')>=1) || (v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.property('mw:firemode') == 'semiauto' && q.scoreboard('mp7ammo')==0)"
+                        }
+                    ]
+                },
+                "mp71": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7": "(1.0)"
+                        }
+                    ]
+                },
+                "mp72": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_ext": "(1.0)"
+                        }
+                    ]
+                },
+                "mp7_1": {
+                    "on_entry": [
+                        "/execute @s[tag=!gunsup] ~~~ fill ~~~ ~~3~ light_blockk 8 replace air",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak,tag=!gungrip,tag=!gunstock] 0.045 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gunstock,tag=!gungrip] 0.02 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gunstock,tag=gungrip] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gunstock,tag=gungrip] 0.0025 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gunstock,tag=!gungrip] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gungrip,tag=!gunstock] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!gungrip,tag=!gunstock] 0.0225 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gungrip,tag=!gunstock] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=!gunstock,tag=!gungrip] 0.006 0.4 rotational",
+                        "/camerashake add @s[tag=gunstock,tag=!gungrip] 0.004 0.3 rotational",
+                        "/camerashake add @s[tag=gunstock,tag=gungrip] 0.001 0.25 rotational",
+                        "/event entity @s[scores={mp7=2..}] mp7:shoot",
+                        "/scoreboard players remove @s mp7 1",
+                        "v.time = q.life_time;",
+                        "/execute @s[tag=!gunsup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=gunsup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~-1~-5 ~-5~5~5 air 0 replace light_blockk 8",
+                        "/fill ~5~-2~-5 ~-5~5~5 air 0 replace light_blockk 8"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7": "(q.life_time - v.time) >= 0.02 && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "mp7_semi_stop": "(q.life_time - v.time) >= 0.02 && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.property('mw:firemode') == 'semiauto'"
+                        },
+                        {
+                            "mp71": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        }
+                    ]
+                },
+                "mp7_2": {
+                    "on_entry": [
+                        "/execute @s[tag=!gunsup] ~~~ fill ~~~ ~~3~ light_blockk 8 replace air",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak,tag=!gungrip,tag=!gunstock] 0.045 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gunstock,tag=!gungrip] 0.02 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gunstock,tag=gungrip] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gunstock,tag=gungrip] 0.0025 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gunstock,tag=!gungrip] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gungrip,tag=!gunstock] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!gungrip,tag=!gunstock] 0.0225 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gungrip,tag=!gunstock] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=!gunstock,tag=!gungrip] 0.006 0.4 rotational",
+                        "/camerashake add @s[tag=gunstock,tag=!gungrip] 0.004 0.3 rotational",
+                        "/camerashake add @s[tag=gunstock,tag=gungrip] 0.001 0.25 rotational",
+                        "/event entity @s mp7:shoot",
+                        "v.time = q.life_time;",
+                        "/playsound mp7.empty2 @s[tag=sneak]",
+                        "/playsound mp7.empty @s[tag=!sneak]",
+                        "@s sig516:empty",
+                        "/execute @s[tag=gunsup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=!gunsup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~-1~-5 ~-5~5~5 air 0 replace light_blockk 8",
+                        "/fill ~5~-2~-5 ~-5~5~5 air 0 replace light_blockk 8",
+                        "/scoreboard players remove @s mp7 1"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(q.life_time - v.time) >= 0.05 && !q.is_riding && q.health > 0 && q.skin_id ==100"
+                        }
+                    ]
+                },
+                "mp7_change": {
+                    "on_entry": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7": "!q.is_angry"
+                        },
+                        {
+                            "mp7_ext": "q.is_angry"
+                        }
+                    ]
+                },
+                "mp7_ext": {
+                    "animations": [
+                        {
+                            "gunrest": "q.scoreboard('mp7')>=1 && !q.is_stackable && !q.is_using_item"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s sig516:unreload",
+                        "/tag @s add gunmag",
+                        "@s un:mp7",
+                        "/tag @s remove mp7stop",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_ext1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.skin_id ==100 && !q.is_riding && q.health > 0 && q.scoreboard('mp7')>=2 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.scoreboard('mp7')>=1"
+                        },
+                        {
+                            "mp7_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.skin_id ==100 && !q.is_riding && q.health > 0 && q.scoreboard('mp7')==1"
+                        },
+                        {
+                            "inspect2": "variable.mp7laymp7beh = 6.76; variable.previous_timemp7beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=60);"
+                        },
+                        {
+                            "inspect_empty": "variable.mp7laymp7beh = 6.76; variable.previous_timemp7beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')==0);"
+                        },
+                        {
+                            "reload": "q.skin_id ==100 && q.mark_variant ==10 && !q.is_using_item && !q.is_saddled && v.attack_time &&q.scoreboard('mp7')<=59 && !q.is_sprinting && q.scoreboard('mp7ammo')>=1"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==100 && q.mark_variant ==10 && !q.is_saddled &&q.scoreboard('mp7')==0 && q.is_using_item && q.scoreboard('mp7ammo')>=1"
+                        },
+                        {
+                            "mp7_semi": "(v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.scoreboard('mp7')>=60 && q.scoreboard('mp7ammo')>=1) || (v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.property('mw:firemode') == 'fullauto' && q.scoreboard('mp7ammo')==0)"
+                        },
+                        {
+                            "mp7_full": "(v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.scoreboard('mp7')>=60 && q.scoreboard('mp7ammo')>=1) || (v.attack_time && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.property('mw:firemode') == 'semiauto' && q.scoreboard('mp7ammo')==0)"
+                        }
+                    ]
+                },
+                "mp7_ext1": {
+                    "on_entry": [
+                        "/execute @s[tag=!gunsup] ~~~ fill ~~~ ~~3~ light_blockk 8 replace air",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak,tag=!gungrip,tag=!gunstock] 0.045 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gunstock,tag=!gungrip] 0.02 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gunstock,tag=gungrip] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gunstock,tag=gungrip] 0.0025 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gunstock,tag=!gungrip] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gungrip,tag=!gunstock] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!gungrip,tag=!gunstock] 0.0225 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gungrip,tag=!gunstock] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=!gunstock,tag=!gungrip] 0.006 0.4 rotational",
+                        "/camerashake add @s[tag=gunstock,tag=!gungrip] 0.004 0.3 rotational",
+                        "/camerashake add @s[tag=gunstock,tag=gungrip] 0.001 0.25 rotational",
+                        "/event entity @s[scores={mp7=2..}] mp7:shoot",
+                        "/scoreboard players remove @s mp7 1",
+                        "v.time = q.life_time;",
+                        "/execute @s[tag=!gunsup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=gunsup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~-1~-5 ~-5~5~5 air 0 replace light_blockk for",
+                        "/fill ~5~-2~-5 ~-5~5~5 air 0 replace light_blockk 8"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_ext": "(q.life_time - v.time) >= 0.02 && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "mp72": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "mp7_semi_stop": "(q.life_time - v.time) >= 0.02 && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.property('mw:firemode') == 'semiauto'"
+                        }
+                    ]
+                },
+                "mp7_firemode_end": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7": "q.property('mw:gunmag') == 'normal' && q.scoreboard('mp7')>=1"
+                        },
+                        {
+                            "mp7_ext": "q.property('mw:gunmag') == 'attach' && q.scoreboard('mp7')>=1"
+                        },
+                        {
+                            "empty": "q.scoreboard('mp7')==0"
+                        }
+                    ]
+                },
+                "mp7_full": {
+                    "animations": [
+                        "mp7full"
+                    ],
+                    "on_entry": [
+                        "@s gun:firemode",
+                        "v.time = q.life_time;",
+                        "@s stop:mp7",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_firemode_end": "(q.all_animations_finished && (q.life_time - v.time) >= 0.507) || ((q.life_time - v.time) >= 0.2536 && q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        }
+                    ]
+                },
+                "mp7_semi": {
+                    "animations": [
+                        "mp7semi"
+                    ],
+                    "on_entry": [
+                        "@s gun:firemode",
+                        "v.time = q.life_time;",
+                        "@s stop:mp7",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_firemode_end": "(q.all_animations_finished && (q.life_time - v.time) >= 0.507) || ((q.life_time - v.time) >= 0.2536 && q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        }
+                    ]
+                },
+                "mp7_semi_stop": {
+                    "animations": [
+                        {
+                            "gunrest": "q.scoreboard('mp7')>=1 && !q.is_stackable"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7": "q.property('mw:gunmag') == 'normal' && !q.is_using_item"
+                        },
+                        {
+                            "mp7_ext": "q.property('mw:gunmag') == 'attach' && !q.is_using_item"
+                        }
+                    ]
+                },
+                "reload": {
+                    "transitions": [
+                        {
+                            "reload2": "variable.mp7laymp7shakebeh = 2.11; variable.previous_timemp7shakebeh = query.life_time; return (!q.is_saddled && q.property('mw:gunmag') == 'normal' && q.scoreboard('mp7ammo')>=1 && q.health >0);"
+                        },
+                        {
+                            "reload2_ext": "variable.delaymp7shaketbeh = 2.74; variable.previous_timemp7shaketbeh = query.life_time; return (!q.is_saddled && q.property('mw:gunmag') == 'attach' && q.scoreboard('mp7ammo')>=1 && q.health >0);"
+                        }
+                    ]
+                },
+                "reload2": {
+                    "animations": [
+                        "mp7reload2",
+                        {
+                            "mp7loaded": "(q.life_time - v.time) >=1.089"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "v.time = q.life_time;",
+                        "@s stop:mp7",
+                        "/tag @s add mp7tacreload",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unreload",
+                        "/tag @s remove mp7tacreload"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7": "((query.life_time - variable.previous_timemp7shakebeh ) >= variable.mp7laymp7shakebeh && (q.life_time - v.time) >= 1.089) || ((q.life_time - v.time) >= 1.3 && q.is_using_item) || ((q.life_time - v.time) >= 1.3 && q.is_sprinting)"
+                        },
+                        {
+                            "fail2": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.089) || ((q.life_time - v.time) < 1.089 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload2_ext": {
+                    "animations": [
+                        "mp7reloadext2",
+                        {
+                            "mp7loaded": "(q.life_time - v.time) >=1.66"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "v.time = q.life_time;",
+                        "@s stop:mp7",
+                        "/tag @s add mp7tacreload",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unreload",
+                        "/tag @s remove mp7tacreload"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_ext": "((query.life_time - variable.previous_timemp7shaketbeh ) >= variable.delaymp7shaketbeh && (q.life_time - v.time) >= 1.66) || ((q.life_time - v.time) >= 1.96 && q.is_using_item) || ((q.life_time - v.time) >= 1.96 && q.is_sprinting)"
+                        },
+                        {
+                            "fail2": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.66) || ((q.life_time - v.time) < 1.66 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload_empty": {
+                    "animations": [
+                        {
+                            "rootmp7": "!q.is_riding"
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty2": "variable.mp7laymp7shakebeh = 2.76; variable.previous_timemp7shakebeh = query.life_time; return (!q.is_saddled && q.property('mw:gunmag') == 'normal' && q.scoreboard('mp7ammo')>=1 && q.health >0);"
+                        },
+                        {
+                            "reload_empty2_ext": "variable.delaymp7shakerbeh = 3.26; variable.previous_timemp7shakerbeh = query.life_time; return (!q.is_saddled && q.property('mw:gunmag') == 'attach' && q.scoreboard('mp7ammo')>=1 && q.health >0);"
+                        }
+                    ]
+                },
+                "reload_empty2": {
+                    "animations": [
+                        {
+                            "mp7reload": "!q.is_riding"
+                        },
+                        {
+                            "mp7loaded": "(q.life_time - v.time) >=1.904"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "v.time = q.life_time;",
+                        "@s stop:mp7",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7": "((query.life_time - variable.previous_timemp7shakebeh ) >= variable.mp7laymp7shakebeh && (q.life_time - v.time) >=1.904) || ((q.life_time - v.time) >=2.254 && q.is_using_item) || ((q.life_time - v.time) >=2.254 && q.is_sprinting)"
+                        },
+                        {
+                            "fail": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.904) || ((q.life_time - v.time) < 1.904 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload_empty2_ext": {
+                    "animations": [
+                        {
+                            "mp7reloadext": "!q.is_riding"
+                        },
+                        {
+                            "mp7loaded": "(q.life_time - v.time) >=2.371"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "v.time = q.life_time;",
+                        "@s stop:mp7",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_ext": "((query.life_time - variable.previous_timemp7shakerbeh ) >= variable.delaymp7shakerbeh && (q.life_time - v.time) >=2.371) || (q.is_using_item && (q.life_time - v.time) >= 2.671) || (q.is_sprinting && (q.life_time - v.time) >= 2.671)"
+                        },
+                        {
+                            "fail": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 2.371) || (q.health ==0 && (q.life_time - v.time) < 2.371)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "animations": [
+                        {
+                            "rootmp7": "!q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add mp7 dummy"
+                    ],
+                    "transitions": [
+                        {
+                            "mag": " q.property('mw:gunmag') == 'normal'"
+                        },
+                        {
+                            "magext": " q.property('mw:gunmag') == 'attach'"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.mp7_sound": {
+            "initial_state": "default",
+            "states": {
+                "default": {
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "default1": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1"
+                        },
+                        {
+                            "default": "(!q.is_using_item) || (q.scoreboard('mp7')==0)"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/playsound mp7.shoot @s",
+                        "/tag @s add mp7sound",
+                        "/stopsound @s mp7.shoot2",
+                        "/stopsound @s mp7.shoot_indoor2",
+                        "/stopsound @s mp7.shoot_indoor",
+                        "/playsound mp7_shoot.mw @a[rm=1,r=35]",
+                        "/playsound mp7_shoot_near.mw @a[rm=35,r=70]",
+                        "/playsound mp7_shoot_dis.mw @a[rm=70,r=105]",
+                        "/playsound mp7_shoot_med_dis.mw @a[rm=105,r=140]",
+                        "/playsound mp7_shoot_far_dis.mw @a[rm=140,r=800]",
+                        "@s hk416:shoot_animation"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==10) || (q.scoreboard('mp7')==0) || (q.health==0) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "/playsound mp7.shoot2 @s",
+                        "/tag @s add mp7sound",
+                        "/stopsound @s mp7.shoot",
+                        "/stopsound @s mp7.shoot_indoor",
+                        "/stopsound @s mp7.shoot_indoor2",
+                        "/playsound mp7_shoot.mw @a[rm=1,r=35]",
+                        "/playsound mp7_shoot_near.mw @a[rm=35,r=70]",
+                        "/playsound mp7_shoot_dis.mw @a[rm=70,r=105]",
+                        "/playsound mp7_shoot_med_dis.mw @a[rm=105,r=140]",
+                        "/playsound mp7_shoot_far_dis.mw @a[rm=140,r=800]",
+                        "@s hk416:shoot_animation"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==10) || (q.scoreboard('mp7')==0) || (q.health==0) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "shoot_indoor": {
+                    "on_entry": [
+                        "/playsound mp7.shoot_indoor @s",
+                        "/tag @s add mp7sound",
+                        "/stopsound @s mp7.shoot2",
+                        "/stopsound @s mp7.shoot",
+                        "/stopsound @s mp7.shoot_indoor2",
+                        "/playsound mp7_shoot.mw @a[rm=1,r=35]",
+                        "/playsound mp7_shoot_near.mw @a[rm=35,r=70]",
+                        "/playsound mp7_shoot_dis.mw @a[rm=70,r=105]",
+                        "/playsound mp7_shoot_med_dis.mw @a[rm=105,r=140]",
+                        "/playsound mp7_shoot_far_dis.mw @a[rm=140,r=800]",
+                        "@s hk416:shoot_animation"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==10) || (q.scoreboard('mp7')==0) || (q.health==0) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        }
+                    ]
+                },
+                "shoot_indoor2": {
+                    "on_entry": [
+                        "/playsound mp7.shoot_indoor2 @s",
+                        "/tag @s add mp7sound",
+                        "/stopsound @s mp7.shoot",
+                        "/stopsound @s mp7.shoot2",
+                        "/stopsound @s mp7.shoot_indoor",
+                        "/playsound mp7_shoot.mw @a[rm=1,r=35]",
+                        "/playsound mp7_shoot_near.mw @a[rm=35,r=70]",
+                        "/playsound mp7_shoot_dis.mw @a[rm=70,r=105]",
+                        "/playsound mp7_shoot_med_dis.mw @a[rm=105,r=140]",
+                        "/playsound mp7_shoot_far_dis.mw @a[rm=140,r=800]",
+                        "@s hk416:shoot_animation"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==10) || (q.scoreboard('mp7')==0) || (q.health==0) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        }
+                    ]
+                },
+                "start": {
+                    "on_entry": [
+                        "/playsound mp7.start @s",
+                        "/playsound mp7_start.mw @a[rm=1,r=35]",
+                        "/playsound mp7_start_near.mw @a[rm=35,r=70]",
+                        "/playsound mp7_start_dis.mw @a[rm=70,r=105]",
+                        "/playsound mp7_start_med_dis.mw @a[rm=105,r=140]",
+                        "/playsound mp7_start_far_dis.mw @a[rm=140,r=800]",
+                        "/playanimation @s[scores={mp7=1..}] fpmp7shoot",
+                        "v.time = q.life_time;",
+                        "/event entity @s[scores={mp7=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": " !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor": " !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default1": " !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('mp7')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start2": {
+                    "on_entry": [
+                        "/playsound mp7.start2 @s",
+                        "/playsound mp7_start.mw @a[rm=1,r=35]",
+                        "/playsound mp7_start_near.mw @a[rm=35,r=70]",
+                        "/playsound mp7_start_dis.mw @a[rm=70,r=105]",
+                        "/playsound mp7_start_med_dis.mw @a[rm=105,r=140]",
+                        "/playsound mp7_start_far_dis.mw @a[rm=140,r=800]",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={mp7=1..}] fpmp7shoot",
+                        "/event entity @s[scores={mp7=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "default1": " !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_using_item"
+                        },
+                        {
+                            "shoot2": " !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor2": " !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('mp7')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start_indoor": {
+                    "on_entry": [
+                        "/playsound mp7.start_indoor @s",
+                        "/playsound mp7_start.mw @a[rm=1,r=35]",
+                        "/playsound mp7_start_near.mw @a[rm=35,r=70]",
+                        "/playsound mp7_start_dis.mw @a[rm=70,r=105]",
+                        "/playsound mp7_start_med_dis.mw @a[rm=105,r=140]",
+                        "/playsound mp7_start_far_dis.mw @a[rm=140,r=800]",
+                        "/playanimation @s[scores={mp7=1..}] fpmp7shoot",
+                        "v.time = q.life_time;",
+                        "/event entity @s[scores={mp7=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": " !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor": " !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default1": " !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('mp7')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start_indoor2": {
+                    "on_entry": [
+                        "/playsound mp7.start_indoor2 @s",
+                        "/playsound mp7_start.mw @a[rm=1,r=35]",
+                        "/playsound mp7_start_near.mw @a[rm=35,r=70]",
+                        "/playsound mp7_start_dis.mw @a[rm=70,r=105]",
+                        "/playsound mp7_start_med_dis.mw @a[rm=105,r=140]",
+                        "/playsound mp7_start_far_dis.mw @a[rm=140,r=800]",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={mp7=1..}] fpmp7shoot",
+                        "/event entity @s[scores={mp7=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "default1": " !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_using_item"
+                        },
+                        {
+                            "shoot2": " !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor2": " !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mp7')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('mp7')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "stop": {
+                    "on_entry": [
+                        "/stopsound @s mp7.shoot",
+                        "/stopsound @s mp7.shoot_indoor",
+                        "/stopsound @s mp7.shoot_indoor2",
+                        "/playsound mp7.stop @s[tag=unindoor,tag=!sneak] ~~~",
+                        "/playsound mp7.stop_indoor @s[tag=indoor,tag=!sneak] ~~~",
+                        "/playsound mp7.stop_indoor2 @s[tag=indoor,tag=sneak] ~~~",
+                        "/stopsound @s mp7.shoot2",
+                        "/playsound mp7.stop2 @s[tag=unindoor,tag=sneak] ~~~",
+                        "/playsound mp7_stop.mw @a[rm=1,r=35]",
+                        "/playsound mp7_stop_near.mw @a[rm=35,r=70]",
+                        "/playsound mp7_stop_dis.mw @a[rm=70,r=105]",
+                        "/playsound mp7_stop_med_dis.mw @a[rm=105,r=140]",
+                        "/playsound mp7_stop_far_dis.mw @a[rm=140,r=800]",
+                        "/tag @s remove mp7sound",
+                        "/playanimation @s mp7aftershoot",
+                        "/stopsound @a mp7_shoot.mw",
+                        "/stopsound @a mp7_shoot_near.mw",
+                        "/stopsound @a mp7_shoot_dis.mw",
+                        "/stopsound @a mp7_shoot_far_dis.mw",
+                        "/stopsound @a mp7_shoot_med_dis.mw",
+                        "/execute @a[tag=mp7sound] ~~~ playsound mp7_shoot.mw @a[r=35,rm=1]",
+                        "/execute @a[tag=mp7sound] ~~~ playsound mp7_shoot_near.mw @a[r=70,rm=35]",
+                        "/execute @a[tag=mp7sound] ~~~ playsound mp7_shoot_dis.mw @a[r=105,rm=70]",
+                        "/execute @a[tag=mp7sound] ~~~ playsound mp7_shoot_med_dis.mw @a[r=140,rm=105]",
+                        "/execute @a[tag=mp7sound] ~~~ playsound mp7_shoot_far_dis.mw @a[r=800,rm=140]",
+                        "@s unshoot",
+                        "/event entity @s[scores={mp7=0}] mp7:empty"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.mp7_sound_sup": {
+            "initial_state": "setup",
+            "states": {
+                "default": {
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        }
+                    ]
+                },
+                "default1": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1"
+                        },
+                        {
+                            "default": "(!q.is_using_item) || (q.scoreboard('mp7')==0)"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/playsound mp7.shoot_sup @s",
+                        "/tag @s add mp7soundsup",
+                        "/stopsound @s mp7.shoot_sup2",
+                        "/playsound mp7_shoot_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "@s hk416:shoot_animation"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": " !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_using_item || (q.is_sprinting)"
+                        },
+                        {
+                            "stop2": "!q.is_using_item"
+                        },
+                        {
+                            "stop5": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "stop3": "q.health ==0"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_sneaking && q.scoreboard('mp7')>=1"
+                        },
+                        {
+                            "stop4": "(q.skin_id ==10) || (q.scoreboard('mp7')==0)"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "/playsound mp7.shoot_sup2 @s",
+                        "/tag @s add mp7soundsup",
+                        "/stopsound @s mp7.shoot_sup",
+                        "/playsound mp7_shoot_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "@s hk416:shoot_animation"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": " !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_using_item"
+                        },
+                        {
+                            "stop3": "!q.is_using_item"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_sneaking && q.scoreboard('mp7')>=1"
+                        },
+                        {
+                            "stop4": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "stop5": "q.health ==0"
+                        },
+                        {
+                            "stop2": "(q.skin_id ==10) || (q.scoreboard('mp7')==0)"
+                        }
+                    ]
+                },
+                "start": {
+                    "on_entry": [
+                        "/playsound mp7.start_sup @s",
+                        "/playsound mp7_start_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={mp7=1..}] fpmp7shootsup",
+                        "/event entity @s[scores={mp7=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": " !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mp7')>=1 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default1": " !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('mp7')==0"
+                        }
+                    ]
+                },
+                "start2": {
+                    "on_entry": [
+                        "/playsound mp7.start_sup2 @s",
+                        "/playsound mp7_start_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={mp7=1..}] fpmp7shootsup",
+                        "/event entity @s[scores={mp7=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "default1": " !q.is_riding && q.health > 0 && q.skin_id ==100 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('mp7')==0"
+                        },
+                        {
+                            "shoot2": " !q.is_riding && q.health > 0 && q.skin_id ==100 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mp7')>=1 && q.property('mw:firemode') == 'fullauto'"
+                        }
+                    ]
+                },
+                "stop": {
+                    "on_entry": [
+                        "/stopsound @s mp7.shoot_sup",
+                        "/playsound mp7.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s mp7.shoot_sup2",
+                        "/playsound mp7.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound mp7_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove mp7soundsup",
+                        "/playanimation @s mp7aftershootsup",
+                        "/stopsound @a mp7_shoot_sup.mw",
+                        "/execute @a[tag=mp7soundsup] ~~~ playsound mp7_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={mp7=0}] mp7:empty"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop2": {
+                    "on_entry": [
+                        "/stopsound @s mp7.shoot_sup",
+                        "/playsound mp7.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s mp7.shoot_sup2",
+                        "/playsound mp7.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound mp7_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove mp7soundsup",
+                        "/playanimation @s mp7aftershootsup",
+                        "/stopsound @a mp7_shoot_sup.mw",
+                        "/execute @a[tag=mp7soundsup] ~~~ playsound mp7_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={mp7=0}] mp7:empty"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop3": {
+                    "on_entry": [
+                        "/stopsound @s mp7.shoot_sup",
+                        "/playsound mp7.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s mp7.shoot_sup2",
+                        "/playsound mp7.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound mp7_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove mp7soundsup",
+                        "/playanimation @s mp7aftershootsup",
+                        "/stopsound @a mp7_shoot_sup.mw",
+                        "/execute @a[tag=mp7soundsup] ~~~ playsound mp7_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={mp7=0}] mp7:empty"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop4": {
+                    "on_entry": [
+                        "/stopsound @s mp7.shoot_sup",
+                        "/playsound mp7.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s mp7.shoot_sup2",
+                        "/playsound mp7.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound mp7_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove mp7soundsup",
+                        "/playanimation @s mp7aftershootsup",
+                        "/stopsound @a mp7_shoot_sup.mw",
+                        "/execute @a[tag=mp7soundsup] ~~~ playsound mp7_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={mp7=0}] mp7:empty"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop5": {
+                    "on_entry": [
+                        "/stopsound @s mp7.shoot_sup",
+                        "/playsound mp7.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s mp7.shoot_sup2",
+                        "/playsound mp7.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound mp7_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove mp7soundsup",
+                        "/playanimation @s mp7aftershootsup",
+                        "/stopsound @a mp7_shoot_sup.mw",
+                        "/execute @a[tag=mp7soundsup] ~~~ playsound mp7_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={mp7=0}] mp7:empty"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}
