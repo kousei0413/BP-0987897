@@ -1,0 +1,1 @@
+{"format_version":"1.12","minecraft:recipe_shaped":{"description":{"identifier":"minecraf:gunpowder"},"key":{"A":{"data":0,"item":"minecraft:flint"},"B":{"data":0,"item":"minecraft:coal"}},"pattern":["AB"],"result":{"count":3,"item":"minecraft:gunpowder"},"tags":["crafting_table"]}}

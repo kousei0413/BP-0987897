@@ -1,0 +1,1 @@
+{"format_version":"1.12","minecraft:recipe_shaped":{"description":{"identifier":"mw:rpk16"},"key":{"A":{"data":0,"item":"minecraft:iron_block"},"B":{"data":0,"item":"minecraft:netherite_scrap"},"C":{"data":0,"item":"minecraft:netherite_ingot"},"D":{"data":0,"item":"minecraft:leather"}},"pattern":["AA","BBC","D"],"result":{"count":1,"item":"mw:rpk16"},"tags":["crafting_table"]}}
