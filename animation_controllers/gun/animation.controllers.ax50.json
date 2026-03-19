@@ -1,0 +1,414 @@
+{
+    "animation_controllers": {
+        "controller.animation.ax50": {
+            "initial_state": "setup",
+            "states": {
+                "ax50": {
+                    "on_entry": [
+                        "@s unreload",
+                        "/camerashake stop @s",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50_1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'ax50' && q.skin_id ==270 && !q.is_riding && q.health > 0 && q.scoreboard('ax50')>=2"
+                        },
+                        {
+                            "ax50_to_ext": "q.is_item_name_any('slot.inventory', 2, 'attachment:ax50mag') && q.scoreboard('ax50')>=5"
+                        },
+                        {
+                            "fail": "q.scoreboard('ax50')==0"
+                        },
+                        {
+                            "ax50_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'ax50' && q.skin_id ==270 && !q.is_riding && q.health > 0 && q.scoreboard('ax50')==1"
+                        },
+                        {
+                            "inspect": "variable.delayax50beh = 4.63; variable.previous_timeax50beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0 && q.skin_id ==270 && q.ground_speed ==0 && !q.is_sneaking && q.scoreboard('ax50')>=5);"
+                        },
+                        {
+                            "reload": "q.skin_id ==270 && q.mark_variant ==27 && !q.is_using_item && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'ax50' && q.scoreboard('ax50')<=4"
+                        }
+                    ]
+                },
+                "ax501": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50": "(1.0)"
+                        }
+                    ]
+                },
+                "ax502": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50_ext": "(1.0)"
+                        }
+                    ]
+                },
+                "ax50_1": {
+                    "animations": [
+                        {
+                            "ax50shoot": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players remove @s ax50 1",
+                        "/event entity @s[tag=!ax50sup] ax50:shoot",
+                        "/event entity @s[tag=ax50sup] ax50:shoot_sup",
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "bolt": "(q.life_time - v.time) >= 0.508 && query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0 && q.skin_id ==270"
+                        },
+                        {
+                            "unbolt": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ax50')"
+                        }
+                    ]
+                },
+                "ax50_2": {
+                    "animations": [
+                        {
+                            "ax50shoot": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s ax50 0",
+                        "/event entity @s[tag=!ax50sup] ax50:shoot_empty",
+                        "/event entity @s[tag=ax50sup] ax50:shoot_sup_empty",
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "(q.life_time - v.time) >= 0.308 && query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0 && q.skin_id ==270"
+                        },
+                        {
+                            "fail": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ax50')"
+                        }
+                    ]
+                },
+                "ax50_ext": {
+                    "on_entry": [
+                        "@s unreload",
+                        "/camerashake stop @s",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50_ext1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'ax50' && q.skin_id ==270 && !q.is_riding && q.health > 0 && q.scoreboard('ax50')>=2"
+                        },
+                        {
+                            "ax50_to_ext": "!q.is_item_name_any('slot.inventory', 2, 'attachment:ax50mag') && q.scoreboard('ax50')>=9"
+                        },
+                        {
+                            "ax50_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'ax50' && q.skin_id ==270 && !q.is_riding && q.health > 0 && q.scoreboard('ax50')==1"
+                        },
+                        {
+                            "inspect2": "variable.delayax50beh = 4.63; variable.previous_timeax50beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0 && q.skin_id ==270 && q.ground_speed ==0 && !q.is_sneaking && q.scoreboard('ax50')>=9);"
+                        },
+                        {
+                            "reload": "q.skin_id ==270 && q.mark_variant ==27 && !q.is_using_item && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'ax50' && q.scoreboard('ax50')<=8"
+                        }
+                    ]
+                },
+                "ax50_ext1": {
+                    "animations": [
+                        {
+                            "ax50shoot": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players remove @s ax50 1",
+                        "/event entity @s[tag=!ax50sup] ax50:shoot",
+                        "/event entity @s[tag=ax50sup] ax50:shoot_sup",
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "bolt2": "(q.life_time - v.time) >= 0.508 && query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0 && q.skin_id ==270"
+                        },
+                        {
+                            "unbolt2": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ax50')"
+                        }
+                    ]
+                },
+                "ax50_to_ext": {
+                    "on_entry": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.skin_id ==270 && q.mark_variant ==27 && !q.is_saddled && query.get_equipped_item_name('main_hand') == 'ax50'"
+                        }
+                    ]
+                },
+                "bolt": {
+                    "animations": [
+                        {
+                            "ax50bolt": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add ax50bolt dummy",
+                        "/scoreboard players set @s[tag=!sneak] ax50bolt 1",
+                        "/scoreboard players set @s[tag=sneak] ax50bolt 0",
+                        "@s ax50:bolt",
+                        "v.time = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/scoreboard players set @s ax50bolt 0"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50": "(q.life_time - v.time) >= 0.921 && query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0 && q.skin_id ==270"
+                        },
+                        {
+                            "unbolt": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ax50') && (q.life_time - v.time) >= 0.921"
+                        }
+                    ]
+                },
+                "bolt2": {
+                    "animations": [
+                        {
+                            "ax50bolt": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add ax50bolt dummy",
+                        "/scoreboard players set @s[tag=!sneak] ax50bolt 1",
+                        "/scoreboard players set @s[tag=sneak] ax50bolt 0",
+                        "@s ax50:bolt",
+                        "v.time = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/scoreboard players set @s ax50bolt 0"
+                    ],
+                    "transitions": [
+                        {
+                            "unbolt2": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ax50') && (q.life_time - v.time) >= 0.921"
+                        },
+                        {
+                            "ax50_ext": "(q.life_time - v.time) >= 0.921 && query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0 && q.skin_id ==270"
+                        }
+                    ]
+                },
+                "fail": {
+                    "animations": [
+                        {
+                            "rootax50": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s ax50 0",
+                        "@s unreload",
+                        "/stopsound @s ax50.reload",
+                        "/stopsound @a[rm=1,r=20] ax50.reload1"
+                    ],
+                    "on_exit": [
+                        "@s ak47:reload"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.mark_variant ==27 && query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_saddled && q.skin_id ==270"
+                        }
+                    ]
+                },
+                "fail2": {
+                    "animations": [
+                        {
+                            "rootax50": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unreload",
+                        "/stopsound @s ax50.reload2",
+                        "/stopsound @a[rm=1,r=20] ax50.reload21"
+                    ],
+                    "on_exit": [
+                        "@s ak47:reload2"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.mark_variant ==27 && query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_saddled && q.skin_id ==270"
+                        }
+                    ]
+                },
+                "inspect": {
+                    "animations": [
+                        {
+                            "ax50inspect": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s ax50.show"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50": "(query.life_time - variable.previous_timeax50beh ) >= variable.delayax50beh && query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "ax501": "(q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ax50')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "inspect2": {
+                    "animations": [
+                        {
+                            "ax50inspect": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s ax50.show"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50_ext": "(query.life_time - variable.previous_timeax50beh ) >= variable.delayax50beh && query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "ax502": "(q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ax50')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "reload": {
+                    "transitions": [
+                        {
+                            "reload2": "variable.delayax50shakebeh = 3.275; variable.previous_timeax50shakebeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_saddled);"
+                        }
+                    ]
+                },
+                "reload2": {
+                    "animations": [
+                        "ax50reload2"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50": "(query.life_time - variable.previous_timeax50shakebeh ) >= variable.delayax50shakebeh && (q.life_time - v.time) >= 2.155 && !q.is_angry"
+                        },
+                        {
+                            "ax50_ext": "(query.life_time - variable.previous_timeax50shakebeh ) >= variable.delayax50shakebeh && (q.life_time - v.time) >= 2.155 && q.is_angry"
+                        },
+                        {
+                            "fail2": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ax50') && (q.life_time - v.time) < 2.155"
+                        }
+                    ]
+                },
+                "reload_empty": {
+                    "animations": [
+                        {
+                            "rootax50": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty2": "variable.delayax50shakebeh = 4.59; variable.previous_timeax50shakebeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_saddled);"
+                        }
+                    ]
+                },
+                "reload_empty2": {
+                    "animations": [
+                        {
+                            "ax50reload": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;",
+                        "/stopsound @s ax50.shoot",
+                        "/stopsound @s ax50.shoot_sup",
+                        "/stopsound @s ax50.shoot_sneak",
+                        "/stopsound @s ax50.shoot_sup_sneak"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50": "(query.life_time - variable.previous_timeax50shakebeh ) >= variable.delayax50shakebeh && (q.life_time - v.time) >= 3.955 && !q.is_angry"
+                        },
+                        {
+                            "ax50_ext": "(query.life_time - variable.previous_timeax50shakebeh ) >= variable.delayax50shakebeh && (q.life_time - v.time) >= 3.955 && q.is_angry"
+                        },
+                        {
+                            "fail": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ax50') && (q.life_time - v.time) < 3.955"
+                        }
+                    ]
+                },
+                "setup": {
+                    "animations": [
+                        {
+                            "rootax50": "query.get_equipped_item_name('main_hand') == 'ax50' && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add ax50 dummy",
+                        "/scoreboard players set @s ax50 5"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50": "query.get_equipped_item_name == 'ax50'"
+                        }
+                    ]
+                },
+                "unbolt": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "on_exit": [
+                        "/playsound ax50.bolt @s[tag=!sneak]",
+                        "/playsound ax50.bolt2 @s[tag=sneak]",
+                        "/playsound ax50.bolt @a[rm=1,r=20] ~~~"
+                    ],
+                    "transitions": [
+                        {
+                            "bolt": "query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0 && q.skin_id ==270"
+                        }
+                    ]
+                },
+                "unbolt2": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "on_exit": [
+                        "/playsound ax50.bolt @s[tag=!sneak]",
+                        "/playsound ax50.bolt2 @s[tag=sneak]",
+                        "/playsound ax50.bolt @a[rm=1,r=20] ~~~"
+                    ],
+                    "transitions": [
+                        {
+                            "bolt2": "query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0 && q.skin_id ==270"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}

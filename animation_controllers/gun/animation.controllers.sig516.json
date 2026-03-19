@@ -1,0 +1,2451 @@
+{
+    "animation_controllers": {
+        "controller.animation.execute": {
+            "initial_state": "default",
+            "states": {
+                "attack": {
+                    "on_entry": [
+                        "/execute @s[tag=execute] ~~~ execute @e[c=1,tag=execute2,tag=gethit,r=3,rm=1] ~~~ tp @s ~~~~~-181",
+                        "/execute @s[tag=execute] ~~~ execute @a[c=1,tag=execute2,tag=gethit,r=3,rm=1] ~~~ tp @s ~~~~~90",
+                        "/execute @p[r=3,rm=1,tag=health2,tag=gethit] ~~~ event entity @s ungun",
+                        "/execute @p[r=2.5,rm=1,tag=health2,tag=gethit] ~~~ event entity @p[tag=execute,rm=1,r=3] ungun",
+                        "/inputpermission set @a[c=1,r=4,rm=1,tag=health2,tag=gethit] movement disabled",
+                        "/execute @s[tag=execute] ~~~ event entity @e[c=1,type=execute:test] execute",
+                        "v.time = q.life_time;",
+                        "/execute @p[rm=0.9,r=3,c=1,tag=health2,tag=gethit] ~~~ event entity @p[rm=0.9,r=3,tag=execute] execute",
+                        "/execute @s[tag=execute] ~~~ event entity @p[r=3,rm=0.9,tag=health2,tag=gethit] execute2"
+                    ],
+                    "transitions": [
+                        {
+                            "execute": "q.mark_variant ==4"
+                        },
+                        {
+                            "default": "(q.life_time - v.time) >=0.15 && q.mark_variant !=4 && q.mark_variant !=5"
+                        }
+                    ]
+                },
+                "default": {
+                    "on_entry": [
+                        "/tag @s remove execute",
+                        "@s ungun",
+                        "/tag @s remove isexecute",
+                        "/effect @s weakness 0 0 true",
+                        "/inputpermission set @a[c=1,r=4,rm=0.9,tag=!executed,tag=!isexecute] movement enabled",
+                        "/inputpermission set @a[c=1,r=4,rm=0.9,tag=!executed,tag=!isexecute] camera enabled"
+                    ],
+                    "transitions": [
+                        {
+                            "attack": "v.attack_time && q.mark_variant ==0"
+                        },
+                        {
+                            "unexecute": "q.mark_variant ==4"
+                        }
+                    ]
+                },
+                "execute": {
+                    "animations": [
+                        "execute"
+                    ],
+                    "on_entry": [
+                        "/execute @a[c=1,tag=execute2,r=2.5,rm=1] ~~~ tp @a[tag=execute,rm=1,r=2.5,c=1] ^^^-1.1 facing @s",
+                        "/tag @s add isexecute",
+                        "/effect @s weakness 999 255 true",
+                        "/inputpermission set @s camera disabled",
+                        "/inputpermission set @s movement disabled",
+                        "/camera @s set minecraft:free ease 0.5 in_cubic pos ~-3~3~1 facing @s",
+                        "/playsound player.execute @a[r=40] ~~~ 1 1 0.25",
+                        "/tag @s remove execute"
+                    ],
+                    "transitions": [
+                        {
+                            "unexecute": "(q.all_animations_finished) || (q.mark_variant !=4) || (q.health ==0)"
+                        }
+                    ]
+                },
+                "unexecute": {
+                    "on_entry": [
+                        "/inputpermission set @s movement enabled",
+                        "/inputpermission set @s camera enabled",
+                        "/camera @s set minecraft:free ease 0.2 in_cubic pos ^^^ rot ~~",
+                        "/tag @s remove execute",
+                        "v.time = q.life_time;",
+                        "/tag @s remove isexecute",
+                        "/effect @s weakness 0 0 true"
+                    ],
+                    "on_exit": [
+                        "@s ungun",
+                        "/camera @s clear"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(q.life_time - v.time) >=0.1 && q.health > 0"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.execute2": {
+            "initial_state": "default",
+            "states": {
+                "default": {
+                    "on_entry": [
+                        "/tag @s remove execute2",
+                        "/tag @s remove executed",
+                        "/effect @s resistance 0 0 true",
+                        "/effect @s weakness 0 0 true"
+                    ],
+                    "transitions": [
+                        {
+                            "health": "!q.is_sprinting"
+                        }
+                    ]
+                },
+                "execute": {
+                    "animations": [
+                        "execute2"
+                    ],
+                    "on_entry": [
+                        "/tp @s ~~~ facing @p[rm=1,r=3,tag=isexecute]",
+                        "/tag @s remove execute2",
+                        "/tp @s ~~~~-180",
+                        "/effect @s weakness 999 255 true",
+                        "/inputpermission set @s movement disabled",
+                        "/inputpermission set @s camera disabled",
+                        "/inputpermission set @p[tag=isexecute,rm=1] movement disabled",
+                        "/inputpermission set @p[tag=isexecute,rm=1] camera disabled",
+                        "/camera @s set minecraft:free ease 0.5 in_cubic pos ~-3~3~1 facing @s",
+                        "/tag @s add executed"
+                    ],
+                    "transitions": [
+                        {
+                            "unexecute": "(q.all_animations_finished) || (q.mark_variant !=5) || (q.health ==0)"
+                        }
+                    ]
+                },
+                "health": {
+                    "on_entry": [
+                        "/tag @s remove execute2",
+                        "/tag @s add health2"
+                    ],
+                    "on_exit": [
+                        "/tag @s add execute2",
+                        "/tag @s remove health2"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "q.is_sprinting"
+                        },
+                        {
+                            "execute": "q.mark_variant ==5"
+                        }
+                    ]
+                },
+                "unexecute": {
+                    "on_entry": [
+                        "/inputpermission set @s movement enabled",
+                        "/inputpermission set @s camera enabled",
+                        "/camera @s set minecraft:free ease 0.2 in_cubic pos ^^^ rot ~~",
+                        "/tag @s remove execute2",
+                        "v.time = q.life_time;",
+                        "/tag @s remove executed",
+                        "/effect @s weakness 0 0 true",
+                        "/effect @s resistance 0 0 true"
+                    ],
+                    "on_exit": [
+                        "@s ungun",
+                        "/camera @s clear"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(q.life_time - v.time) >=0.1 && q.health > 0"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.sig516": {
+            "initial_state": "setup",
+            "states": {
+                "attach": {
+                    "on_entry": [
+                        "@s attachment:idle",
+                        "/event entity @s stop:sig516",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_start": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_sneaking && !q.is_sprinting && q.mark_variant ==28"
+                        },
+                        {
+                            "end_attach": "(!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'))"
+                        }
+                    ]
+                },
+                "attachment_barrel": {
+                    "on_entry": [
+                        "@s attachment:barrel",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:barrel_select",
+                        "/event entity @s[has_property={mw:gunbarrel=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunbarrel') == 'normal' && q.scoreboard('barrel')>=1"
+                        },
+                        {
+                            "attachment_barrel_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('barrel')==0"
+                        },
+                        {
+                            "attachment_barrel_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunbarrel') == 'attach'"
+                        }
+                    ]
+                },
+                "attachment_barrel_attach": {
+                    "on_entry": [
+                        "@s gun:barrel",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add sig516attachbarrel dummy",
+                        "/scoreboard players set @s sig516attachbarrel 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_barrel_button": {
+                    "on_entry": [
+                        "@s attachment:barrel_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_barrel_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Barrel Unlock At Lvl-45 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_barrel": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_barrel_unattach": {
+                    "on_entry": [
+                        "@s gun:unbarrel",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s sig516attachbarrel 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_end": {
+                    "on_entry": [
+                        "@s attachment:hide_button",
+                        "v.time = q.life_time;",
+                        "@s attachment:end",
+                        "/playsound attachment.end @s",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/tag @s remove select"
+                    ],
+                    "transitions": [
+                        {
+                            "attach": "(q.life_time - v.time) >=0.25 && q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "end_attach": "(!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && (q.life_time - v.time) >=0.25)"
+                        }
+                    ]
+                },
+                "attachment_grip": {
+                    "on_entry": [
+                        "@s attachment:grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:grip_select",
+                        "/event entity @s[has_property={mw:sig516grip=\"attach\"}] attachment:green_select",
+                        "/event entity @s[has_property={mw:sig516grip=\"attach2\"}] attachment:green_select2",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516grip') == 'normal' && q.scoreboard('grip')>=1"
+                        },
+                        {
+                            "attachment_grip_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516grip') == 'attach' && q.scoreboard('grip')>=1"
+                        },
+                        {
+                            "attachment_grip_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516grip') == 'attach2'"
+                        },
+                        {
+                            "attachment_grip_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('grip')==0"
+                        }
+                    ]
+                },
+                "attachment_grip_attach": {
+                    "on_entry": [
+                        "@s sig516:grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add sig516attachgrip dummy",
+                        "/scoreboard players set @s sig516attachgrip 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_grip_attach2": {
+                    "on_entry": [
+                        "@s sig516:grip2",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select2",
+                        "/scoreboard objectives add sig516attachgrip dummy",
+                        "/scoreboard players set @s sig516attachgrip 2"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_grip_button": {
+                    "on_entry": [
+                        "@s attachment:grip_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_grip_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Underbarrel Unlock At Lvl-65 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_grip": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_grip_unattach": {
+                    "on_entry": [
+                        "@s sig516:un_grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s sig516attachgrip 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser": {
+                    "on_entry": [
+                        "@s attachment:laser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.mag @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:laser_select",
+                        "/event entity @s[has_property={mw:gunlaser=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunlaser') == 'normal' && q.scoreboard('laser')>=1"
+                        },
+                        {
+                            "attachment_laser_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('laser')==0"
+                        },
+                        {
+                            "attachment_laser_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunlaser') == 'attach'"
+                        }
+                    ]
+                },
+                "attachment_laser_attach": {
+                    "on_entry": [
+                        "@s gun:laser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add sig516attachlaser dummy",
+                        "/scoreboard players set @s sig516attachlaser 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser_button": {
+                    "on_entry": [
+                        "@s attachment:laser_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Laser Unlock At Lvl-5 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_laser": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_laser_unattach": {
+                    "on_entry": [
+                        "@s gun:unlaser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s sig516attachlaser 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag": {
+                    "on_entry": [
+                        "@s attachment:mag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.sup @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:mag_select",
+                        "/event entity @s[has_property={mw:sig516mag=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516mag') == 'normal' && q.scoreboard('mag')>=1 && q.scoreboard('sig516')>=30"
+                        },
+                        {
+                            "attachment_mag_attach_fail": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516mag') == 'normal' && q.scoreboard('mag')>=1 && q.scoreboard('sig516')<=29"
+                        },
+                        {
+                            "attachment_mag_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516mag') == 'attach' && q.scoreboard('sig516')>=60"
+                        },
+                        {
+                            "attachment_mag_unattach_fail": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516mag') == 'attach' && q.scoreboard('sig516')<=59"
+                        },
+                        {
+                            "attachment_mag_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('mag')==0"
+                        }
+                    ]
+                },
+                "attachment_mag_attach": {
+                    "on_entry": [
+                        "@s sig516:mag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add sig516attachmag dummy",
+                        "/scoreboard players set @s sig516attachmag 1",
+                        "scoreboard players set @s sig516 60"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_attach_fail": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Reload Your Gun To Equip Extended Magazine !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_mag_button": {
+                    "on_entry": [
+                        "@s attachment:mag_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Magazine Unlock At Lvl-135 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_mag_unattach": {
+                    "on_entry": [
+                        "@s sig516:un_mag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s sig516attachmag 0",
+                        "scoreboard players set @s sig516 30"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_unattach_fail": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Reload Your Gun To Unequip Extended Magazine !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_muzzle_button": {
+                    "on_entry": [
+                        "@s attachment:muzzle_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_sup": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_normal": {
+                    "on_entry": [
+                        "@s attachment:normal",
+                        "v.time = q.life_time;",
+                        "@s stop:sig516",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_sup": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic": {
+                    "on_entry": [
+                        "@s attachment:optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:optic_select",
+                        "/event entity @s[has_property={mw:sig516optic=\"attach\"}] attachment:green_select2",
+                        "/event entity @s[has_property={mw:sig516optic=\"attach2\"}] attachment:green_select",
+                        "/event entity @s[has_property={mw:sig516optic=\"attach3\"}] attachment:green_select3",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'attach2' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_attach3": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'attach' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'normal' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'attach3'"
+                        },
+                        {
+                            "attachment_optic_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('optic')==0"
+                        }
+                    ]
+                },
+                "attachment_optic_attach": {
+                    "on_entry": [
+                        "@s sig516:optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select2",
+                        "/scoreboard objectives add sig516attachoptic dummy",
+                        "/scoreboard players set @s sig516attachoptic 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach3": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_attach2": {
+                    "on_entry": [
+                        "@s sig516:optic2",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add sig516attachoptic dummy",
+                        "/scoreboard players set @s sig516attachoptic 2"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'attach2' && q.scoreboard('optic')>=1"
+                        }
+                    ]
+                },
+                "attachment_optic_attach3": {
+                    "on_entry": [
+                        "@s sig516:optic3",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select3",
+                        "/scoreboard players set @s sig516attachoptic 3"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'attach3' && q.scoreboard('optic')>=1"
+                        }
+                    ]
+                },
+                "attachment_optic_button": {
+                    "on_entry": [
+                        "@s attachment:optic_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Optic Unlock At Lvl-100 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_optic": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_optic_unattach": {
+                    "on_entry": [
+                        "@s sig516:un_optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s sig516attachoptic 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_start": {
+                    "on_entry": [
+                        "@s attachment:start",
+                        "v.time = q.life_time;",
+                        "/event entity @s stop:sig516",
+                        "/playsound attachment.start @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock": {
+                    "on_entry": [
+                        "@s attachment:stock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:stock_select",
+                        "/event entity @s[has_property={mw:gunstock=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunstock') == 'normal' && q.scoreboard('stock')>=1"
+                        },
+                        {
+                            "attachment_stock_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('stock')==0"
+                        },
+                        {
+                            "attachment_stock_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunstock') == 'attach'"
+                        }
+                    ]
+                },
+                "attachment_stock_attach": {
+                    "on_entry": [
+                        "@s gun:stock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add sig516attachstock dummy",
+                        "/scoreboard players set @s sig516attachstock 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock_button": {
+                    "on_entry": [
+                        "@s attachment:stock_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Barrel Unlock At Lvl-15 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_stock": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_stock_unattach": {
+                    "on_entry": [
+                        "@s gun:unstock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s sig516attachstock 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_sup": {
+                    "on_entry": [
+                        "@s attachment:sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:muzzle_select",
+                        "/event entity @s[has_property={mw:sig516sup=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516sup') == 'normal' && q.scoreboard('muzzle')>=1"
+                        },
+                        {
+                            "attachment_sup_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516sup') == 'attach'"
+                        },
+                        {
+                            "attachment_sup_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('muzzle')==0"
+                        }
+                    ]
+                },
+                "attachment_sup_attach": {
+                    "on_entry": [
+                        "@s sig516:sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add sig516attachsup dummy",
+                        "/scoreboard players set @s sig516attachsup 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_sup_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Muzzle Unlock At Lvl-30 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_sup": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_sup_unattach": {
+                    "on_entry": [
+                        "@s sig516:un_sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s sig516attachsup 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "empty": {
+                    "animations": [
+                        {
+                            "sig516mag": "q.mark_variant ==28 && q.scoreboard('sig516ammo')==0"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s sig516 0",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_firemode_end": "q.mark_variant ==28 && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "inspect_empty": "variable.sig516laysig516beh = 7.26; variable.previous_timesig516beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')==0 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==280 && q.mark_variant ==28 && !q.is_saddled && q.mark_variant ==28 && q.scoreboard('sig516')==0 && q.is_using_item && q.scoreboard('sig516ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "sig516_semi": "v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "sig516_full": "v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.property('mw:stuff') == 'no'"
+                        }
+                    ]
+                },
+                "empty2": {
+                    "animations": [
+                        {
+                            "sig516mag": "q.mark_variant ==28 && q.scoreboard('sig516ammo')==0"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s sig516 0",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_firemode_end": "q.mark_variant ==28 && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "inspect_empty": "variable.sig516laysig516beh = 7.26; variable.previous_timesig516beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')==0 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==280 && q.mark_variant ==28 && !q.is_saddled && q.mark_variant ==28 && q.scoreboard('sig516')==0 && q.is_using_item && q.scoreboard('sig516ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "sig516_semi": "v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "sig516_full": "v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.property('mw:stuff') == 'no'"
+                        }
+                    ]
+                },
+                "end_attach": {
+                    "on_entry": [
+                        "@s attachment:reset",
+                        "@s un:sig516"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_start": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && !q.is_sprinting && q.mark_variant ==28"
+                        },
+                        {
+                            "sig516": "q.property('mw:sig516mag') == 'normal'"
+                        },
+                        {
+                            "sig516_ext": "q.property('mw:sig516mag') == 'attach'"
+                        }
+                    ]
+                },
+                "fail": {
+                    "animations": [
+                        {
+                            "rootsig516": "q.mark_variant ==28 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add sig516 dummy",
+                        "/scoreboard players set @s sig516 0",
+                        "@s unreload",
+                        "/stopsound @s sig516.reload_ext",
+                        "/stopsound @s sig516.reload",
+                        "/stopsound @a[rm=1,r=20] sig516.reload_ext1",
+                        "/stopsound @a[rm=1,r=20] sig516.reload1",
+                        "/give @s[tag=!sig516mag,tag=sig516hasammo] mw:sig516mag",
+                        "/give @s[tag=sig516mag,tag=sig516hasammo] mw:sig516magext",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.mark_variant ==28 && q.mark_variant ==28 && !q.is_saddled && q.skin_id ==280 && q.health >0 && q.scoreboard('sig516ammo')>=1"
+                        }
+                    ]
+                },
+                "fail2": {
+                    "animations": [
+                        {
+                            "rootsig516": "q.mark_variant ==28 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unreload",
+                        "/stopsound @s sig516.reload_ext2",
+                        "/stopsound @s sig516.reload2",
+                        "/stopsound @a[rm=1,r=20] sig516.reload_ext21",
+                        "/stopsound @a[rm=1,r=20] sig516.reload21",
+                        "/give @s[tag=!sig516mag,tag=sig516hasammo] mw:sig516mag",
+                        "/give @s[tag=sig516mag,tag=sig516hasammo] mw:sig516magext",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.mark_variant ==28 && q.mark_variant ==28 && !q.is_saddled && q.skin_id ==280 && q.health >0 && q.scoreboard('sig516ammo')>=1"
+                        }
+                    ]
+                },
+                "fail_ext": {
+                    "on_entry": [
+                        "@s unreload",
+                        "/stopsound @s sig516.reload_change",
+                        "/stopsound @a[rm=1,r=20] sig516.reload_change1",
+                        "/stopsound @a[rm=1,r=20] sig516.reload_change21",
+                        "/stopsound @s sig516.reload_change2",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_to_ext": "q.skin_id ==280"
+                        }
+                    ]
+                },
+                "fail_normal": {
+                    "on_entry": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_to_normal": "q.skin_id ==280"
+                        }
+                    ]
+                },
+                "inspect": {
+                    "animations": [
+                        {
+                            "sig516inspect": "q.mark_variant ==28 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s sig516.show",
+                        "/stopsound @s sig516.show_ext",
+                        "/stopsound @a[r=20] sig516.show1",
+                        "/stopsound @a[r=20] sig516.show_ext1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "(query.life_time - variable.previous_timesig516beh ) >= variable.sig516laysig516beh && q.mark_variant ==28 && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "sig5161": "(q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "inspect2": {
+                    "animations": [
+                        {
+                            "sig516inspect": "q.mark_variant ==28 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s sig516.show",
+                        "/stopsound @s sig516.show_ext",
+                        "/stopsound @a[r=20] sig516.show1",
+                        "/stopsound @a[r=20] sig516.show_ext1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_ext": "(query.life_time - variable.previous_timesig516beh ) >= variable.sig516laysig516beh && q.mark_variant ==28 && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "sig5162": "(q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "inspect_empty": {
+                    "animations": [
+                        {
+                            "sig516inspectempty": "q.mark_variant ==28 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspectempty",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s sig516.show_empty",
+                        "/stopsound @s sig516.show_ext_empty",
+                        "/stopsound @a[rm=1,r=20] sig516.show_empty1",
+                        "/stopsound @a[rm=1,r=20] sig516.show_ext_empty1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(query.life_time - variable.previous_timesig516beh ) >= variable.sig516laysig516beh && q.mark_variant ==28 && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "empty2": "(q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "mag": {
+                    "animations": [
+                        {
+                            "rootsig516": "q.mark_variant ==28 && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add sig516 dummy",
+                        "/scoreboard objectives add sig516ammo dummy",
+                        "/scoreboard players set @s sig516 30",
+                        "/scoreboard players set @s[scores={sig516ammo==0}] sig516ammo 60",
+                        "@s attachment:reset"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "(1.0)"
+                        }
+                    ]
+                },
+                "magext": {
+                    "animations": [
+                        {
+                            "rootsig516": "q.mark_variant ==28 && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add sig516 dummy",
+                        "/scoreboard objectives add sig516ammo dummy",
+                        "/scoreboard players set @s sig516 60",
+                        "/scoreboard players set @s[scores={sig516ammo==0}] sig516ammo 120",
+                        "@s attachment:reset"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_ext": "(1.0)"
+                        }
+                    ]
+                },
+                "reload": {
+                    "transitions": [
+                        {
+                            "reload2": "variable.sig516laysig516shakebeh = 2.61; variable.previous_timesig516shakebeh = query.life_time; return (q.mark_variant ==28 && !q.is_saddled && q.property('mw:sig516mag') == 'normal' && q.scoreboard('sig516ammo')>=1);"
+                        },
+                        {
+                            "reload2_ext": "variable.delaysig516shaketbeh = 3.33; variable.previous_timesig516shaketbeh = query.life_time; return (q.mark_variant ==28 && !q.is_saddled && q.property('mw:sig516mag') == 'attach' && q.scoreboard('sig516ammo')>=1);"
+                        }
+                    ]
+                },
+                "reload2": {
+                    "animations": [
+                        "sig516reload2",
+                        {
+                            "sig516loaded": "(q.life_time - v.time) >=1.35"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "v.time = q.life_time;",
+                        "@s stop:sig516",
+                        "/tag @s add sig516tacreload",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unreload",
+                        "/tag @s remove sig516tacreload",
+                        "@s un:sig516"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "((query.life_time - variable.previous_timesig516shakebeh ) >= variable.sig516laysig516shakebeh && (q.life_time - v.time) >= 1.35) || ((q.life_time - v.time) >= 1.6 && q.is_using_item)"
+                        },
+                        {
+                            "fail2": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.35) || ((q.life_time - v.time) < 1.35 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload2_ext": {
+                    "animations": [
+                        "sig516reloadext2",
+                        {
+                            "sig516loaded": "(q.life_time - v.time) >=1.71"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "v.time = q.life_time;",
+                        "@s stop:sig516",
+                        "/tag @s add sig516tacreload",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unreload",
+                        "/tag @s remove sig516tacreload",
+                        "@s un:sig516"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_ext": "((query.life_time - variable.previous_timesig516shaketbeh ) >= variable.delaysig516shaketbeh && (q.life_time - v.time) >= 1.71) || ((q.life_time - v.time) >= 2.11 && q.is_using_item)"
+                        },
+                        {
+                            "fail2": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.71) || ((q.life_time - v.time) < 1.71 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload2_to_normal": {
+                    "animations": [
+                        "sig516reload2"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "v.time = q.life_time;",
+                        "@s stop:sig516"
+                    ],
+                    "on_exit": [
+                        "@s sig516:unmag"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "(query.life_time - variable.previous_timesig516norbeh ) >= variable.sig516laysig516norbeh && (q.life_time - v.time) >= 1.25"
+                        },
+                        {
+                            "fail_normal": "query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.25"
+                        }
+                    ]
+                },
+                "reload_empty": {
+                    "animations": [
+                        {
+                            "rootsig516": "q.mark_variant ==28 && !q.is_riding"
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty2": "variable.sig516laysig516shakebeh = 2.75; variable.previous_timesig516shakebeh = query.life_time; return (q.mark_variant ==28 && !q.is_saddled && q.property('mw:sig516mag') == 'normal' && q.scoreboard('sig516ammo')>=1);"
+                        },
+                        {
+                            "reload_empty2_ext": "variable.delaysig516shakerbeh = 3.73; variable.previous_timesig516shakerbeh = query.life_time; return (q.mark_variant ==28 && !q.is_saddled && q.property('mw:sig516mag') == 'attach' && q.scoreboard('sig516ammo')>=1);"
+                        }
+                    ]
+                },
+                "reload_empty2": {
+                    "animations": [
+                        {
+                            "sig516reload": "q.mark_variant ==28 && !q.is_riding"
+                        },
+                        {
+                            "sig516loaded": "(q.life_time - v.time) >=1.85"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "v.time = q.life_time;",
+                        "@s stop:sig516",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s un:sig516"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "((query.life_time - variable.previous_timesig516shakebeh ) >= variable.sig516laysig516shakebeh && (q.life_time - v.time) >=1.85) || ((q.life_time - v.time) >=2.1  && q.is_using_item)"
+                        },
+                        {
+                            "fail": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.85) || ((q.life_time - v.time) < 1.85 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload_empty2_ext": {
+                    "animations": [
+                        {
+                            "sig516reloadext": "q.mark_variant ==28 && !q.is_riding"
+                        },
+                        {
+                            "sig516loaded": "(q.life_time - v.time) >=2.8"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "v.time = q.life_time;",
+                        "@s stop:sig516",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s un:sig516"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_ext": "((query.life_time - variable.previous_timesig516shakerbeh ) >= variable.delaysig516shakerbeh && (q.life_time - v.time) >=2.8) || (q.is_using_item && (q.life_time - v.time) >= 3.1)"
+                        },
+                        {
+                            "fail": "(query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 2.8) || (q.health ==0 && (q.life_time - v.time) < 2.8)"
+                        }
+                    ]
+                },
+                "reload_to_ext": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload2_to_ext": "variable.delaysig516extbeh = 2.31; variable.previous_timesig516extbeh = query.life_time; return (q.mark_variant ==28 && !q.is_saddled);"
+                        }
+                    ]
+                },
+                "setup": {
+                    "animations": [
+                        {
+                            "rootsig516": "q.mark_variant ==28 && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add sig516 dummy"
+                    ],
+                    "transitions": [
+                        {
+                            "mag": "q.mark_variant ==28 && q.property('mw:sig516mag') == 'normal'"
+                        },
+                        {
+                            "magext": "q.mark_variant ==28 && q.property('mw:sig516mag') == 'attach'"
+                        }
+                    ]
+                },
+                "sig516": {
+                    "animations": [
+                        {
+                            "gunrest": "q.scoreboard('sig516')>=1 && !q.is_stackable && !q.is_using_item"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s sig516:unreload",
+                        "/tag @s remove sig516mag",
+                        "/tag @s remove sig516stop",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && q.skin_id ==280 && !q.is_riding && q.health > 0 && q.scoreboard('sig516')>=2 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "sig516_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && q.skin_id ==280 && !q.is_riding && q.health > 0 && q.scoreboard('sig516')==1"
+                        },
+                        {
+                            "inspect": "variable.sig516laysig516beh = 5.11; variable.previous_timesig516beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=30 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "inspect_empty": "variable.sig516laysig516beh = 7.26; variable.previous_timesig516beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')==0 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "reload": "q.skin_id ==280 && q.mark_variant ==28 && !q.is_using_item && !q.is_saddled && v.attack_time && q.mark_variant ==28 && q.scoreboard('sig516')<=29 && !q.is_sprinting && q.scoreboard('sig516ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==280 && q.mark_variant ==28 && !q.is_saddled && q.mark_variant ==28 && q.scoreboard('sig516')==0 && q.is_using_item && q.scoreboard('sig516ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "sig516_semi": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.scoreboard('sig516')>=30 && q.scoreboard('sig516ammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.property('mw:firemode') == 'fullauto' && q.scoreboard('sig516ammo')==0 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "sig516_full": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.scoreboard('sig516')>=30 && q.scoreboard('sig516ammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.property('mw:firemode') == 'semiauto' && q.scoreboard('sig516ammo')==0 && q.property('mw:stuff') == 'no')"
+                        }
+                    ]
+                },
+                "sig5161": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "(1.0)"
+                        }
+                    ]
+                },
+                "sig5162": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_ext": "(1.0)"
+                        }
+                    ]
+                },
+                "sig516_1": {
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.035 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=!sig516grip] 0.02 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={sig516barrelattach=0}] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={sig516stockattach=0}] 0.02 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.0175 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!sig516grip] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={sig516barrelattach=0}] 0.003 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={sig516stockattach=0}] 0.01 0.04 rotational",
+                        "/camerashake add @s 0.003 0.4 rotational",
+                        "/event entity @s[scores={sig516=2..}] sig516:shoot",
+                        "/event entity @s[tag=!sig516sup,scores={sig516=1}] sig516:shoot_empty",
+                        "/event entity @s[tag=sig516sup,scores={sig516=1}] sig516:shoot_empty_sup",
+                        "/scoreboard players remove @s sig516 1",
+                        "v.time = q.life_time;",
+                        "/execute @s[tag=sig516sup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=!sig516sup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "(q.life_time - v.time) >= 0.0375 && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "sig516_semi_stop": "(q.life_time - v.time) >= 0.0375 && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.property('mw:firemode') == 'semiauto'"
+                        },
+                        {
+                            "sig5161": "query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        }
+                    ]
+                },
+                "sig516_2": {
+                    "on_entry": [
+                        "@s unshoot",
+                        "/camerashake stop @s",
+                        "/playsound sig516.empty @s[tag=!sneak]",
+                        "/event entity @s[tag=!sig516sup,scores={sig516=1}] sig516:shoot_empty",
+                        "/event entity @s[tag=sig516sup,scores={sig516=1}] sig516:shoot_empty_sup",
+                        "v.time = q.life_time;",
+                        "/playsound sig516.empty2 @s[tag=sneak]",
+                        "/scoreboard players remove @s sig516 1",
+                        "/execute @s[tag=!sig516sup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=sig516sup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/camerashake add @s[tag=!sneak,tag=!sig516grip] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!sig516grip] 0.0075 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={sig516barrelattach=0}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={sig516barrelattach=0}] 0.0025 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={sig516stockattach=0}] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={sig516stockattach=0}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.015 0.04 rotational",
+                        "/camerashake add @s 0.003 0.4 rotational"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(q.life_time - v.time) >= 0.05 && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280"
+                        }
+                    ]
+                },
+                "sig516_change": {
+                    "on_entry": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "!q.is_angry"
+                        },
+                        {
+                            "sig516_ext": "q.is_angry"
+                        }
+                    ]
+                },
+                "sig516_ext": {
+                    "animations": [
+                        {
+                            "gunrest": "q.scoreboard('sig516')>=1 && !q.is_stackable && !q.is_using_item"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s sig516:unreload",
+                        "/tag @s add sig516mag",
+                        "/tag @s remove sig516stop",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_ext1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && q.skin_id ==280 && !q.is_riding && q.health > 0 && q.scoreboard('sig516')>=2 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "sig516_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && q.skin_id ==280 && !q.is_riding && q.health > 0 && q.scoreboard('sig516')==1"
+                        },
+                        {
+                            "inspect2": "variable.sig516laysig516beh = 5.11; variable.previous_timesig516beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=60 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "inspect_empty": "variable.sig516laysig516beh = 7.26; variable.previous_timesig516beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')==0 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "reload": "q.skin_id ==280 && q.mark_variant ==28 && !q.is_using_item && !q.is_saddled && v.attack_time && q.mark_variant ==28 && q.scoreboard('sig516')<=59 && !q.is_sprinting && q.scoreboard('sig516ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==280 && q.mark_variant ==28 && !q.is_saddled && q.mark_variant ==28 && q.scoreboard('sig516')==0 && q.is_using_item && q.scoreboard('sig516ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "sig516_semi": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.scoreboard('sig516')>=30 && q.scoreboard('sig516ammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.property('mw:firemode') == 'fullauto' && q.scoreboard('sig516ammo')==0 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "sig516_full": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.scoreboard('sig516')>=30 && q.scoreboard('sig516ammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.property('mw:firemode') == 'semiauto' && q.scoreboard('sig516ammo')==0 && q.property('mw:stuff') == 'no')"
+                        }
+                    ]
+                },
+                "sig516_ext1": {
+                    "animations": [
+                        {
+                            "sig516shoot": "q.mark_variant ==28 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak,tag=!sig516grip] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!sig516grip] 0.0075 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={sig516barrelattach=0}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={sig516barrelattach=0}] 0.0025 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={sig516stockattach=0}] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={sig516stockattach=0}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.015 0.04 rotational",
+                        "/camerashake add @s 0.003 0.4 rotational",
+                        "/event entity @s[scores={sig516=2..}] sig516:shoot",
+                        "/event entity @s[tag=!sig516sup,scores={sig516=1}] sig516:shoot_empty",
+                        "/event entity @s[tag=sig516sup,scores={sig516=1}] sig516:shoot_empty_sup",
+                        "/scoreboard players remove @s sig516 1",
+                        "v.time = q.life_time;",
+                        "/execute @s[tag=sig516sup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=!sig516sup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_ext": "(q.life_time - v.time) >= 0.04 && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "sig5162": "query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "sig516_semi_stop": "(q.life_time - v.time) >= 0.04 && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.property('mw:firemode') == 'semiauto'"
+                        }
+                    ]
+                },
+                "sig516_firemode_end": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "q.property('mw:sig516mag') == 'normal' && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "sig516_ext": "q.property('mw:sig516mag') == 'attach' && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "empty": "q.scoreboard('sig516')==0"
+                        }
+                    ]
+                },
+                "sig516_full": {
+                    "animations": [
+                        "sig516full"
+                    ],
+                    "on_entry": [
+                        "@s gun:firemode",
+                        "v.time = q.life_time;",
+                        "@s stop:sig516",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/scoreboard players set @s sprint 1",
+                        "@s un:sig516"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_firemode_end": "(q.all_animations_finished && (q.life_time - v.time) >= 0.5833) || ((q.life_time - v.time) >= 0.2917 && q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        }
+                    ]
+                },
+                "sig516_semi": {
+                    "animations": [
+                        "sig516semi"
+                    ],
+                    "on_entry": [
+                        "@s gun:firemode",
+                        "v.time = q.life_time;",
+                        "@s stop:sig516",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/scoreboard players set @s sprint 1",
+                        "@s un:sig516"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_firemode_end": "(q.all_animations_finished && (q.life_time - v.time) >= 0.5833) || ((q.life_time - v.time) >= 0.2917 && q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        }
+                    ]
+                },
+                "sig516_semi_stop": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "q.property('mw:sig516mag') == 'normal' && !q.is_using_item"
+                        },
+                        {
+                            "sig516_ext": "q.property('mw:sig516mag') == 'attach' && !q.is_using_item"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.sig516_sound": {
+            "initial_state": "default",
+            "states": {
+                "default": {
+                    "animations": [
+                        {
+                            "gunsoundfixed": "q.mark_variant ==28"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add gunsound dummy",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "default1": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "default": "(!q.is_using_item) || (q.scoreboard('sig516')==0)"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/playsound sig516.shoot @s",
+                        "/tag @s add sig516sound",
+                        "/stopsound @s sig516.shoot2",
+                        "/stopsound @s sig516.shoot_indoor2",
+                        "/stopsound @s sig516.shoot_indoor",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==28) || (q.scoreboard('sig516')==0) || (q.health==0) || (query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "/playsound sig516.shoot2 @s",
+                        "/tag @s add sig516sound",
+                        "/stopsound @s sig516.shoot",
+                        "/stopsound @s sig516.shoot_indoor",
+                        "/stopsound @s sig516.shoot_indoor2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==28) || (q.scoreboard('sig516')==0) || (q.health==0) || (query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "shoot_indoor": {
+                    "on_entry": [
+                        "/playsound sig516.shoot_indoor @s",
+                        "/tag @s add sig516sound",
+                        "/stopsound @s sig516.shoot2",
+                        "/stopsound @s sig516.shoot",
+                        "/stopsound @s sig516.shoot_indoor2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==28) || (q.scoreboard('sig516')==0) || (q.health==0) || (query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        }
+                    ]
+                },
+                "shoot_indoor2": {
+                    "on_entry": [
+                        "/playsound sig516.shoot_indoor2 @s",
+                        "/tag @s add sig516sound",
+                        "/stopsound @s sig516.shoot",
+                        "/stopsound @s sig516.shoot2",
+                        "/stopsound @s sig516.shoot_indoor",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==28) || (q.scoreboard('sig516')==0) || (q.health==0) || (query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        }
+                    ]
+                },
+                "start": {
+                    "on_entry": [
+                        "/playsound sig516.start @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_far_dismw @a[rm=70,r=800]",
+                        "/playanimation @s[scores={sig516=1..}] fpsig516shoot",
+                        "v.time = q.life_time;",
+                        "/event entity @s[scores={sig516=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default1": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('sig516')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start2": {
+                    "on_entry": [
+                        "/playsound sig516.start2 @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={sig516=1..}] fpsig516shoot",
+                        "/event entity @s[scores={sig516=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default1": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_using_item"
+                        },
+                        {
+                            "shoot2": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor2": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('sig516')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start_indoor": {
+                    "on_entry": [
+                        "/playsound sig516.start_indoor @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_far_dismw @a[rm=70,r=800]",
+                        "/playanimation @s[scores={sig516=1..}] fpsig516shoot",
+                        "v.time = q.life_time;",
+                        "/event entity @s[scores={sig516=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default1": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('sig516')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start_indoor2": {
+                    "on_entry": [
+                        "/playsound sig516.start_indoor2 @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={sig516=1..}] fpsig516shoot",
+                        "/event entity @s[scores={sig516=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default1": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_using_item"
+                        },
+                        {
+                            "shoot2": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor2": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('sig516')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('sig516')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "stop": {
+                    "on_entry": [
+                        "/stopsound @s sig516.shoot",
+                        "/stopsound @s sig516.shoot_indoor",
+                        "/stopsound @s sig516.shoot_indoor2",
+                        "/playsound sig516.stop @s[tag=unindoor,tag=!sneak] ~~~",
+                        "/playsound sig516.stop_indoor @s[tag=indoor,tag=!sneak] ~~~",
+                        "/playsound sig516.stop_indoor2 @s[tag=indoor,tag=sneak] ~~~",
+                        "/stopsound @s sig516.shoot2",
+                        "/playsound sig516.stop2 @s[tag=unindoor,tag=sneak] ~~~",
+                        "/playsound m4_stop.mw @a[rm=1,r=17.5]",
+                        "/playsound m4_stop_near.mw @a[rm=17.5,r=35]",
+                        "/playsound m4_stop_dis.mw @a[rm=35,r=52.5]",
+                        "/playsound m4_stop_med_dis.mw @a[rm=52.5,r=70]",
+                        "/playsound m4_stop_far_dismw @a[rm=70,r=800]",
+                        "/tag @s remove sig516sound",
+                        "/playanimation @s sig516aftershoot",
+                        "/stopsound @a m4_shoot.mw",
+                        "/stopsound @a m4_shoot_near.mw",
+                        "/stopsound @a m4_shoot_dis.mw",
+                        "/stopsound @a m4_shoot_far_dis.mw",
+                        "/stopsound @a m4_shoot_med_dis.mw",
+                        "/execute @a[tag=sig516sound,c=1] ~~~ playsound m4_shoot.mw @a[r=35,rm=1]",
+                        "/execute @a[tag=sig516sound,c=1] ~~~ playsound m4_shoot_near.mw @a[r=70,rm=35]",
+                        "/execute @a[tag=sig516sound,c=1] ~~~ playsound m4_shoot_dis.mw @a[r=105,rm=70]",
+                        "/execute @a[tag=sig516sound,c=1] ~~~ playsound m4_shoot_med_dis.mw @a[r=140,rm=105]",
+                        "/execute @a[tag=sig516sound,c=1] ~~~ playsound m4_shoot_far_dis.mw @a[r=800,rm=140]",
+                        "@s unshoot",
+                        "/event entity @s[scores={sig516=0}] sig516:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.sig516_sound_sup": {
+            "initial_state": "setup",
+            "states": {
+                "default": {
+                    "animations": [
+                        {
+                            "gunsoundfixed": "q.mark_variant ==28"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add gunsound dummy",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        }
+                    ]
+                },
+                "default1": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "default": "(!q.is_using_item) || (q.scoreboard('sig516')==0)"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/playsound sig516.shoot_sup @s",
+                        "/tag @s add sig516soundsup",
+                        "/stopsound @s sig516.shoot_sup2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_using_item || (q.is_sprinting)"
+                        },
+                        {
+                            "stop2": "!q.is_using_item"
+                        },
+                        {
+                            "stop5": "query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "stop3": "q.health ==0"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_sneaking && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "stop4": "(q.skin_id ==28) || (q.scoreboard('sig516')==0)"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "/playsound sig516.shoot_sup2 @s",
+                        "/tag @s add sig516soundsup",
+                        "/stopsound @s sig516.shoot_sup",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_shoot_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_using_item"
+                        },
+                        {
+                            "stop3": "!q.is_using_item"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_sneaking && q.scoreboard('sig516')>=1"
+                        },
+                        {
+                            "stop4": "query.get_equipped_item_name('main_hand') != 'sig516' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "stop5": "q.health ==0"
+                        },
+                        {
+                            "stop2": "(q.skin_id ==28) || (q.scoreboard('sig516')==0)"
+                        }
+                    ]
+                },
+                "start": {
+                    "on_entry": [
+                        "/playsound sig516.start_sup @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={sig516=1..}] fpsig516shootsup",
+                        "/event entity @s[scores={sig516=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('sig516')>=1 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default1": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('sig516')==0"
+                        }
+                    ]
+                },
+                "start2": {
+                    "on_entry": [
+                        "/playsound sig516.start_sup2 @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound m4_start_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={sig516=1..}] fpsig516shootsup",
+                        "/event entity @s[scores={sig516=0}] hk416:shoot_animation",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default1": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('sig516')==0"
+                        },
+                        {
+                            "shoot2": "q.mark_variant ==28 && !q.is_riding && q.health > 0 && q.skin_id ==280 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('sig516')>=1 && q.property('mw:firemode') == 'fullauto'"
+                        }
+                    ]
+                },
+                "stop": {
+                    "on_entry": [
+                        "/stopsound @s sig516.shoot_sup",
+                        "/playsound sig516.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s sig516.shoot_sup2",
+                        "/playsound sig516.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound m4_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove sig516soundsup",
+                        "/playanimation @s sig516aftershootsup",
+                        "/stopsound @a m4_shoot_sup.mw",
+                        "/execute @a[tag=sig516soundsup,c=1] ~~~ playsound m4_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={sig516=0}] sig516:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop2": {
+                    "on_entry": [
+                        "/stopsound @s sig516.shoot_sup",
+                        "/playsound sig516.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s sig516.shoot_sup2",
+                        "/playsound sig516.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound m4_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove sig516soundsup",
+                        "/playanimation @s sig516aftershootsup",
+                        "/stopsound @a m4_shoot_sup.mw",
+                        "/execute @a[tag=sig516soundsup,c=1] ~~~ playsound m4_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={sig516=0}] sig516:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop3": {
+                    "on_entry": [
+                        "/stopsound @s sig516.shoot_sup",
+                        "/playsound sig516.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s sig516.shoot_sup2",
+                        "/playsound sig516.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound m4_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove sig516soundsup",
+                        "/playanimation @s sig516aftershootsup",
+                        "/stopsound @a m4_shoot_sup.mw",
+                        "/execute @a[tag=sig516soundsup,c=1] ~~~ playsound m4_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={sig516=0}] sig516:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop4": {
+                    "on_entry": [
+                        "/stopsound @s sig516.shoot_sup",
+                        "/playsound sig516.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s sig516.shoot_sup2",
+                        "/playsound sig516.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound m4_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove sig516soundsup",
+                        "/playanimation @s sig516aftershootsup",
+                        "/stopsound @a m4_shoot_sup.mw",
+                        "/execute @a[tag=sig516soundsup,c=1] ~~~ playsound m4_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={sig516=0}] sig516:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop5": {
+                    "on_entry": [
+                        "/stopsound @s sig516.shoot_sup",
+                        "/playsound sig516.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s sig516.shoot_sup2",
+                        "/playsound sig516.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound m4_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove sig516soundsup",
+                        "/playanimation @s sig516aftershootsup",
+                        "/stopsound @a m4_shoot_sup.mw",
+                        "/execute @a[tag=sig516soundsup,c=1] ~~~ playsound m4_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={sig516=0}] sig516:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}

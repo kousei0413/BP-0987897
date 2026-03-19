@@ -1,0 +1,2256 @@
+{
+    "animation_controllers": {
+        "controller.animation.mk18": {
+            "initial_state": "setup",
+            "states": {
+                "attach": {
+                    "on_entry": [
+                        "@s attachment:idle",
+                        "/event entity @s stop:mk18",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_start": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_sneaking && !q.is_sprinting && q.mark_variant ==13"
+                        },
+                        {
+                            "end_attach": "(!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'))"
+                        }
+                    ]
+                },
+                "attachment_barrel": {
+                    "on_entry": [
+                        "@s attachment:barrel",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:barrel_select",
+                        "/event entity @s[has_property={mw:gunbarrel=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunbarrel') == 'normal' && q.scoreboard('barrel')>=1"
+                        },
+                        {
+                            "attachment_barrel_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('barrel')==0"
+                        },
+                        {
+                            "attachment_barrel_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunbarrel') == 'attach'"
+                        }
+                    ]
+                },
+                "attachment_barrel_attach": {
+                    "on_entry": [
+                        "@s gun:barrel",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mk18attachbarrel dummy",
+                        "/scoreboard players set @s mk18attachbarrel 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_barrel_button": {
+                    "on_entry": [
+                        "@s attachment:barrel_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_barrel_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Barrel Unlock At Lvl-45 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_barrel": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_barrel_unattach": {
+                    "on_entry": [
+                        "@s gun:unbarrel",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mk18attachbarrel 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_end": {
+                    "on_entry": [
+                        "@s attachment:hide_button",
+                        "v.time = q.life_time;",
+                        "@s attachment:end",
+                        "/playsound attachment.end @s",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/tag @s remove select"
+                    ],
+                    "transitions": [
+                        {
+                            "attach": "(q.life_time - v.time) >=0.25 && q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "end_attach": "(!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && (q.life_time - v.time) >=0.25)"
+                        }
+                    ]
+                },
+                "attachment_grip": {
+                    "on_entry": [
+                        "@s attachment:grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:grip_select",
+                        "/event entity @s[has_property={mw:sig516grip=\"attach\"}] attachment:green_select",
+                        "/event entity @s[has_property={mw:sig516grip=\"attach2\"}] attachment:green_select2",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516grip') == 'normal' && q.scoreboard('grip')>=1"
+                        },
+                        {
+                            "attachment_grip_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516grip') == 'attach' && q.scoreboard('grip')>=1"
+                        },
+                        {
+                            "attachment_grip_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516grip') == 'attach2'"
+                        },
+                        {
+                            "attachment_grip_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('grip')==0"
+                        }
+                    ]
+                },
+                "attachment_grip_attach": {
+                    "on_entry": [
+                        "@s sig516:grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mk18attachgrip dummy",
+                        "/scoreboard players set @s mk18attachgrip 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_grip_attach2": {
+                    "on_entry": [
+                        "@s sig516:grip2",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select2",
+                        "/scoreboard objectives add mk18attachgrip dummy",
+                        "/scoreboard players set @s mk18attachgrip 2"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_grip_button": {
+                    "on_entry": [
+                        "@s attachment:grip_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_grip_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Underbarrel Unlock At Lvl-65 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_grip": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_grip_unattach": {
+                    "on_entry": [
+                        "@s sig516:un_grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mk18attachgrip 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser": {
+                    "on_entry": [
+                        "@s attachment:laser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.mag @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:laser_select",
+                        "/event entity @s[has_property={mw:gunlaser=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunlaser') == 'normal' && q.scoreboard('laser')>=1"
+                        },
+                        {
+                            "attachment_laser_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('laser')==0"
+                        },
+                        {
+                            "attachment_laser_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunlaser') == 'attach'"
+                        }
+                    ]
+                },
+                "attachment_laser_attach": {
+                    "on_entry": [
+                        "@s gun:laser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mk18attachlaser dummy",
+                        "/scoreboard players set @s mk18attachlaser 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser_button": {
+                    "on_entry": [
+                        "@s attachment:laser_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Laser Unlock At Lvl-5 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_laser": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_laser_unattach": {
+                    "on_entry": [
+                        "@s gun:unlaser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mk18attachlaser 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag": {
+                    "on_entry": [
+                        "@s attachment:mag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.sup @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:mag_select",
+                        "/event entity @s[has_property={mw:sig516mag=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516mag') == 'normal' && q.scoreboard('mag')>=1 && q.scoreboard('mk18')>=30"
+                        },
+                        {
+                            "attachment_mag_attach_fail": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516mag') == 'normal' && q.scoreboard('mag')>=1 && q.scoreboard('mk18')<=29"
+                        },
+                        {
+                            "attachment_mag_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516mag') == 'attach' && q.scoreboard('mk18')>=60"
+                        },
+                        {
+                            "attachment_mag_unattach_fail": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516mag') == 'attach' && q.scoreboard('mk18')<=59"
+                        },
+                        {
+                            "attachment_mag_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('mag')==0"
+                        }
+                    ]
+                },
+                "attachment_mag_attach": {
+                    "on_entry": [
+                        "@s sig516:mag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mk18attachmag dummy",
+                        "/scoreboard players set @s mk18attachmag 1",
+                        "/scoreboard players set @s mk18 60"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_attach_fail": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Reload Your Gun To Equip Extended Magazine !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_mag_button": {
+                    "on_entry": [
+                        "@s attachment:mag_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Magazine Unlock At Lvl-135 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_mag_unattach": {
+                    "on_entry": [
+                        "@s sig516:un_mag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mk18attachmag 0",
+                        "/scoreboard players set @s mk18 30"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_unattach_fail": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Reload Your Gun To Unequip Extended Magazine !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_muzzle_button": {
+                    "on_entry": [
+                        "@s attachment:muzzle_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_sup": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_normal": {
+                    "on_entry": [
+                        "@s attachment:normal",
+                        "v.time = q.life_time;",
+                        "@s stop:mk18",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_sup": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic": {
+                    "on_entry": [
+                        "@s attachment:optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:optic_select",
+                        "/event entity @s[has_property={mw:sig516optic=\"attach2\"}] attachment:green_select2",
+                        "/event entity @s[has_property={mw:sig516optic=\"attach4\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'normal' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'attach4' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'attach2'"
+                        },
+                        {
+                            "attachment_optic_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('optic')==0"
+                        }
+                    ]
+                },
+                "attachment_optic_attach": {
+                    "on_entry": [
+                        "@s sig516:optic4",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mk18attachoptic dummy",
+                        "/scoreboard players set @s mk18attachoptic 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_attach2": {
+                    "on_entry": [
+                        "@s sig516:optic2",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select2",
+                        "/scoreboard players set @s mk18attachoptic 2"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'attach2' && q.scoreboard('optic')>=1"
+                        }
+                    ]
+                },
+                "attachment_optic_attach3": {
+                    "on_entry": [
+                        "@s sig516:optic3",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select3",
+                        "/scoreboard players set @s mk18attachoptic 3"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516optic') == 'attach3' && q.scoreboard('optic')>=1"
+                        }
+                    ]
+                },
+                "attachment_optic_button": {
+                    "on_entry": [
+                        "@s attachment:optic_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Optic Unlock At Lvl-100 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_optic": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_optic_unattach": {
+                    "on_entry": [
+                        "@s sig516:un_optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mk18attachoptic 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_start": {
+                    "on_entry": [
+                        "@s attachment:start",
+                        "v.time = q.life_time;",
+                        "/event entity @s stop:mk18",
+                        "/playsound attachment.start @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock": {
+                    "on_entry": [
+                        "@s attachment:stock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:stock_select",
+                        "/event entity @s[has_property={mw:gunstock=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunstock') == 'normal' && q.scoreboard('stock')>=1"
+                        },
+                        {
+                            "attachment_stock_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('stock')==0"
+                        },
+                        {
+                            "attachment_stock_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunstock') == 'attach'"
+                        }
+                    ]
+                },
+                "attachment_stock_attach": {
+                    "on_entry": [
+                        "@s gun:stock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mk18attachstock dummy",
+                        "/scoreboard players set @s mk18attachstock 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock_button": {
+                    "on_entry": [
+                        "@s attachment:stock_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "@s attachment:normal",
+                        "/tag @s remove select",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Barrel Unlock At Lvl-15 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_stock": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_stock_unattach": {
+                    "on_entry": [
+                        "@s gun:unstock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mk18attachstock 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_sup": {
+                    "on_entry": [
+                        "@s attachment:sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:muzzle_select",
+                        "/event entity @s[has_property={mw:sig516sup=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516sup') == 'normal' && q.scoreboard('muzzle')>=1"
+                        },
+                        {
+                            "attachment_sup_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:sig516sup') == 'attach'"
+                        },
+                        {
+                            "attachment_sup_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('muzzle')==0"
+                        }
+                    ]
+                },
+                "attachment_sup_attach": {
+                    "on_entry": [
+                        "@s sig516:sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add mk18attachsup dummy",
+                        "/scoreboard players set @s mk18attachsup 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_sup_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Muzzle Unlock At Lvl-30 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_sup": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_sup_unattach": {
+                    "on_entry": [
+                        "@s sig516:un_sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s mk18attachsup 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "empty": {
+                    "animations": [
+                        {
+                            "sig516mag": "q.mark_variant ==13 && q.scoreboard('mk18ammo')==0"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unshoot",
+                        "/scoreboard players set @s mk18 0",
+                        "@s stop:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_firemode_end": "q.mark_variant ==13 && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "inspect_empty": "variable.mk18laymk18beh = 7.26; variable.previous_timemk18beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && !q.is_sneaking && q.scoreboard('mk18')==0 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "reload_empty": "q.mark_variant ==13 && !q.is_saddled && q.mark_variant ==13 && q.scoreboard('mk18')==0 && q.is_using_item && q.scoreboard('mk18ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        }
+                    ]
+                },
+                "empty2": {
+                    "animations": [
+                        {
+                            "sig516mag": "q.mark_variant ==13 && q.scoreboard('mk18ammo')==0"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unshoot",
+                        "/scoreboard players set @s mk18 0",
+                        "@s stop:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_firemode_end": "q.mark_variant ==13 && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "inspect_empty": "variable.mk18laymk18beh = 7.26; variable.previous_timemk18beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && !q.is_sneaking && q.scoreboard('mk18')==0 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "reload_empty": "q.mark_variant ==13 && !q.is_saddled && q.mark_variant ==13 && q.scoreboard('mk18')==0 && q.is_using_item && q.scoreboard('mk18ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        }
+                    ]
+                },
+                "end_attach": {
+                    "on_entry": [
+                        "@s attachment:reset",
+                        "@s un:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_start": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && !q.is_sprinting && q.mark_variant ==13"
+                        },
+                        {
+                            "mk18": "q.property('mw:sig516mag') == 'normal'"
+                        },
+                        {
+                            "mk18_ext": "q.property('mw:sig516mag') == 'attach'"
+                        }
+                    ]
+                },
+                "fail": {
+                    "animations": [
+                        {
+                            "rootmk18": "q.mark_variant ==13 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add mk18 dummy",
+                        "/scoreboard players set @s mk18 0",
+                        "@s unreload",
+                        "/stopsound @s mk18.reload_ext",
+                        "/stopsound @s mk18.reload",
+                        "/stopsound @a[rm=1,r=20] mk18.reload_ext1",
+                        "/stopsound @a[rm=1,r=20] mk18.reload1",
+                        "/give @s[tag=!sig516mag,tag=mk18hasammo] mw:sig516mag",
+                        "/give @s[tag=sig516mag,tag=mk18hasammo] mw:sig516magext",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.mark_variant ==13 && q.mark_variant ==13 && !q.is_saddled && q.skin_id ==130 && q.health >0 && q.scoreboard('mk18ammo')>=1"
+                        }
+                    ]
+                },
+                "fail2": {
+                    "animations": [
+                        {
+                            "rootmk18": "q.mark_variant ==13 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unreload",
+                        "/stopsound @s mk18.reload_ext2",
+                        "/stopsound @s mk18.reload2",
+                        "/stopsound @a[rm=1,r=20] mk18.reload_ext21",
+                        "/stopsound @a[rm=1,r=20] mk18.reload21",
+                        "/give @s[tag=!sig516mag,tag=mk18hasammo] mw:sig516mag",
+                        "/give @s[tag=sig516mag,tag=mk18hasammo] mw:sig516magext",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.mark_variant ==13 && q.mark_variant ==13 && !q.is_saddled && q.skin_id ==130 && q.health >0 && q.scoreboard('mk18ammo')>=1"
+                        }
+                    ]
+                },
+                "fail_ext": {
+                    "on_entry": [
+                        "@s unreload",
+                        "/stopsound @s mk18.reload_change",
+                        "/stopsound @a[rm=1,r=20] mk18.reload_change1",
+                        "/stopsound @a[rm=1,r=20] mk18.reload_change21",
+                        "/stopsound @s mk18.reload_change2",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_to_ext": "q.skin_id ==130"
+                        }
+                    ]
+                },
+                "fail_normal": {
+                    "on_entry": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_to_normal": "q.skin_id ==130"
+                        }
+                    ]
+                },
+                "inspect": {
+                    "animations": [
+                        {
+                            "mk18inspect": "q.mark_variant ==13 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s mk18.show",
+                        "/stopsound @s mk18.show_ext",
+                        "/stopsound @a[r=20] mk18.show1",
+                        "/stopsound @a[r=20] mk18.show_ext1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "(query.life_time - variable.previous_timemk18beh ) >= variable.mk18laymk18beh && q.mark_variant ==13 && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "mk181": "(q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "inspect2": {
+                    "animations": [
+                        {
+                            "mk18inspect": "q.mark_variant ==13 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s mk18.show",
+                        "/stopsound @s mk18.show_ext",
+                        "/stopsound @a[r=20] mk18.show1",
+                        "/stopsound @a[r=20] mk18.show_ext1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_ext": "(query.life_time - variable.previous_timemk18beh ) >= variable.mk18laymk18beh && q.mark_variant ==13 && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "mk182": "(q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "inspect_empty": {
+                    "animations": [
+                        {
+                            "mk18inspectempty": "q.mark_variant ==13 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspectempty",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s mk18.show_empty",
+                        "/stopsound @s mk18.show_ext_empty",
+                        "/stopsound @a[rm=1,r=20] mk18.show_empty1",
+                        "/stopsound @a[rm=1,r=20] mk18.show_ext_empty1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(query.life_time - variable.previous_timemk18beh ) >= variable.mk18laymk18beh && q.mark_variant ==13 && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "empty2": "(q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "mag": {
+                    "animations": [
+                        {
+                            "rootmk18": "q.mark_variant ==13 && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add mk18 dummy",
+                        "/scoreboard objectives add mk18ammo dummy",
+                        "/scoreboard players set @s mk18 30",
+                        "/scoreboard players set @s[scores={mk18ammo==0}] mk18ammo 60",
+                        "@s attachment:reset"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "(1.0)"
+                        }
+                    ]
+                },
+                "magext": {
+                    "animations": [
+                        {
+                            "rootmk18": "q.mark_variant ==13 && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add mk18 dummy",
+                        "/scoreboard objectives add mk18ammo dummy",
+                        "/scoreboard players set @s mk18 60",
+                        "/scoreboard players set @s[scores={mk18ammo==0}] mk18ammo 120",
+                        "@s attachment:reset"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_ext": "(1.0)"
+                        }
+                    ]
+                },
+                "mk18": {
+                    "animations": [
+                        {
+                            "gunrest": "q.scoreboard('mk18')>=1 && !q.is_stackable && !q.is_using_item"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s sig516:unreload",
+                        "/tag @s remove mk18mag",
+                        "/tag @s remove mk18stop",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && q.skin_id ==130 && !q.is_riding && q.health > 0 && q.scoreboard('mk18')>=2 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "mk18_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && q.skin_id ==130 && !q.is_riding && q.health > 0 && q.scoreboard('mk18')==1"
+                        },
+                        {
+                            "inspect": "variable.mk18laymk18beh = 5.11; variable.previous_timemk18beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=30 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "inspect_empty": "variable.mk18laymk18beh = 7.26; variable.previous_timemk18beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')==0 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "reload": "q.skin_id ==130 && q.mark_variant ==13 && !q.is_using_item && !q.is_saddled && v.attack_time && q.mark_variant ==13 && q.scoreboard('mk18')<=29 && !q.is_sprinting && q.scoreboard('mk18ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==130 && q.mark_variant ==13 && !q.is_saddled && q.mark_variant ==13 && q.scoreboard('mk18')==0 && q.is_using_item && q.scoreboard('mk18ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "mk18_semi": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.scoreboard('mk18')>=30 && q.scoreboard('mk18ammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.property('mw:firemode') == 'fullauto' && q.scoreboard('mk18ammo')==0 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "mk18_full": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.scoreboard('mk18')>=30 && q.scoreboard('mk18ammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.property('mw:firemode') == 'semiauto' && q.scoreboard('mk18ammo')==0 && q.property('mw:stuff') == 'no')"
+                        }
+                    ]
+                },
+                "mk181": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "(1.0)"
+                        }
+                    ]
+                },
+                "mk182": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_ext": "(1.0)"
+                        }
+                    ]
+                },
+                "mk18_1": {
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=!sig516grip] 0.025 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={mk18barrelattach=0}] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={mk18stockattach=0}] 0.02 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!sig516grip] 0.0125 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={mk18barrelattach=0}] 0.003 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={mk18stockattach=0}] 0.01 0.04 rotational",
+                        "/camerashake add @s 0.003 0.4 rotational",
+                        "/event entity @s[scores={mk18=2..}] sig516:shoot",
+                        "/event entity @s[tag=!sig516sup,scores={mk18=1}] sig516:shoot_empty",
+                        "/event entity @s[tag=sig516sup,scores={mk18=1}] sig516:shoot_empty_sup",
+                        "/scoreboard players remove @s mk18 1",
+                        "v.time = q.life_time;",
+                        "/execute @s[tag=sig516sup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=!sig516sup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "(q.life_time - v.time) >= 0.04 && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "mk18_semi_stop": "(q.life_time - v.time) >= 0.04 && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.property('mw:firemode') == 'semiauto'"
+                        },
+                        {
+                            "mk181": "query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        }
+                    ]
+                },
+                "mk18_2": {
+                    "on_entry": [
+                        "@s unshoot",
+                        "/camerashake stop @s",
+                        "/event entity @s[tag=!sig516sup,scores={mk18=1}] mk18:shoot_empty",
+                        "/event entity @s[tag=sig516sup,scores={mk18=1}] mk18:shoot_empty_sup",
+                        "v.time = q.life_time;",
+                        "/execute @s[tag=!sig516sup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=sig516sup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/camerashake add @s[tag=!sneak,tag=!sig516grip] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!sig516grip] 0.0075 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={mk18barrelattach=0}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={mk18barrelattach=0}] 0.0025 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={mk18stockattach=0}] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={mk18stockattach=0}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.015 0.04 rotational",
+                        "/camerashake add @s 0.003 0.4 rotational"
+                    ],
+                    "on_exit": [
+                        "/scoreboard players remove @s mk18 1",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(q.life_time - v.time) >= 0.06 && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130"
+                        }
+                    ]
+                },
+                "mk18_change": {
+                    "on_entry": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "!q.is_angry"
+                        },
+                        {
+                            "mk18_ext": "q.is_angry"
+                        }
+                    ]
+                },
+                "mk18_ext": {
+                    "animations": [
+                        {
+                            "gunrest": "q.scoreboard('mk18')>=1 && !q.is_stackable && !q.is_using_item"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s sig516:unreload",
+                        "/tag @s add mk18mag",
+                        "/tag @s remove mk18stop",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_ext1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && q.skin_id ==130 && !q.is_riding && q.health > 0 && q.scoreboard('mk18')>=2 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "mk18_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && q.skin_id ==130 && !q.is_riding && q.health > 0 && q.scoreboard('mk18')==1"
+                        },
+                        {
+                            "inspect2": "variable.mk18laymk18beh = 5.11; variable.previous_timemk18beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=60 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "inspect_empty": "variable.mk18laymk18beh = 7.26; variable.previous_timemk18beh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')==0 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "reload": "q.skin_id ==130 && q.mark_variant ==13 && !q.is_using_item && !q.is_saddled && v.attack_time && q.mark_variant ==13 && q.scoreboard('mk18')<=59 && !q.is_sprinting && q.scoreboard('mk18ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==130 && q.mark_variant ==13 && !q.is_saddled && q.mark_variant ==13 && q.scoreboard('mk18')==0 && q.is_using_item && q.scoreboard('mk18ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "mk18_semi": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.scoreboard('mk18')>=30 && q.scoreboard('mk18ammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.property('mw:firemode') == 'fullauto' && q.scoreboard('mk18ammo')==0 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "mk18_full": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.scoreboard('mk18')>=30 && q.scoreboard('mk18ammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.property('mw:firemode') == 'semiauto' && q.scoreboard('mk18ammo')==0 && q.property('mw:stuff') == 'no')"
+                        }
+                    ]
+                },
+                "mk18_ext1": {
+                    "animations": [
+                        {
+                            "mk18shoot": "q.mark_variant ==13 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak,tag=!sig516grip] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!sig516grip] 0.0075 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={mk18barrelattach=0}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={mk18barrelattach=0}] 0.0025 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,scores={mk18stockattach=0}] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,scores={mk18stockattach=0}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.015 0.04 rotational",
+                        "/camerashake add @s 0.003 0.4 rotational",
+                        "/event entity @s[scores={mk18=2..}] sig516:shoot",
+                        "/event entity @s[tag=!sig516sup,scores={mk18=1}] sig516:shoot_empty",
+                        "/event entity @s[tag=sig516sup,scores={mk18=1}] sig516:shoot_empty_sup",
+                        "/scoreboard players remove @s mk18 1",
+                        "v.time = q.life_time;",
+                        "/execute @s[tag=sig516sup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=!sig516sup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_ext": "(q.life_time - v.time) >= 0.04 && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "mk182": "query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "mk18_semi_stop": "(q.life_time - v.time) >= 0.04 && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.property('mw:firemode') == 'semiauto'"
+                        }
+                    ]
+                },
+                "mk18_firemode_end": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "q.property('mw:sig516mag') == 'normal' && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "mk18_ext": "q.property('mw:sig516mag') == 'attach' && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "empty": "q.scoreboard('mk18')==0"
+                        }
+                    ]
+                },
+                "mk18_full": {
+                    "animations": [
+                        "mk18full"
+                    ],
+                    "on_entry": [
+                        "@s gun:firemode",
+                        "v.time = q.life_time;",
+                        "@s stop:mk18",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/scoreboard players set @s sprint 1",
+                        "@s un:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_firemode_end": "(q.all_animations_finished && (q.life_time - v.time) >= 0.5833) || ((q.life_time - v.time) >= 0.2917 && q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        }
+                    ]
+                },
+                "mk18_semi": {
+                    "animations": [
+                        "mk18semi"
+                    ],
+                    "on_entry": [
+                        "@s gun:firemode",
+                        "v.time = q.life_time;",
+                        "@s stop:mk18",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/scoreboard players set @s sprint 1",
+                        "@s un:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_firemode_end": "(q.all_animations_finished && (q.life_time - v.time) >= 0.5833) || ((q.life_time - v.time) >= 0.2917 && q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        }
+                    ]
+                },
+                "mk18_semi_stop": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "q.property('mw:sig516mag') == 'normal' && !q.is_using_item"
+                        },
+                        {
+                            "mk18_ext": "q.property('mw:sig516mag') == 'attach' && !q.is_using_item"
+                        }
+                    ]
+                },
+                "reload": {
+                    "transitions": [
+                        {
+                            "reload2": "variable.mk18laymk18shakebeh = 2.61; variable.previous_timemk18shakebeh = query.life_time; return (q.mark_variant ==13 && !q.is_saddled && q.property('mw:sig516mag') == 'normal' && q.scoreboard('mk18ammo')>=1);"
+                        },
+                        {
+                            "reload2_ext": "variable.delaymk18shaketbeh = 3.33; variable.previous_timemk18shaketbeh = query.life_time; return (q.mark_variant ==13 && !q.is_saddled && q.property('mw:sig516mag') == 'attach' && q.scoreboard('mk18ammo')>=1);"
+                        }
+                    ]
+                },
+                "reload2": {
+                    "animations": [
+                        "mk18reload2",
+                        {
+                            "mk18loaded": "(q.life_time - v.time) >=1.35"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "v.time = q.life_time;",
+                        "@s stop:mk18",
+                        "/tag @s add mk18tacreload",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unreload",
+                        "/tag @s remove mk18tacreload",
+                        "@s un:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "((query.life_time - variable.previous_timemk18shakebeh ) >= variable.mk18laymk18shakebeh && (q.life_time - v.time) >= 1.35) || ((q.life_time - v.time) >= 1.6 && q.is_using_item)"
+                        },
+                        {
+                            "fail2": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.35) || ((q.life_time - v.time) < 1.35 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload2_ext": {
+                    "animations": [
+                        "mk18reloadext2",
+                        {
+                            "mk18loaded": "(q.life_time - v.time) >=1.71"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "v.time = q.life_time;",
+                        "@s stop:mk18",
+                        "/tag @s add mk18tacreload",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unreload",
+                        "/tag @s remove mk18tacreload",
+                        "@s un:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_ext": "((query.life_time - variable.previous_timemk18shaketbeh ) >= variable.delaymk18shaketbeh && (q.life_time - v.time) >= 1.71) || ((q.life_time - v.time) >= 2.11 && q.is_using_item)"
+                        },
+                        {
+                            "fail2": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.71) || ((q.life_time - v.time) < 1.71 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload2_to_normal": {
+                    "animations": [
+                        "mk18reload2"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "v.time = q.life_time;",
+                        "@s stop:mk18"
+                    ],
+                    "on_exit": [
+                        "@s sig516:unmag"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "(query.life_time - variable.previous_timemk18norbeh ) >= variable.mk18laymk18norbeh && (q.life_time - v.time) >= 1.25"
+                        },
+                        {
+                            "fail_normal": "query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.25"
+                        }
+                    ]
+                },
+                "reload_empty": {
+                    "animations": [
+                        {
+                            "rootmk18": "q.mark_variant ==13 && !q.is_riding"
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty2": "variable.mk18laymk18shakebeh = 2.75; variable.previous_timemk18shakebeh = query.life_time; return (q.mark_variant ==13 && !q.is_saddled && q.property('mw:sig516mag') == 'normal' && q.scoreboard('mk18ammo')>=1);"
+                        },
+                        {
+                            "reload_empty2_ext": "variable.delaymk18shakerbeh = 3.73; variable.previous_timemk18shakerbeh = query.life_time; return (q.mark_variant ==13 && !q.is_saddled && q.property('mw:sig516mag') == 'attach' && q.scoreboard('mk18ammo')>=1);"
+                        }
+                    ]
+                },
+                "reload_empty2": {
+                    "animations": [
+                        {
+                            "mk18reload": "q.mark_variant ==13 && !q.is_riding"
+                        },
+                        {
+                            "mk18loaded": "(q.life_time - v.time) >=1.85"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "v.time = q.life_time;",
+                        "@s stop:mk18",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s un:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "((query.life_time - variable.previous_timemk18shakebeh ) >= variable.mk18laymk18shakebeh && (q.life_time - v.time) >=1.85) || ((q.life_time - v.time) >=2.1  && q.is_using_item)"
+                        },
+                        {
+                            "fail": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.85) || ((q.life_time - v.time) < 1.85 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload_empty2_ext": {
+                    "animations": [
+                        {
+                            "mk18reloadext": "q.mark_variant ==13 && !q.is_riding"
+                        },
+                        {
+                            "mk18loaded": "(q.life_time - v.time) >=2.8"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "v.time = q.life_time;",
+                        "@s stop:mk18",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s un:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_ext": "((query.life_time - variable.previous_timemk18shakerbeh ) >= variable.delaymk18shakerbeh && (q.life_time - v.time) >=2.8) || (q.is_using_item && (q.life_time - v.time) >= 3.1)"
+                        },
+                        {
+                            "fail": "(query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 2.8) || (q.health ==0 && (q.life_time - v.time) < 2.8)"
+                        }
+                    ]
+                },
+                "reload_to_ext": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload2_to_ext": "variable.delaymk18extbeh = 2.31; variable.previous_timemk18extbeh = query.life_time; return (q.mark_variant ==13 && !q.is_saddled);"
+                        }
+                    ]
+                },
+                "setup": {
+                    "animations": [
+                        {
+                            "rootmk18": "q.mark_variant ==13 && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add mk18 dummy"
+                    ],
+                    "transitions": [
+                        {
+                            "mag": "q.mark_variant ==13 && q.property('mw:sig516mag') == 'normal'"
+                        },
+                        {
+                            "magext": "q.mark_variant ==13 && q.property('mw:sig516mag') == 'attach'"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.mk18_sound": {
+            "initial_state": "default",
+            "states": {
+                "default": {
+                    "animations": [
+                        {
+                            "gunsoundfixed": "q.mark_variant ==13"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add gunsound dummy",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "default1": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "default": "(!q.is_using_item) || (q.scoreboard('mk18')==0)"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "start_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>0 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/playsound mk18.shoot @s",
+                        "/tag @s add mk18sound",
+                        "/stopsound @s mk18.shoot2",
+                        "/stopsound @s mk18.shoot_indoor2",
+                        "/stopsound @s mk18.shoot_indoor",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==13) || (q.scoreboard('mk18')==0) || (q.health==0) || (query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "/playsound mk18.shoot2 @s",
+                        "/tag @s add mk18sound",
+                        "/stopsound @s mk18.shoot",
+                        "/stopsound @s mk18.shoot_indoor",
+                        "/stopsound @s mk18.shoot_indoor2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==13) || (q.scoreboard('mk18')==0) || (q.health==0) || (query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        }
+                    ]
+                },
+                "shoot_indoor": {
+                    "on_entry": [
+                        "/playsound mk18.shoot_indoor @s",
+                        "/tag @s add mk18sound",
+                        "/stopsound @s mk18.shoot2",
+                        "/stopsound @s mk18.shoot",
+                        "/stopsound @s mk18.shoot_indoor2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==13) || (q.scoreboard('mk18')==0) || (q.health==0) || (query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        }
+                    ]
+                },
+                "shoot_indoor2": {
+                    "on_entry": [
+                        "/playsound mk18.shoot_indoor2 @s",
+                        "/tag @s add mk18sound",
+                        "/stopsound @s mk18.shoot",
+                        "/stopsound @s mk18.shoot2",
+                        "/stopsound @s mk18.shoot_indoor",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~playsound mk18_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound mk18_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (q.skin_id ==13) || (q.scoreboard('mk18')==0) || (q.health==0) || (query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        }
+                    ]
+                },
+                "start": {
+                    "on_entry": [
+                        "/playsound mk18.start @s",
+                        "/playsound mk18_start.mw @a[rm=1,r=17.5]",
+                        "/playsound mk18_start_near.mw @a[rm=17.5,r=35]",
+                        "/playsound mk18_start_dis.mw @a[rm=35,r=52.5]",
+                        "/playsound mk18_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/playsound mk18_start_far_dismw @a[rm=70,r=800]",
+                        "/playanimation @s[scores={mk18=1..}] fpmk18shoot",
+                        "v.time = q.life_time;",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default1": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('mk18')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start2": {
+                    "on_entry": [
+                        "/playsound mk18.start2 @s",
+                        "/playsound mk18_start.mw @a[rm=1,r=17.5]",
+                        "/playsound mk18_start_near.mw @a[rm=17.5,r=35]",
+                        "/playsound mk18_start_dis.mw @a[rm=35,r=52.5]",
+                        "/playsound mk18_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/playsound mk18_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={mk18=1..}] fpmk18shoot",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor2": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('mk18')==0 && (q.life_time - v.time) >= 0.2"
+                        },
+                        {
+                            "default1": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && !q.is_using_item"
+                        }
+                    ]
+                },
+                "start_indoor": {
+                    "on_entry": [
+                        "/playsound mk18.start_indoor @s",
+                        "/playsound mk18_start.mw @a[rm=1,r=17.5]",
+                        "/playsound mk18_start_near.mw @a[rm=17.5,r=35]",
+                        "/playsound mk18_start_dis.mw @a[rm=35,r=52.5]",
+                        "/playsound mk18_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/playsound mk18_start_far_dismw @a[rm=70,r=800]",
+                        "/playanimation @s[scores={mk18=1..}] fpmk18shoot",
+                        "v.time = q.life_time;",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('mk18')==0 && (q.life_time - v.time) >= 0.2"
+                        },
+                        {
+                            "default1": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && !q.is_using_item"
+                        }
+                    ]
+                },
+                "start_indoor2": {
+                    "on_entry": [
+                        "/playsound mk18.start_indoor2 @s",
+                        "/playsound mk18_start.mw @a[rm=1,r=17.5]",
+                        "/playsound mk18_start_near.mw @a[rm=17.5,r=35]",
+                        "/playsound mk18_start_dis.mw @a[rm=35,r=52.5]",
+                        "/playsound mk18_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/playsound mk18_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={mk18=1..}] fpmk18shoot",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor2": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mk18')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('mk18')==0 && (q.life_time - v.time) >= 0.2"
+                        },
+                        {
+                            "default1": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && !q.is_using_item"
+                        }
+                    ]
+                },
+                "stop": {
+                    "on_entry": [
+                        "/stopsound @s mk18.shoot",
+                        "/stopsound @s mk18.shoot_indoor",
+                        "/stopsound @s mk18.shoot_indoor2",
+                        "/playsound mk18.stop @s[tag=unindoor,tag=!sneak] ~~~",
+                        "/playsound mk18.stop_indoor @s[tag=indoor,tag=!sneak] ~~~",
+                        "/playsound mk18.stop_indoor2 @s[tag=indoor,tag=sneak] ~~~",
+                        "/stopsound @s mk18.shoot2",
+                        "/playsound mk18.stop2 @s[tag=unindoor,tag=sneak] ~~~",
+                        "/playsound mk18_stop.mw @a[rm=1,r=17.5]",
+                        "/playsound mk18_stop_near.mw @a[rm=17.5,r=35]",
+                        "/playsound mk18_stop_dis.mw @a[rm=35,r=52.5]",
+                        "/playsound mk18_stop_med_dis.mw @a[rm=52.5,r=70]",
+                        "/playsound mk18_stop_far_dismw @a[rm=70,r=800]",
+                        "/tag @s remove mk18sound",
+                        "/playanimation @s mk18aftershoot",
+                        "/stopsound @a mk18_shoot.mw",
+                        "/stopsound @a mk18_shoot_near.mw",
+                        "/stopsound @a mk18_shoot_dis.mw",
+                        "/stopsound @a mk18_shoot_far_dis.mw",
+                        "/stopsound @a mk18_shoot_med_dis.mw",
+                        "/execute @a[tag=mk18sound,c=1] ~~~ playsound mk18_shoot.mw @a[r=35,rm=1]",
+                        "/execute @a[tag=mk18sound,c=1] ~~~ playsound mk18_shoot_near.mw @a[r=70,rm=35]",
+                        "/execute @a[tag=mk18sound,c=1] ~~~ playsound mk18_shoot_dis.mw @a[r=105,rm=70]",
+                        "/execute @a[tag=mk18sound,c=1] ~~~ playsound mk18_shoot_med_dis.mw @a[r=140,rm=105]",
+                        "/execute @a[tag=mk18sound,c=1] ~~~ playsound mk18_shoot_far_dis.mw @a[r=800,rm=140]",
+                        "@s unshoot",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.mk18_sound_sup": {
+            "initial_state": "setup",
+            "states": {
+                "default": {
+                    "animations": [
+                        {
+                            "gunsoundfixed": "q.mark_variant ==13"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add gunsound dummy",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        }
+                    ]
+                },
+                "default1": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "default": "(!q.is_using_item) || (q.scoreboard('mk18')==0)"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "start": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "start2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/playsound mk18.shoot_sup @s",
+                        "/tag @s add mk18soundsup",
+                        "/stopsound @s mk18.shoot_sup2",
+                        "/execute @s[scores={gunsound=1..}] ~~~playsound mk18_shoot_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_using_item || (q.is_sprinting)"
+                        },
+                        {
+                            "stop2": "!q.is_using_item"
+                        },
+                        {
+                            "stop5": "query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "stop3": "q.health ==0"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_sneaking && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "stop4": "(q.skin_id ==13) || (q.scoreboard('mk18')==0)"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "/playsound mk18.shoot_sup2 @s",
+                        "/tag @s add mk18soundsup",
+                        "/stopsound @s mk18.shoot_sup",
+                        "/execute @s[scores={gunsound=1..}] ~~~playsound mk18_shoot_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_using_item"
+                        },
+                        {
+                            "stop3": "!q.is_using_item"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && !q.is_sneaking && q.scoreboard('mk18')>=1"
+                        },
+                        {
+                            "stop4": "query.get_equipped_item_name('main_hand') != 'mk18' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "stop5": "q.health ==0"
+                        },
+                        {
+                            "stop2": "(q.skin_id ==13) || (q.scoreboard('mk18')==0)"
+                        }
+                    ]
+                },
+                "start": {
+                    "on_entry": [
+                        "/playsound mk18.start_sup @s",
+                        "/playsound mk18_start_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={mk18=1..}] fpmk18shootsup",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mk18')>=1 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('mk18')==0"
+                        },
+                        {
+                            "default1": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && !q.is_using_item"
+                        }
+                    ]
+                },
+                "start2": {
+                    "on_entry": [
+                        "/playsound mk18.start_sup2 @s",
+                        "/playsound mk18_start_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "v.time = q.life_time;",
+                        "/playanimation @s[scores={mk18=1..}] fpmk18shootsup",
+                        "@s gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "default3": "q.scoreboard('mk18')==0"
+                        },
+                        {
+                            "shoot2": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && q.skin_id ==130 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('mk18')>=1 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default1": "q.mark_variant ==13 && !q.is_riding && q.health > 0 && !q.is_using_item"
+                        }
+                    ]
+                },
+                "stop": {
+                    "on_entry": [
+                        "/stopsound @s mk18.shoot_sup",
+                        "/playsound mk18.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s mk18.shoot_sup2",
+                        "/playsound mk18.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound mk18_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove mk18soundsup",
+                        "/playanimation @s mk18aftershootsup",
+                        "/stopsound @a mk18_shoot_sup.mw",
+                        "/execute @a[tag=mk18soundsup,c=1] ~~~ playsound mk18_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop2": {
+                    "on_entry": [
+                        "/stopsound @s mk18.shoot_sup",
+                        "/playsound mk18.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s mk18.shoot_sup2",
+                        "/playsound mk18.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound mk18_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove mk18soundsup",
+                        "/playanimation @s mk18aftershootsup",
+                        "/stopsound @a mk18_shoot_sup.mw",
+                        "/execute @a[tag=mk18soundsup,c=1] ~~~ playsound mk18_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop3": {
+                    "on_entry": [
+                        "/stopsound @s mk18.shoot_sup",
+                        "/playsound mk18.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s mk18.shoot_sup2",
+                        "/playsound mk18.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound mk18_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove mk18soundsup",
+                        "/playanimation @s mk18aftershootsup",
+                        "/stopsound @a mk18_shoot_sup.mw",
+                        "/execute @a[tag=mk18soundsup,c=1] ~~~ playsound mk18_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop4": {
+                    "on_entry": [
+                        "/stopsound @s mk18.shoot_sup",
+                        "/playsound mk18.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s mk18.shoot_sup2",
+                        "/playsound mk18.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound mk18_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove mk18soundsup",
+                        "/playanimation @s mk18aftershootsup",
+                        "/stopsound @a mk18_shoot_sup.mw",
+                        "/execute @a[tag=mk18soundsup,c=1] ~~~ playsound mk18_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop5": {
+                    "on_entry": [
+                        "/stopsound @s mk18.shoot_sup",
+                        "/playsound mk18.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s mk18.shoot_sup2",
+                        "/playsound mk18.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound mk18_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove mk18soundsup",
+                        "/playanimation @s mk18aftershootsup",
+                        "/stopsound @a mk18_shoot_sup.mw",
+                        "/execute @a[tag=mk18soundsup,c=1] ~~~ playsound mk18_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}

@@ -1,0 +1,1072 @@
+{
+    "animation_controllers": {
+        "controller.animation.kar98": {
+            "initial_state": "setup",
+            "states": {
+                "attach": {
+                    "on_entry": [
+                        "@s attachment:idle",
+                        "/event entity @s stop:kar98",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_start": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_sneaking && !q.is_sprinting && q.mark_variant ==3"
+                        },
+                        {
+                            "end_attach": "(!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'))"
+                        }
+                    ]
+                },
+                "attachment_ammo": {
+                    "on_entry": [
+                        "@s attachment:ammo",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:select",
+                        "/event entity @s[has_property={mw:gunammo=\"attach\"}] attachment:green_select",
+                        "@s attachment:ammo_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_ammo_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_ammo_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunammo') == 'normal' && q.scoreboard('ammo')>=1"
+                        },
+                        {
+                            "attachment_ammo_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunammo') == 'attach'"
+                        },
+                        {
+                            "attachment_ammo_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('ammo')==0"
+                        }
+                    ]
+                },
+                "attachment_ammo_attach": {
+                    "on_entry": [
+                        "@s gun:ammo",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s add kar98attachammo",
+                        "@s attachment:green_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_ammo_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_ammo_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_ammo_button": {
+                    "on_entry": [
+                        "@s attachment:ammo_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_ammo": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_ammo_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Ammunition Unlock At Lvl-150 !\"}]}"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_ammo": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_ammo_unattach": {
+                    "on_entry": [
+                        "@s gun:unammo",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s remove kar98attachammo",
+                        "@s attachment:red_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_ammo_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_ammo_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_bipod": {
+                    "on_entry": [
+                        "@s attachment:grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.sup @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:grip_select",
+                        "/event entity @s[has_property={mw:gungrip=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_bipod_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_bipod_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gungrip') == 'normal' && q.scoreboard('grip')>=1"
+                        },
+                        {
+                            "attachment_bipod_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gungrip') == 'attach'"
+                        },
+                        {
+                            "attachment_bipod_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('grip')==0"
+                        }
+                    ]
+                },
+                "attachment_bipod_attach": {
+                    "on_entry": [
+                        "@s gun:grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s add kar98attachbipod",
+                        "@s attachment:green_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_bipod_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_bipod_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_bipod_button": {
+                    "on_entry": [
+                        "@s attachment:grip_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_bipod": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_bipod_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! 副炮管解锁需要Lvl-65 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_bipod": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_bipod_unattach": {
+                    "on_entry": [
+                        "@s gun:ungrip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s remove kar98attachbipod",
+                        "@s attachment:red_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_bipod_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_bipod_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_end": {
+                    "on_entry": [
+                        "@s attachment:end",
+                        "@s attachment:hide_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.end @s",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/tag @s remove select"
+                    ],
+                    "transitions": [
+                        {
+                            "attach": "(q.life_time - v.time) >=0.25 && q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "end_attach": "(!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && (q.life_time - v.time) >=0.25)"
+                        }
+                    ]
+                },
+                "attachment_laser": {
+                    "on_entry": [
+                        "@s attachment:laser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.mag @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:select",
+                        "@s attachment:laser_select",
+                        "/event entity @s[has_property={mw:gunlaser=\"attach\"}] attachment:green_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunlaser') == 'normal' && q.scoreboard('laser')>=1"
+                        },
+                        {
+                            "attachment_laser_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('laser')==0"
+                        },
+                        {
+                            "attachment_laser_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunlaser') == 'attach'"
+                        }
+                    ]
+                },
+                "attachment_laser_attach": {
+                    "on_entry": [
+                        "@s gun:laser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s add kar98attachlaser",
+                        "@s attachment:green_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser_button": {
+                    "on_entry": [
+                        "@s attachment:laser_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_bipod_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! 激光解锁需要Lvl-5 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_laser": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_laser_unattach": {
+                    "on_entry": [
+                        "@s gun:unlaser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s remove kar98attachlaser",
+                        "@s attachment:red_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_muzzle_button": {
+                    "on_entry": [
+                        "@s attachment:muzzle_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_sup": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_normal": {
+                    "on_entry": [
+                        "@s attachment:normal",
+                        "v.time = q.life_time;",
+                        "@s stop:kar98",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_sup": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic": {
+                    "on_entry": [
+                        "@s attachment:optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:optic_select",
+                        "/event entity @s[has_property={mw:gunoptic=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunoptic') == 'normal' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunoptic') == 'attach'"
+                        },
+                        {
+                            "attachment_optic_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('optic')==0"
+                        }
+                    ]
+                },
+                "attachment_optic_attach": {
+                    "on_entry": [
+                        "@s gun:optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s add kar98attachoptic",
+                        "@s attachment:green_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_button": {
+                    "on_entry": [
+                        "@s attachment:optic_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_ammo_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! 瞄准镜解锁需要Lvl-100 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_optic": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_optic_unattach": {
+                    "on_entry": [
+                        "@s gun:unoptic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s remove kar98attachoptic",
+                        "@s attachment:red_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_start": {
+                    "on_entry": [
+                        "@s attachment:start",
+                        "v.time = q.life_time;",
+                        "/event entity @s stop:kar98",
+                        "/playsound attachment.start @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock": {
+                    "on_entry": [
+                        "/event entity @s[has_property={mw:gunstock=\"attach\"}] attachment:green_select",
+                        "@s attachment:stock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:stock_select",
+                        "/event entity @s[has_property={mw:gunstock=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunstock') == 'normal' && q.scoreboard('stock')>=1"
+                        },
+                        {
+                            "attachment_stock_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunstock') == 'attach'"
+                        },
+                        {
+                            "attachment_stock_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('stock')==0"
+                        }
+                    ]
+                },
+                "attachment_stock_attach": {
+                    "on_entry": [
+                        "@s gun:stock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s add kar98attachstock",
+                        "@s attachment:green_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock_button": {
+                    "on_entry": [
+                        "@s attachment:stock_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! 枪托解锁需要Lvl-30 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_stock": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_stock_unattach": {
+                    "on_entry": [
+                        "@s gun:unstock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s remove kar98attachstock",
+                        "@s attachment:red_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_sup": {
+                    "on_entry": [
+                        "@s attachment:sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button",
+                        "@s attachment:red_select",
+                        "@s attachment:muzzle_select",
+                        "/event entity @s[has_property={mw:gunsup=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunsup') == 'normal' && q.scoreboard('muzzle')>=1"
+                        },
+                        {
+                            "attachment_sup_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunsup') == 'attach'"
+                        },
+                        {
+                            "attachment_sup_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('sup')==0"
+                        }
+                    ]
+                },
+                "attachment_sup_attach": {
+                    "on_entry": [
+                        "@s gun:sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s add kar98attachsup",
+                        "@s attachment:green_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_sup_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! 枪口解锁需要Lvl-30 !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_sup": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_sup_unattach": {
+                    "on_entry": [
+                        "@s gun:unsup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "/tag @s remove kar98attachsup",
+                        "@s attachment:red_select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "empty": {
+                    "on_entry": [
+                        "/scoreboard players set @s kar98 0",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "(q.skin_id ==3000 && q.mark_variant ==3 && !q.is_saddled && q.mark_variant ==3 && q.scoreboard('kar98')==0 && q.scoreboard('kar98ammo')>=1 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "kar98": "q.mark_variant ==3 && q.scoreboard('kar98')>=1"
+                        }
+                    ]
+                },
+                "empty2": {
+                    "on_entry": [
+                        "/scoreboard players set @s kar98 0",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "(q.skin_id ==3000 && q.mark_variant ==3 && !q.is_saddled && q.mark_variant ==3 && q.scoreboard('kar98')==0 && q.scoreboard('kar98ammo')>=1 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "kar98": "q.mark_variant ==3 && q.scoreboard('kar98')>=1"
+                        }
+                    ]
+                },
+                "end_attach": {
+                    "on_entry": [
+                        "@s attachment:reset",
+                        "@s un:kar98"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_start": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && !q.is_sprinting && q.mark_variant ==3"
+                        },
+                        {
+                            "kar98": "(1.0)"
+                        }
+                    ]
+                },
+                "fail": {
+                    "animations": [
+                        {
+                            "rootkar98": "q.mark_variant ==3 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add kar98 dummy",
+                        "/scoreboard players set @s kar98 0",
+                        "/stopsound @s kar98.reload",
+                        "/stopsound @a[rm=1,r=20] kar98.reload1",
+                        "@s kar98:unreload",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "on_exit": [
+                        "@s ak47:reload"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.mark_variant ==3 && q.mark_variant ==3 && !q.is_saddled && q.skin_id ==3000 && q.health >0 && q.scoreboard('kar98ammo')>=1"
+                        },
+                        {
+                            "kar98": "q.mark_variant ==3 && q.scoreboard('kar98')>=5"
+                        }
+                    ]
+                },
+                "fail2": {
+                    "animations": [
+                        {
+                            "rootkar98": "q.mark_variant ==3 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s kar98:unreload",
+                        "/stopsound @s kar98.reload",
+                        "/stopsound @a[rm=1,r=20] kar98.reload1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.mark_variant ==3 && q.mark_variant ==3 && !q.is_saddled && q.skin_id ==3000 && q.health >0 && q.scoreboard('kar98ammo')>=1"
+                        },
+                        {
+                            "kar98": "q.mark_variant ==3 && q.scoreboard('kar98')>=5"
+                        }
+                    ]
+                },
+                "inspect": {
+                    "animations": [
+                        {
+                            "kar98inspect": "q.mark_variant ==3 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "/event entity @s unshoot",
+                        "/stopsound @s kar98.show",
+                        "/stopsound @a[r=20] kar98.show1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98": "(query.life_time - variable.previous_timekar98ibeh ) >= variable.delaykar98ibeh && q.mark_variant ==3 && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "kar981": "(q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "kar98": {
+                    "animations": [
+                        {
+                            "rootkar98": "q.mark_variant ==3 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s kar98:unreload",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98_1": "!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==3 && q.skin_id ==3000 && !q.is_riding && q.health > 0 && q.scoreboard('kar98')>=2"
+                        },
+                        {
+                            "attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.scoreboard('kar98')>=1"
+                        },
+                        {
+                            "kar98_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==3 && q.skin_id ==3000 && !q.is_riding && q.health > 0 && q.scoreboard('kar98')==1"
+                        },
+                        {
+                            "inspect": "variable.delaykar98ibeh = 9.63; variable.previous_timekar98ibeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==3 && !q.is_riding && q.health > 0 && q.skin_id ==3000 && !q.is_sneaking && q.scoreboard('kar98')>=5 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "reload": "q.skin_id ==3000 && q.mark_variant ==3 && !q.is_using_item && !q.is_saddled && v.attack_time && q.mark_variant ==3 && q.scoreboard('kar98')<=4 && !q.is_sprinting && q.scoreboard('kar98ammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "reload_empty": "(q.skin_id ==3000 && q.mark_variant ==3 && !q.is_saddled && q.mark_variant ==3 && q.scoreboard('kar98')==0 && q.is_using_item && q.scoreboard('kar98ammo')>=1 && q.property('mw:stuff') == 'no')"
+                        }
+                    ]
+                },
+                "kar981": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98": "(1.0)"
+                        }
+                    ]
+                },
+                "kar982": {
+                    "on_entry": [
+                        "@s kar98:unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98": "(1.0)"
+                        }
+                    ]
+                },
+                "kar98_1": {
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak,tag=!gunstock] 0.15 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gunstock] 0.13 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!gunstock] 0.075 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gunstock] 0.065 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/event entity @s[tag=!gunsup,tag=!kar98attachammo] kar98:shoot",
+                        "/event entity @s[tag=!gunsup,tag=kar98attachammo] kar98:shoot_ammo",
+                        "/event entity @s[tag=gunsup,tag=!kar98attachammo] kar98:shoot_sup",
+                        "/event entity @s[tag=gunsup,tag=kar98attachammo] kar98:shoot_sup_ammo",
+                        "/scoreboard players remove @s kar98 1",
+                        "v.time = q.life_time;",
+                        "/execute @s[tag=!gunsup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=gunsup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98_bolt": "(q.life_time - v.time) >= 0.15 && q.mark_variant ==3 && !q.is_riding && q.health > 0 && q.skin_id ==3000 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "kar981": "query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        }
+                    ]
+                },
+                "kar98_2": {
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak,tag=!gunstock] 0.15 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,tag=gunstock] 0.13 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=!gunstock] 0.075 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,tag=gunstock] 0.065 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/event entity @s[tag=!gunsup,tag=!kar98attachammo] kar98:shoot_empty",
+                        "/event entity @s[tag=!gunsup,tag=kar98attachammo] kar98:shoot_empty_ammo",
+                        "/event entity @s[tag=gunsup,tag=!kar98attachammo] kar98:shoot_sup_empty",
+                        "/event entity @s[tag=gunsup,tag=kar98attachammo] kar98:shoot_sup_empty_ammo",
+                        "/scoreboard players set @s kar98 0",
+                        "v.time = q.life_time;",
+                        "/execute @s[tag=!gunsup] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[tag=gunsup] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(q.life_time - v.time) >= 0.14 && q.mark_variant ==3 && !q.is_riding && q.health > 0 && q.skin_id ==3000"
+                        }
+                    ]
+                },
+                "kar98_bolt": {
+                    "animations": [
+                        {
+                            "kar98bolt": "q.mark_variant ==3 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/event entity @s[tag=!kar98attachammo] kar98:bolt",
+                        "/event entity @s[tag=kar98attachammo] kar98:bolt_ammo"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98": "(q.life_time - v.time) >= 0.91 && q.mark_variant ==3 && !q.is_riding && q.health > 0 && q.skin_id ==3000 && !q.is_using_item"
+                        },
+                        {
+                            "kar981": "query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        }
+                    ]
+                },
+                "reload": {
+                    "transitions": [
+                        {
+                            "reload2": "variable.delaykar98shakebeh = 1.58; variable.previous_timekar98shakebeh = query.life_time; return (q.mark_variant ==3 && !q.is_saddled && q.scoreboard('kar98ammo')>=1);"
+                        }
+                    ]
+                },
+                "reload2": {
+                    "animations": [
+                        "kar98reloadstart2"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "v.time = q.life_time;",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_loop": "(query.life_time - variable.previous_timekar98shakebeh ) >= variable.delaykar98shakebeh && (q.life_time - v.time) >= 1.33 && q.scoreboard('kar98') <=4"
+                        },
+                        {
+                            "reload_end": "((q.life_time - v.time) >= 1.33 && q.scoreboard('kar98') ==5) || (q.scoreboard('kar98ammo')==0)"
+                        },
+                        {
+                            "fail2": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.33) || ((q.life_time - v.time) < 1.33 && q.health ==0)"
+                        },
+                        {
+                            "kar982": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) >= 1.33) || ((q.life_time - v.time) >= 1.33 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload_empty": {
+                    "animations": [
+                        {
+                            "rootkar98": "q.mark_variant ==3 && !q.is_riding"
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty2": "variable.delaykar98shakebeh = 1.58; variable.previous_timekar98shakebeh = query.life_time; return (q.mark_variant ==3 && !q.is_saddled && q.scoreboard('kar98ammo')>=1);"
+                        }
+                    ]
+                },
+                "reload_empty2": {
+                    "animations": [
+                        {
+                            "kar98reloadstart": "q.mark_variant ==3 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "v.time = q.life_time;",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_loop": "(query.life_time - variable.previous_timekar98shakebeh ) >= variable.delaykar98shakebeh && (q.life_time - v.time) >= 1.33 && q.scoreboard('kar98') <=4"
+                        },
+                        {
+                            "fail": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.33) || ((q.life_time - v.time) < 1.33 && q.health ==0)"
+                        },
+                        {
+                            "kar982": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) >= 1.33) || ((q.life_time - v.time) >= 1.33 && q.health ==0)"
+                        },
+                        {
+                            "reload_end": "((q.life_time - v.time) >= 1.33 && q.scoreboard('kar98') ==5) || (q.scoreboard('kar98ammo')==0)"
+                        }
+                    ]
+                },
+                "reload_end": {
+                    "animations": [
+                        "kar98reloadend"
+                    ],
+                    "on_entry": [
+                        "v.time = q.life_time;",
+                        "@s kar98:reload_end"
+                    ],
+                    "on_exit": [
+                        "@s kar98:unreload",
+                        "@s un:kar98"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98": "(q.is_using_item && (q.life_time - v.time) >= 0.48) || ((q.life_time - v.time) >= 1.31) || (q.health ==0) || (query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        }
+                    ]
+                },
+                "reload_loop": {
+                    "animations": [
+                        "kar98reload"
+                    ],
+                    "on_entry": [
+                        "@s unreload",
+                        "v.time = q.life_time;",
+                        "@s kar98:reload"
+                    ],
+                    "transitions": [
+                        {
+                            "kar982": "(query.get_equipped_item_name('main_hand') != 'kar98' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.health ==0)"
+                        },
+                        {
+                            "reload_end": "(q.is_using_item && q.scoreboard('kar98') >=1) || (q.scoreboard('kar98') ==5) || (q.scoreboard('kar98ammo')==0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "animations": [
+                        {
+                            "rootkar98": "q.mark_variant ==3 && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add kar98 dummy",
+                        "/scoreboard objectives add kar98ammo dummy",
+                        "/scoreboard players set @s kar98 5",
+                        "/scoreboard players set @s kar98ammo 25"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98": "q.mark_variant ==3 && q.mark_variant ==3"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}

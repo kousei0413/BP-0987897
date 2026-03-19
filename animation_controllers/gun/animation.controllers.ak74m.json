@@ -1,0 +1,2108 @@
+{
+    "animation_controllers": {
+        "controller.animation.ak74m": {
+            "initial_state": "setup",
+            "states": {
+                "ak74m": {
+                    "animations": [
+                        {
+                            "gunrest": "q.scoreboard('ak74m')>=1 && !q.is_using_item"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unreload",
+                        "/tag @s remove ak74mmag",
+                        "/tag @s remove ak74mstop",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_1": "!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && q.skin_id ==140 && !q.is_riding && q.health > 0 && q.scoreboard('ak74m')>=2"
+                        },
+                        {
+                            "attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.scoreboard('ak74m')>=1"
+                        },
+                        {
+                            "ak74m_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && q.skin_id ==140 && !q.is_riding && q.health > 0 && q.scoreboard('ak74m')==1"
+                        },
+                        {
+                            "reload_empty": "(q.skin_id ==140 && q.mark_variant ==14 && !q.is_saddled && q.mark_variant ==14 && q.scoreboard('ak74m')==0 && q.is_using_item && q.scoreboard('ak74mammo')>=1 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "ak74m_semi": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.scoreboard('ak74m')>=30 && q.scoreboard('ak74mammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.property('mw:firemode') == 'fullauto' && q.scoreboard('ak74mammo')==0 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "ak74m_full": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.scoreboard('ak74m')>=30 && q.scoreboard('ak74mammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.property('mw:firemode') == 'semiauto' && q.scoreboard('ak74mammo')==0 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "reload": "q.skin_id ==140 && q.mark_variant ==14 && !q.is_using_item && !q.is_saddled && v.attack_time && q.mark_variant ==14 && q.scoreboard('ak74m')<=29 && !q.is_sprinting && q.scoreboard('ak74mammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "inspect_40mag": "variable.delayak74mibeh = 7.5; variable.previous_timeak74mibeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=30 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "inspect_empty_40mag": "variable.delayak74mbeh = 8.75; variable.previous_timeak74mbeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')==0 && (q.life_time - v.time) < 0.15 && q.property('mw:stuff') == 'no');"
+                        }
+                    ]
+                },
+                "ak74m2": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m": "q.property('mw:gunmag') == 'normal'"
+                        },
+                        {
+                            "ak74m_ext": "q.property('mw:gunmag') == 'attach'"
+                        }
+                    ]
+                },
+                "ak74m_1": {
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,has_property={mw:gunstock=\"normal\"}] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,has_property={mw:gungrip=\"normal\"}] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,has_property={mw:gunbarrel=\"normal\"}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,has_property={mw:gunstock=\"normal\"}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,has_property={mw:gungrip=\"normal\"}] 0.0075 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,has_property={mw:gunbarrel=\"normal\"}] 0.0025 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/event entity @s rpk16:shoot",
+                        "/scoreboard players remove @s ak74m 1",
+                        "v.time = q.life_time;",
+                        "/execute @s[has_property={mw:gunsup=\"attach\"}] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[has_property={mw:gunsup\"normal\"}] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m": "(q.life_time - v.time) >= 0.0475 && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "ak74m_stop_semi": "(q.life_time - v.time) >= 0 && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.property('mw:firemode') == 'semiauto'"
+                        },
+                        {
+                            "ak74m2": "query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        }
+                    ]
+                },
+                "ak74m_2": {
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,has_property={mw:gunstock=\"normal\"}] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,has_property={mw:gungrip=\"normal\"}] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,has_property={mw:gunbarrel=\"normal\"}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,has_property={mw:gunstock=\"normal\"}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,has_property={mw:gungrip=\"normal\"}] 0.0075 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,has_property={mw:gunbarrel=\"normal\"}] 0.0025 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/event entity @s rpk16:shoot",
+                        "v.time = q.life_time;",
+                        "/execute @s[has_property={mw:gunsup=\"attach\"}] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[has_property={mw:gunsup\"normal\"}] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "on_exit": [
+                        "/scoreboard players remove @s ak74m 1"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(q.life_time - v.time) >= 0.08 && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140"
+                        }
+                    ]
+                },
+                "ak74m_attack_fail": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m": "q.scoreboard('ak74m')>=1 && q.property('mw:gunmag') == 'normal'"
+                        },
+                        {
+                            "ak74m_ext": "q.scoreboard('ak74m')>=1 && q.property('mw:gunmag') == 'attach'"
+                        },
+                        {
+                            "empty": "q.scoreboard('ak74m')==0"
+                        }
+                    ]
+                },
+                "ak74m_ext": {
+                    "animations": [
+                        {
+                            "gunrest": "q.scoreboard('ak74m')>=1 && !q.is_using_item"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unreload",
+                        "@s un:ak74m",
+                        "/tag @s add ak74mmag",
+                        "/tag @s remove ak74mstop",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_ext1": "!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && q.skin_id ==140 && !q.is_riding && q.health > 0 && q.scoreboard('ak74m')>=2"
+                        },
+                        {
+                            "attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.scoreboard('ak74m')>=1"
+                        },
+                        {
+                            "ak74m_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && q.skin_id ==140 && !q.is_riding && q.health > 0 && q.scoreboard('ak74m')==1"
+                        },
+                        {
+                            "reload_empty": "(q.skin_id ==140 && q.mark_variant ==14 && !q.is_saddled && q.mark_variant ==14 && q.scoreboard('ak74m')==0 && q.is_using_item && q.scoreboard('ak74mammo')>=1 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "ak74m_semi": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.scoreboard('ak74m')>=45 && q.scoreboard('ak74mammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.property('mw:firemode') == 'fullauto' && q.scoreboard('ak74mammo')==0 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "ak74m_full": "(v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.scoreboard('ak74m')>=45 && q.scoreboard('ak74mammo')>=1 && q.property('mw:stuff') == 'no') || (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.property('mw:firemode') == 'semiauto' && q.scoreboard('ak74mammo')==0 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "reload": "q.skin_id ==140 && q.mark_variant ==14 && !q.is_using_item && !q.is_saddled && v.attack_time && q.mark_variant ==14 && q.scoreboard('ak74m')<=44 && !q.is_sprinting && q.scoreboard('ak74mammo')>=1 && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "inspect_40mag": "variable.delayak74mibeh = 7.5; variable.previous_timeak74mibeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=45 && q.property('mw:stuff') == 'no');"
+                        },
+                        {
+                            "inspect_empty_40mag": "variable.delayak74mbeh = 8.75; variable.previous_timeak74mbeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')==0 && (q.life_time - v.time) < 0.15 && q.property('mw:stuff') == 'no');"
+                        }
+                    ]
+                },
+                "ak74m_ext1": {
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,has_property={mw:gunstock=\"normal\"}] 0.01 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,has_property={mw:gungrip=\"normal\"}] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=!sneak,has_property={mw:gunbarrel=\"normal\"}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.015 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,has_property={mw:gunstock=\"normal\"}] 0.005 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,has_property={mw:gungrip=\"normal\"}] 0.0075 0.04 rotational",
+                        "/camerashake add @s[tag=sneak,has_property={mw:gunbarrel=\"normal\"}] 0.0025 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/event entity @s rpk16:shoot",
+                        "/scoreboard players remove @s ak74m 1",
+                        "v.time = q.life_time;",
+                        "/execute @s[has_property={mw:gunsup=\"attach\"}] ~~~ event entity @a[r=5,has_property={mw:birdsound=\"normal\"}] gun:stop_sound",
+                        "/execute @s[has_property={mw:gunsup\"normal\"}] ~~~ event entity @a[r=40,has_property={mw:birdsound=\"normal\"}] gun:stop_sound"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_ext": "((q.life_time - v.time) >= 0.0475 && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.property('mw:firemode') == 'fullauto') || ((q.life_time - v.time) >= 0 && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.property('mw:firemode') == 'semiauto' && !q.is_using_item)"
+                        },
+                        {
+                            "ak74m_attack_fail": "query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        }
+                    ]
+                },
+                "ak74m_full": {
+                    "animations": [
+                        "ak74mfull"
+                    ],
+                    "on_entry": [
+                        "@s gun:firemode",
+                        "v.time = q.life_time;",
+                        "@s stop:ak74m",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/scoreboard players set @s sprint 1",
+                        "@s un:ak74m"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_attack_fail": "(q.all_animations_finished && (q.life_time - v.time) >= 0.347) || ((q.life_time - v.time) >= 0.547 && q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        }
+                    ]
+                },
+                "ak74m_semi": {
+                    "animations": [
+                        "ak74msemi"
+                    ],
+                    "on_entry": [
+                        "@s gun:firemode",
+                        "v.time = q.life_time;",
+                        "@s stop:ak74m",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/scoreboard players set @s sprint 1",
+                        "@s un:ak74m"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_attack_fail": "(q.all_animations_finished && (q.life_time - v.time) >= 0.347) || ((q.life_time - v.time) >= 0.547 && q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        }
+                    ]
+                },
+                "ak74m_stop_semi": {
+                    "animations": [
+                        {
+                            "gunrest": "q.scoreboard('ak74m')>=1 && !q.is_stackable"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m": "!q.is_using_item && q.property('mw:gunmag') == 'normal'"
+                        },
+                        {
+                            "ak74m_ext": "!q.is_using_item && q.property('mw:gunmag') == 'attach'"
+                        }
+                    ]
+                },
+                "ak74m_to_ext": {
+                    "on_entry": [
+                        "@s unshoot",
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.skin_id ==140 && q.mark_variant ==14 && !q.is_saddled && q.mark_variant ==14"
+                        }
+                    ]
+                },
+                "attach": {
+                    "on_entry": [
+                        "@s attachment:idle",
+                        "/event entity @s stop:ak74m",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_start": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_sneaking && !q.is_sprinting && q.mark_variant ==14"
+                        },
+                        {
+                            "end_attach": "(!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'))"
+                        }
+                    ]
+                },
+                "attachment_barrel": {
+                    "on_entry": [
+                        "@s attachment:barrel",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:red_select",
+                        "@s attachment:barrel_select",
+                        "/event entity @s[has_property={mw:gunbarrel=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunbarrel') == 'normal' && q.scoreboard('barrel')>=1"
+                        },
+                        {
+                            "attachment_barrel_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunbarrel') == 'attach'"
+                        },
+                        {
+                            "attachment_barrel_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('barrel')==0"
+                        }
+                    ]
+                },
+                "attachment_barrel_attach": {
+                    "on_entry": [
+                        "@s gun:barrel",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add ak74mbarrel dummy",
+                        "/scoreboard players set @s ak74mbarrel 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_barrel_button": {
+                    "on_entry": [
+                        "@s attachment:barrel_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_barrel_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Barrel Unlock At Lvl-45 !\"}]}"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_barrel": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_barrel_unattach": {
+                    "on_entry": [
+                        "@s gun:unbarrel",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s ak74mbarrel 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_end": {
+                    "on_entry": [
+                        "@s attachment:end",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.end @s",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/tag @s remove select",
+                        "@s attachment:hide_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attach": "(q.life_time - v.time) >=0.25 && q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')"
+                        },
+                        {
+                            "end_attach": "(!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && (q.life_time - v.time) >=0.25)"
+                        }
+                    ]
+                },
+                "attachment_grip": {
+                    "on_entry": [
+                        "@s attachment:grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:red_select",
+                        "@s attachment:grip_select",
+                        "/event entity @s[has_property={mw:gungrip=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gungrip') == 'normal' && q.scoreboard('grip')>=1"
+                        },
+                        {
+                            "attachment_grip_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gungrip') == 'attach'"
+                        },
+                        {
+                            "attachment_grip_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('grip')==0"
+                        }
+                    ]
+                },
+                "attachment_grip_attach": {
+                    "on_entry": [
+                        "@s gun:grip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add ak74mgrip dummy",
+                        "/scoreboard players set @s ak74mgrip 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_grip_button": {
+                    "on_entry": [
+                        "@s attachment:grip_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_grip_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Underbarrel Unlock At Lvl-65 !\"}]}"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_grip": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_grip_unattach": {
+                    "on_entry": [
+                        "@s gun:ungrip",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s ak74mgrip 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_grip_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_grip_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser": {
+                    "on_entry": [
+                        "@s attachment:laser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.mag @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:red_select",
+                        "@s attachment:laser_select",
+                        "/event entity @s[has_property={mw:gunlaser=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunlaser') == 'normal' && q.scoreboard('laser')>=1"
+                        },
+                        {
+                            "attachment_laser_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('laser')==0"
+                        },
+                        {
+                            "attachment_laser_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunlaser') == 'attach'"
+                        }
+                    ]
+                },
+                "attachment_laser_attach": {
+                    "on_entry": [
+                        "@s gun:laser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add ak74mattachlaser dummy",
+                        "/scoreboard players set @s ak74mattachlaser 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser_button": {
+                    "on_entry": [
+                        "@s attachment:laser_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_laser_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Laser Unlock At Lvl-5 !\"}]}"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_laser": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_laser_unattach": {
+                    "on_entry": [
+                        "@s gun:unlaser",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s ak74mattachlaser 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_laser_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_laser_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag": {
+                    "on_entry": [
+                        "@s attachment:mag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.sup @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:red_select",
+                        "@s attachment:mag_select",
+                        "/event entity @s[has_property={mw:gunmag=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunmag') == 'normal' && q.scoreboard('mag')>=1 && q.scoreboard('ak74m')>=30"
+                        },
+                        {
+                            "attachment_mag_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:ak74mmag') == 'ak74mextmag2' && q.scoreboard('mag')>=1 && q.scoreboard('ak74m')>=40"
+                        },
+                        {
+                            "attachment_mag_attach_fail": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunmag') == 'normal' && q.scoreboard('mag')>=1 && q.scoreboard('ak74m')<=29"
+                        },
+                        {
+                            "attachment_mag_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunmag') == 'attach' && q.scoreboard('ak74m')>=45"
+                        },
+                        {
+                            "attachment_mag_unattach_fail": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunmag') == 'attach' && q.scoreboard('ak74m')<=44"
+                        },
+                        {
+                            "attachment_mag_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('mag')==0"
+                        }
+                    ]
+                },
+                "attachment_mag_attach": {
+                    "on_entry": [
+                        "@s gun:mag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add ak74mattachmag dummy",
+                        "/scoreboard players set @s ak74mattachmag 1",
+                        "/scoreboard players set @s ak74m 45"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_attach_fail": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Reload Your Gun To Equip Extended Magazine !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_mag_button": {
+                    "on_entry": [
+                        "@s attachment:mag_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Magazine Unlock At Lvl-135 !\"}]}"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_mag_unattach": {
+                    "on_entry": [
+                        "@s gun:unmag",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s ak74mattachmag 0",
+                        "/scoreboard players set @s ak74m 30"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_mag_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_mag_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_mag_unattach_fail": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Reload Your Gun To Unequip Extended Magazine !\"}]}",
+                        "/playsound attachment.change @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_mag": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_muzzle_button": {
+                    "on_entry": [
+                        "@s attachment:muzzle_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_sup": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_barrel_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_normal": {
+                    "on_entry": [
+                        "@s attachment:normal",
+                        "v.time = q.life_time;",
+                        "@s stop:ak74m",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_sup": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic": {
+                    "on_entry": [
+                        "@s attachment:optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:red_select",
+                        "@s attachment:optic_select",
+                        "/event entity @s[has_property={mw:gunoptic=\"attach\"}] attachment:green_select",
+                        "/event entity @s[has_property={mw:gunoptic=\"attach2\"}] attachment:green_select2",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunoptic') == 'normal' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunoptic') == 'attach' && q.scoreboard('optic')>=1"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunoptic') == 'attach2'"
+                        },
+                        {
+                            "attachment_optic_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('optic')==0"
+                        }
+                    ]
+                },
+                "attachment_optic_attach": {
+                    "on_entry": [
+                        "@s gun:optic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add ak74mattachoptic dummy",
+                        "/scoreboard players set @s ak74mattachoptic 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach2": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_attach2": {
+                    "on_entry": [
+                        "@s gun:optic2",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select2",
+                        "/scoreboard players set @s ak74mattachoptic 2"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_button": {
+                    "on_entry": [
+                        "@s attachment:optic_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_optic_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Optic Unlock At Lvl-100 !\"}]}"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_optic": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_optic_unattach": {
+                    "on_entry": [
+                        "@s gun:unoptic",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s ak74mattachoptic 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_optic_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_optic_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_start": {
+                    "on_entry": [
+                        "@s attachment:start",
+                        "v.time = q.life_time;",
+                        "/event entity @s stop:ak74m",
+                        "/playsound attachment.start @s"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock": {
+                    "on_entry": [
+                        "@s attachment:stock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:red_select",
+                        "@s attachment:stock_select",
+                        "/event entity @s[has_property={mw:gunstock=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunstock') == 'normal' && q.scoreboard('stock')>=1"
+                        },
+                        {
+                            "attachment_stock_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunstock') == 'attach'"
+                        },
+                        {
+                            "attachment_stock_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('stock')==0"
+                        }
+                    ]
+                },
+                "attachment_stock_attach": {
+                    "on_entry": [
+                        "@s gun:stock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add ak74mattachstock dummy",
+                        "/scoreboard players set @s ak74mattachstock 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock_button": {
+                    "on_entry": [
+                        "@s attachment:stock_button",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:normal",
+                        "@s attachment:show_button"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_stock_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Stock Unlock At Lvl-30 !\"}]}"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_stock": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_stock_unattach": {
+                    "on_entry": [
+                        "@s gun:unstock",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s ak74mattachstock 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_stock_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_stock_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_sup": {
+                    "on_entry": [
+                        "@s attachment:sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.other @s[tag=select]",
+                        "/playsound attachment.change @s[tag=!select]",
+                        "/tag @s remove select",
+                        "@s attachment:red_select",
+                        "@s attachment:muzzle_select",
+                        "/event entity @s[has_property={mw:gunsup=\"attach\"}] attachment:green_select",
+                        "@s attachment:select"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunsup') == 'normal' && q.scoreboard('muzzle')>=1"
+                        },
+                        {
+                            "attachment_sup_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.property('mw:gunsup') == 'attach'"
+                        },
+                        {
+                            "attachment_sup_lock": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25 && q.scoreboard('sup')==0"
+                        }
+                    ]
+                },
+                "attachment_sup_attach": {
+                    "on_entry": [
+                        "@s gun:sup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:green_select",
+                        "/scoreboard objectives add ak74mattachsup dummy",
+                        "/scoreboard players set @s ak74mattachsup 1"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_unattach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "attachment_sup_lock": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Muzzle Unlock At Lvl-30 !\"}]}"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_sup": "(1.0)"
+                        }
+                    ]
+                },
+                "attachment_sup_unattach": {
+                    "on_entry": [
+                        "@s gun:unsup",
+                        "v.time = q.life_time;",
+                        "/playsound attachment.click @s",
+                        "/tag @s add select",
+                        "@s attachment:red_select",
+                        "/scoreboard players set @s ak74mattachsup 0"
+                    ],
+                    "transitions": [
+                        {
+                            "attachment_end": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (!q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach')) || (!q.is_sneaking && (q.life_time - v.time) >=0.25)"
+                        },
+                        {
+                            "attachment_muzzle_button": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && (q.life_time - v.time) >=0.25"
+                        },
+                        {
+                            "attachment_sup_attach": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && v.attack_time && (q.life_time - v.time) >=0.25"
+                        }
+                    ]
+                },
+                "empty": {
+                    "on_entry": [
+                        "/scoreboard players set @s ak74m 0",
+                        "@s unshoot",
+                        "@s gun:end_rest"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_attack_fail": "q.mark_variant ==14 && q.scoreboard('ak74m')>=1"
+                        },
+                        {
+                            "reload_empty": "(q.skin_id ==140 && q.mark_variant ==14 && !q.is_saddled && q.mark_variant ==14 && q.scoreboard('ak74m')==0 && q.is_using_item && q.scoreboard('ak74mammo')>=1 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "ak74m_semi": "v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "ak74m_full": "v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "inspect_empty_40mag": "variable.delayak74mbeh = 8.75; variable.previous_timeak74mbeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && !q.is_sneaking && q.scoreboard('ak74m')==0);"
+                        }
+                    ]
+                },
+                "empty2": {
+                    "on_entry": [
+                        "/scoreboard players set @s ak74m 0",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_attack_fail": "q.mark_variant ==14 && q.scoreboard('ak74m')>=1"
+                        },
+                        {
+                            "reload_empty": "(q.skin_id ==140 && q.mark_variant ==14 && !q.is_saddled && q.mark_variant ==14 && q.scoreboard('ak74m')==0 && q.is_using_item && q.scoreboard('ak74mammo')>=1 && q.property('mw:stuff') == 'no')"
+                        },
+                        {
+                            "ak74m_semi": "v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.property('mw:firemode') == 'fullauto' && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "ak74m_full": "v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.property('mw:firemode') == 'semiauto' && q.property('mw:stuff') == 'no'"
+                        },
+                        {
+                            "inspect_empty_40mag": "variable.delayak74mbeh = 8.75; variable.previous_timeak74mbeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && !q.is_sneaking && q.scoreboard('ak74m')==0 && (q.life_time - v.time) < 0.15 && q.property('mw:stuff') == 'no');"
+                        }
+                    ]
+                },
+                "end_attach": {
+                    "on_entry": [
+                        "@s attachment:reset",
+                        "@s un:ak74m"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m": "q.scoreboard('ak74m')>=1 && q.property('mw:gunmag') == 'normal'"
+                        },
+                        {
+                            "ak74m_ext": "q.scoreboard('ak74m')>=1 && q.property('mw:gunmag') == 'attach'"
+                        },
+                        {
+                            "attachment_start": "q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_using_item && !q.is_sprinting && q.mark_variant ==14"
+                        }
+                    ]
+                },
+                "fail": {
+                    "animations": [
+                        {
+                            "rootak74m": "q.mark_variant ==14 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add ak74m dummy",
+                        "/scoreboard players set @s ak74m 0",
+                        "@s unreload",
+                        "/stopsound @s ak74m.reload",
+                        "/stopsound @s ak74m.reload_ext",
+                        "/stopsound @a[rm=1,r=20] ak74m.reload1",
+                        "/stopsound @a[rm=1,r=20] ak74m.reload_ext1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.mark_variant ==14 && q.mark_variant ==14 && !q.is_saddled && q.skin_id ==140 && q.health >0 && q.scoreboard('ak74mammo')>=1"
+                        }
+                    ]
+                },
+                "fail2": {
+                    "animations": [
+                        {
+                            "rootak74m": "q.mark_variant ==14 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unreload",
+                        "/stopsound @s ak74m.reload2",
+                        "/stopsound @s ak74m.reload_ext2",
+                        "/stopsound @a[rm=1,r=20] ak74m.reload21",
+                        "/stopsound @a[rm=1,r=20] ak74m.reload_ext21",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.mark_variant ==14 && q.mark_variant ==14 && !q.is_saddled && q.skin_id ==140 && q.health >0 && q.scoreboard('ak74mammo')>=1"
+                        }
+                    ]
+                },
+                "inspect_40mag": {
+                    "animations": [
+                        {
+                            "ak74minspect": "q.mark_variant ==14 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect",
+                        "/playsound ak74m.show @s",
+                        "/playsound ak74m.show1 @a[rm=1,r=20] ~~~",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "/event entity @s unshoot",
+                        "/stopsound @s ak74m.show",
+                        "/stopsound @a[r=20] ak74m.show1",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_attack_fail": "(query.life_time - variable.previous_timeak74mibeh ) >= variable.delayak74mibeh && q.mark_variant ==14 && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "ak74m2": "(q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "inspect_empty_40mag": {
+                    "animations": [
+                        {
+                            "ak74minspectempty": "q.mark_variant ==14 && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspectempty",
+                        "/playsound ak74m.show_empty @s",
+                        "/playsound ak74m.show_empty1 @a[rm=1,r=20] ~~~",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s ak74m.show_empty",
+                        "/stopsound @a[rm=1,r=20] ak74m.show_empty",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(query.life_time - variable.previous_timeak74mbeh ) >= variable.delayak74mbeh && q.mark_variant ==14 && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "empty2": "(q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.is_sneaking)"
+                        }
+                    ]
+                },
+                "mag": {
+                    "animations": [
+                        {
+                            "rootak74m": "q.mark_variant ==14 && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add ak74m dummy",
+                        "/scoreboard objectives add ak74mammo dummy",
+                        "/scoreboard players set @s ak74m 30",
+                        "/scoreboard players set @s[scores={ak74mammo=0}] ak74mammo 60",
+                        "@s attachment:reset"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m": "(1.0)"
+                        }
+                    ]
+                },
+                "mag_ext": {
+                    "animations": [
+                        {
+                            "rootak74m": "q.mark_variant ==14 && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add ak74m dummy",
+                        "/scoreboard objectives add ak74mammo dummy",
+                        "/scoreboard players set @s ak74m 45",
+                        "/scoreboard players set @s[scores={ak74mammo=0}] ak74mammo 90",
+                        "@s attachment:reset"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_ext": "(1.0)"
+                        }
+                    ]
+                },
+                "reload": {
+                    "transitions": [
+                        {
+                            "reload2": "variable.delayak74mshakebeh = 2.47; variable.previous_timeak74mshakebeh = query.life_time; return (q.mark_variant ==14 && !q.is_saddled && q.scoreboard('ak74mammo')>=1 && q.property('mw:gunmag') == 'normal');"
+                        },
+                        {
+                            "reload_ext2": "variable.delayak74mshakebeh = 2.75; variable.previous_timeak74mshakebeh = query.life_time; return (q.mark_variant ==14 && !q.is_saddled && q.scoreboard('ak74mammo')>=1 && q.property('mw:gunmag') == 'attach');"
+                        }
+                    ]
+                },
+                "reload2": {
+                    "animations": [
+                        {
+                            "ak74mloaded": "(q.life_time - v.time) >=1.27"
+                        },
+                        "ak74mreload2"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "v.time = q.life_time;",
+                        "@s stop:ak74m",
+                        "/tag @s add ak74mtacreload",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unreload",
+                        "/tag @s remove ak74mtacreload",
+                        "/scoreboard players set @s sprint 1",
+                        "@s un:ak74m"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m": "((query.life_time - variable.previous_timeak74mshakebeh ) >= variable.delayak74mshakebeh && (q.life_time - v.time) >= 1.27) || ((q.life_time - v.time) >= 1.52 && q.is_using_item) || ((q.life_time - v.time) >= 1.52 && q.is_sprinting)"
+                        },
+                        {
+                            "fail2": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.27) || ((q.life_time - v.time) < 1.27 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload_empty": {
+                    "animations": [
+                        {
+                            "rootak74m": "q.mark_variant ==14 && !q.is_riding"
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty2": "variable.delayak74mshakebeh = 2.97; variable.previous_timeak74mshakebeh = query.life_time; return (q.mark_variant ==14 && !q.is_saddled && q.scoreboard('ak74mammo')>=1 && q.property('mw:gunmag') == 'normal');"
+                        },
+                        {
+                            "reload_ext_empty2": "variable.delayak74mshakebeh = 3.302; variable.previous_timeak74mshakebeh = query.life_time; return (q.mark_variant ==14 && !q.is_saddled && q.scoreboard('ak74mammo')>=1 && q.property('mw:gunmag') == 'attach');"
+                        }
+                    ]
+                },
+                "reload_empty2": {
+                    "animations": [
+                        {
+                            "ak74mreload": "q.mark_variant ==14 && !q.is_riding"
+                        },
+                        {
+                            "ak74mloaded": "(q.life_time - v.time) >=2.11"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "v.time = q.life_time;",
+                        "@s stop:ak74m",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s un:ak74m"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m": "((query.life_time - variable.previous_timeak74mshakebeh ) >= variable.delayak74mshakebeh && (q.life_time - v.time) >=2.11 ) || ((q.life_time - v.time) >= 2.31 && q.is_using_item) || ((q.life_time - v.time) >= 2.31 && q.is_sprinting)"
+                        },
+                        {
+                            "fail": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 2.11) || ((q.life_time - v.time) < 2.19 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload_ext2": {
+                    "animations": [
+                        {
+                            "ak74mloaded": "(q.life_time - v.time) >=1.465"
+                        },
+                        "ak74mreloadext2"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "/playsound ak74m.reload_ext2 @s",
+                        "/playsound ak74m.reload_ext21 @a[rm=1,r=20] ~~~",
+                        "v.time = q.life_time;",
+                        "@s stop:ak74m",
+                        "/tag @s add ak74mtacreload",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s unreload",
+                        "/tag @s remove ak74mtacreload",
+                        "/scoreboard players set @s sprint 1",
+                        "@s un:ak74m"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_ext": "((query.life_time - variable.previous_timeak74mshakebeh ) >= variable.delayak74mshakebeh && (q.life_time - v.time) >= 1.465) || ((q.life_time - v.time) >= 1.715 && q.is_using_item) || ((q.life_time - v.time) >= 1.715 && q.is_sprinting)"
+                        },
+                        {
+                            "fail2": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 1.465) || ((q.life_time - v.time) < 1.465 && q.health ==0)"
+                        }
+                    ]
+                },
+                "reload_ext_empty2": {
+                    "animations": [
+                        {
+                            "ak74mreloadext": "q.mark_variant ==14 && !q.is_riding"
+                        },
+                        {
+                            "ak74mloaded": "(q.life_time - v.time) >=2.4"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "/playsound ak74m.reload_ext @s",
+                        "/playsound ak74m.reload_ext1 @a[rm=1,r=20] ~~~",
+                        "v.time = q.life_time;",
+                        "@s stop:ak74m",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "@s un:ak74m"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_ext": "((query.life_time - variable.previous_timeak74mshakebeh ) >= variable.delayak74mshakebeh && (q.life_time - v.time) >=2.4 ) || ((q.life_time - v.time) >= 2.6 && q.is_using_item) || ((q.life_time - v.time) >= 2.6 && q.is_sprinting)"
+                        },
+                        {
+                            "fail": "(query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && (q.life_time - v.time) < 2.4) || ((q.life_time - v.time) < 2.4 && q.health ==0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "animations": [
+                        {
+                            "rootak74m": "q.mark_variant ==14 && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add ak74m dummy",
+                        "/scoreboard objectives add ak74mammo dummy"
+                    ],
+                    "transitions": [
+                        {
+                            "mag": "q.mark_variant ==14 && q.property('mw:gunmag') == 'normal'"
+                        },
+                        {
+                            "mag_ext": "q.mark_variant ==14 && q.property('mw:gunmag') == 'attach'"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.ak74m_sound": {
+            "initial_state": "setup",
+            "states": {
+                "default": {
+                    "animations": [
+                        {
+                            "gunsoundfixed": "q.mark_variant ==14"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add gunsound dummy",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "start": "variable.delayak74msbeh = 0.05; variable.previous_timeak74msbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor');"
+                        },
+                        {
+                            "start_indoor": "variable.delayak74msbeh = 0.05; variable.previous_timeak74msbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor');"
+                        },
+                        {
+                            "start2": "variable.delayak74ms1beh = 0.05; variable.previous_timeak74ms1beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor');"
+                        },
+                        {
+                            "start_indoor2": "variable.delayak74ms1beh = 0.05; variable.previous_timeak74ms1beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor');"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=1"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>=1"
+                        },
+                        {
+                            "default": "(!q.is_using_item) || (q.scoreboard('ak74m')==0)"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "start": "variable.delayak74msbeh = 0.06; variable.previous_timeak74msbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor');"
+                        },
+                        {
+                            "start_indoor": "variable.delayak74msbeh = 0.06; variable.previous_timeak74msbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor');"
+                        },
+                        {
+                            "start2": "variable.delayak74ms1beh = 0.06; variable.previous_timeak74ms1beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor');"
+                        },
+                        {
+                            "start_indoor2": "variable.delayak74ms1beh = 0.06; variable.previous_timeak74ms1beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor');"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/playsound ak74m.shoot @s",
+                        "/tag @s add ak74msound",
+                        "/stopsound @s ak74m.shoot2",
+                        "/stopsound @s ak74m.shoot_indoor2",
+                        "/stopsound @s ak74m.shoot_indoor",
+                        "/stopsound @s ak74m.start",
+                        "/stopsound @s ak74m.start_indoor",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.skin_id ==14) || (q.scoreboard('ak74m')==0) || (q.health ==0)"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "/playsound ak74m.shoot2 @s",
+                        "/tag @s add ak74msound",
+                        "/stopsound @s ak74m.shoot",
+                        "/stopsound @s ak74m.shoot_indoor",
+                        "/stopsound @s ak74m.shoot_indoor2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.skin_id ==14) || (q.scoreboard('ak74m')==0) || (q.health ==0)"
+                        }
+                    ]
+                },
+                "shoot_indoor": {
+                    "on_entry": [
+                        "/playsound ak74m.shoot_indoor @s",
+                        "/tag @s add ak74msound",
+                        "/stopsound @s ak74m.shoot2",
+                        "/stopsound @s ak74m.shoot",
+                        "/stopsound @s ak74m.shoot_indoor2",
+                        "/stopsound @s ak74m.start",
+                        "/stopsound @s ak74m.start_indoor",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.skin_id ==14) || (q.scoreboard('ak74m')==0) || (q.health ==0)"
+                        }
+                    ]
+                },
+                "shoot_indoor2": {
+                    "on_entry": [
+                        "/playsound ak74m.shoot_indoor2 @s",
+                        "/tag @s add ak74msound",
+                        "/stopsound @s ak74m.shoot",
+                        "/stopsound @s ak74m.shoot2",
+                        "/stopsound @s ak74m.shoot_indoor",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "(!q.is_using_item) || (query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.skin_id ==14) || (q.scoreboard('ak74m')==0) || (q.health ==0)"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        }
+                    ]
+                },
+                "start": {
+                    "on_entry": [
+                        "/stopsound @s ak74m.stop",
+                        "@s ak74m:start",
+                        "/playsound ak74m.start @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "(query.life_time - variable.previous_timeak74msbeh ) >= variable.delayak74msbeh && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_using_item && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor": "(query.life_time - variable.previous_timeak74msbeh ) >= variable.delayak74msbeh && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_using_item && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default": "q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('ak74m')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start2": {
+                    "on_entry": [
+                        "/playsound ak74m.start2 @s",
+                        "@s ak74m:start",
+                        "/stopsound @s ak74m.stop2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_using_item"
+                        },
+                        {
+                            "shoot2": "(query.life_time - variable.previous_timeak74ms1beh ) >= variable.delayak74ms1beh && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_using_item && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor2": "(query.life_time - variable.previous_timeak74ms1beh ) >= variable.delayak74ms1beh && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_using_item && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('ak74m')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start_indoor": {
+                    "on_entry": [
+                        "/stopsound @s ak74m.stop_indoor",
+                        "@s ak74m:start",
+                        "/playsound ak74m.start_indoor @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "(query.life_time - variable.previous_timeak74msbeh ) >= variable.delayak74msbeh && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_using_item && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor": "(query.life_time - variable.previous_timeak74msbeh ) >= variable.delayak74msbeh && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_using_item && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default": "q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('ak74m')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start_indoor2": {
+                    "on_entry": [
+                        "/playsound ak74m.start_indoor2 @s",
+                        "@s ak74m:start",
+                        "/stopsound @s ak74m.stop_indoor2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_using_item"
+                        },
+                        {
+                            "shoot2": "(query.life_time - variable.previous_timeak74ms1beh ) >= variable.delayak74ms1beh && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_using_item && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor2": "(query.life_time - variable.previous_timeak74ms1beh ) >= variable.delayak74ms1beh && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_using_item && q.scoreboard('ak74m')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('ak74m')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "stop": {
+                    "on_entry": [
+                        "/stopsound @s ak74m.shoot",
+                        "/stopsound @s ak74m.shoot_indoor",
+                        "/playsound ak74m.stop @s[tag=unindoor,tag=!sneak] ~~~",
+                        "/playsound ak74m.stop_indoor @s[tag=indoor,tag=!sneak] ~~~",
+                        "/playsound ak74m.stop_indoor2 @s[tag=indoor,tag=sneak] ~~~",
+                        "/stopsound @s ak74m.shoot2",
+                        "/stopsound @s ak74m.shoot_indoor2",
+                        "/playsound ak74m.stop2 @s[tag=unindoor,tag=sneak] ~~~",
+                        "/playsound ak74m_stop.mw @a[rm=1,r=17.5]",
+                        "/playsound ak74m_stop_near.mw @a[rm=17.5,r=35]",
+                        "/playsound ak74m_stop_dis.mw @a[rm=35,r=52.5]",
+                        "/playsound ak74m_stop_med_dis.mw @a[rm=52.5,r=70]",
+                        "/playsound ak74m_stop_far_dismw @a[rm=70,r=800]",
+                        "/tag @s remove ak74msound",
+                        "/playanimation @s ak74maftershoot",
+                        "/stopsound @a ak74m_shoot.mw",
+                        "/stopsound @a ak74m_shoot_near.mw",
+                        "/stopsound @a ak74m_shoot_dis.mw",
+                        "/stopsound @a ak74m_shoot_far_dis.mw",
+                        "/stopsound @a ak74m_shoot_med_dis.mw",
+                        "/execute @a[tag=ak74msound,c=1] ~~~ playsound ak74m_shoot.mw @a[r=35,rm=1]",
+                        "/execute @a[tag=ak74msound,c=1] ~~~ playsound ak74m_shoot_near.mw @a[r=70,rm=35]",
+                        "/execute @a[tag=ak74msound,c=1] ~~~ playsound ak74m_shoot_dis.mw @a[r=105,rm=70]",
+                        "/execute @a[tag=ak74msound,c=1] ~~~ playsound ak74m_shoot_med_dis.mw @a[r=140,rm=105]",
+                        "/execute @a[tag=ak74msound,c=1] ~~~ playsound ak74m_shoot_far_dis.mw @a[r=800,rm=140]",
+                        "@s unshoot",
+                        "/event entity @s[scores={ak74m=0}] ak74m:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.ak74m_sound_sup": {
+            "initial_state": "setup",
+            "states": {
+                "default": {
+                    "animations": [
+                        {
+                            "gunsoundfixed": "q.mark_variant ==14"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard objectives add gunsound dummy",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "start": "variable.delayak74ms2beh = 0.055; variable.previous_timeak74ms2beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'));"
+                        },
+                        {
+                            "start2": "variable.delayak74msbeh = 0.06; variable.previous_timeak74msbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'));"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=1"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>=1"
+                        },
+                        {
+                            "default": "(!q.is_using_item) || (q.scoreboard('ak74m')==0)"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "start": "variable.delayak74ms2beh = 0.055; variable.previous_timeak74ms2beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'));"
+                        },
+                        {
+                            "start2": "variable.delayak74msbeh = 0.05; variable.previous_timeak74msbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'));"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/playsound ak74m.shoot_sup @s",
+                        "/tag @s add ak74msoundsup",
+                        "/stopsound @s ak74m.shoot_sup2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_using_item || (q.is_sprinting)"
+                        },
+                        {
+                            "stop2": "!q.is_using_item"
+                        },
+                        {
+                            "stop5": "query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "stop3": "q.health ==0"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_sneaking && q.scoreboard('ak74m')>=1"
+                        },
+                        {
+                            "stop4": "(q.skin_id ==14) || (q.scoreboard('ak74m')==0)"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "/playsound ak74m.shoot_sup2 @s",
+                        "/tag @s add ak74msoundsup",
+                        "/stopsound @s ak74m.shoot_sup",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_shoot_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_using_item"
+                        },
+                        {
+                            "stop3": "!q.is_using_item"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_sneaking && q.scoreboard('ak74m')>=1"
+                        },
+                        {
+                            "stop4": "query.get_equipped_item_name('main_hand') != 'ak74m' && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "stop5": "q.health ==0"
+                        },
+                        {
+                            "stop2": "(q.skin_id ==14) || (q.scoreboard('ak74m')==0)"
+                        }
+                    ]
+                },
+                "start": {
+                    "on_entry": [
+                        "/stopsound @s ak74m.stop_sup2",
+                        "@s ak74m:start_sup",
+                        "/playsound ak74m.start_sup @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "(query.life_time - variable.previous_timeak74ms2beh ) >= variable.delayak74ms2beh && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_using_item && q.scoreboard('ak74m')>=1 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default": "q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('ak74m')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start2": {
+                    "on_entry": [
+                        "/stopsound @s ak74m.stop_sup2",
+                        "@s ak74m:start_sup",
+                        "/playsound ak74m.start_sup2 @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound ak74m_start_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && !q.is_using_item"
+                        },
+                        {
+                            "shoot2": "(query.life_time - variable.previous_timeak74msbeh ) >= variable.delayak74msbeh && q.mark_variant ==14 && !q.is_riding && q.health > 0 && q.skin_id ==140 && q.is_using_item && q.scoreboard('ak74m')>=1 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('ak74m')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "stop": {
+                    "on_entry": [
+                        "/stopsound @s ak74m.shoot_sup",
+                        "/playsound ak74m.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s ak74m.shoot_sup2",
+                        "/playsound ak74m.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound ak74m_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove ak74msoundsup",
+                        "/playanimation @s ak74maftershootsup",
+                        "/stopsound @a ak74m_shoot_sup.mw",
+                        "/execute @a[tag=ak74msoundsup,c=1] ~~~ playsound ak74m_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={ak74m=0}] ak74m:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop2": {
+                    "on_entry": [
+                        "/stopsound @s ak74m.shoot_sup",
+                        "/playsound ak74m.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s ak74m.shoot_sup2",
+                        "/playsound ak74m.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound ak74m_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove ak74msoundsup",
+                        "/playanimation @s ak74maftershootsup",
+                        "/stopsound @a ak74m_shoot_sup.mw",
+                        "/execute @a[tag=ak74msoundsup,c=1] ~~~ playsound ak74m_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={ak74m=0}] ak74m:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop3": {
+                    "on_entry": [
+                        "/stopsound @s ak74m.shoot_sup",
+                        "/playsound ak74m.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s ak74m.shoot_sup2",
+                        "/playsound ak74m.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound ak74m_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove ak74msoundsup",
+                        "/playanimation @s ak74maftershootsup",
+                        "/stopsound @a ak74m_shoot_sup.mw",
+                        "/execute @a[tag=ak74msoundsup,c=1] ~~~ playsound ak74m_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={ak74m=0}] ak74m:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop4": {
+                    "on_entry": [
+                        "/stopsound @s ak74m.shoot_sup",
+                        "/playsound ak74m.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s ak74m.shoot_sup2",
+                        "/playsound ak74m.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound ak74m_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove ak74msoundsup",
+                        "/playanimation @s ak74maftershootsup",
+                        "/stopsound @a ak74m_shoot_sup.mw",
+                        "/execute @a[tag=ak74msoundsup,c=1] ~~~ playsound ak74m_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={ak74m=0}] ak74m:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop5": {
+                    "on_entry": [
+                        "/stopsound @s ak74m.shoot_sup",
+                        "/playsound ak74m.stop_sup @s[tag=!sneak] ~~~",
+                        "/stopsound @s ak74m.shoot_sup2",
+                        "/playsound ak74m.stop_sup2 @s[tag=sneak] ~~~",
+                        "/playsound ak74m_stop_sup.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove ak74msoundsup",
+                        "/playanimation @s ak74maftershootsup",
+                        "/stopsound @a ak74m_shoot_sup.mw",
+                        "/execute @a[tag=ak74msoundsup,c=1] ~~~ playsound ak74m_shoot_sup.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={ak74m=0}] ak74m:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}

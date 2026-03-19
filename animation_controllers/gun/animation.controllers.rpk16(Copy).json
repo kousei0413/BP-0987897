@@ -1,0 +1,607 @@
+{
+    "animation_controllers": {
+        "controller.animation.rpk16_sound_mag": {
+            "initial_state": "setup",
+            "states": {
+                "default": {
+                    "on_entry": [
+                        "/scoreboard objectives add gunsound dummy",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "start": "variable.delayrpk16sbeh = 0.075; variable.previous_timerpk16sbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor');"
+                        },
+                        {
+                            "start_indoor": "variable.delayrpk16sbeh = 0.075; variable.previous_timerpk16sbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor');"
+                        },
+                        {
+                            "start2": "variable.delayrpk16s1beh = 0.06; variable.previous_timerpk16s1beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor');"
+                        },
+                        {
+                            "start_indoor2": "variable.delayrpk16s1beh = 0.06; variable.previous_timerpk16s1beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor');"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>=1"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>=1"
+                        },
+                        {
+                            "default": "(!q.is_using_item) || (q.scoreboard('rpk16')==0)"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "start": "variable.delayrpk16sbeh = 0.07; variable.previous_timerpk16sbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor');"
+                        },
+                        {
+                            "start_indoor": "variable.delayrpk16sbeh = 0.07; variable.previous_timerpk16sbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor');"
+                        },
+                        {
+                            "start2": "variable.delayrpk16s1beh = 0.06; variable.previous_timerpk16s1beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'outdoor');"
+                        },
+                        {
+                            "start_indoor2": "variable.delayrpk16s1beh = 0.06; variable.previous_timerpk16s1beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.property('mw:gunindoor') == 'indoor');"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/playsound rpk16.shoot_mag @s",
+                        "/tag @s add rpk16sound",
+                        "/stopsound @s rpk16.shoot_mag2",
+                        "/stopsound @s rpk16.shoot_indoor_mag2",
+                        "/stopsound @s rpk16.shoot_indoor_mag",
+                        "/stopsound @s rpk16.start_mag",
+                        "/stopsound @s rpk16.start_indoor_mag",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:rpk16') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.skin_id ==1) || (q.scoreboard('rpk16')==0) || (q.health ==0)"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "/playsound rpk16.shoot_mag2 @s",
+                        "/tag @s add rpk16sound",
+                        "/stopsound @s rpk16.shoot_mag",
+                        "/stopsound @s rpk16.shoot_indoor_mag",
+                        "/stopsound @s rpk16.shoot_indoor_mag2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:rpk16') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.skin_id ==1) || (q.scoreboard('rpk16')==0) || (q.health ==0)"
+                        }
+                    ]
+                },
+                "shoot_indoor": {
+                    "on_entry": [
+                        "/playsound rpk16.shoot_indoor_mag @s",
+                        "/tag @s add rpk16sound",
+                        "/stopsound @s rpk16.shoot_mag2",
+                        "/stopsound @s rpk16.shoot_mag",
+                        "/stopsound @s rpk16.shoot_indoor_mag2",
+                        "/stopsound @s rpk16.start_mag",
+                        "/stopsound @s rpk16.start_indoor_mag",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "stop": "(!q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:rpk16') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.skin_id ==1) || (q.scoreboard('rpk16')==0) || (q.health ==0)"
+                        }
+                    ]
+                },
+                "shoot_indoor2": {
+                    "on_entry": [
+                        "/playsound rpk16.shoot_indoor_mag2 @s",
+                        "/tag @s add rpk16sound",
+                        "/stopsound @s rpk16.shoot_mag",
+                        "/stopsound @s rpk16.shoot_mag2",
+                        "/stopsound @s rpk16.shoot_indoor_mag",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_far_dismw @a[rm=70,r=800]",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "(!q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:rpk16') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')) || (q.skin_id ==1) || (q.scoreboard('rpk16')==0) || (q.health ==0)"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        },
+                        {
+                            "shoot_indoor": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'indoor'"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'outdoor'"
+                        }
+                    ]
+                },
+                "start": {
+                    "on_entry": [
+                        "/stopsound @s rpk16.stop",
+                        "@s rpk16:start",
+                        "/playsound rpk16.start_mag @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "(query.life_time - variable.previous_timerpk16sbeh ) >= variable.delayrpk16sbeh && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_using_item && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor": "(query.life_time - variable.previous_timerpk16sbeh ) >= variable.delayrpk16sbeh && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_using_item && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default": "!q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('rpk16')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start2": {
+                    "on_entry": [
+                        "/playsound rpk16.start_mag2 @s",
+                        "@s rpk16:start",
+                        "/stopsound @s rpk16.stop2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "!q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_using_item"
+                        },
+                        {
+                            "shoot2": "(query.life_time - variable.previous_timerpk16s1beh ) >= variable.delayrpk16s1beh && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_using_item && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor2": "(query.life_time - variable.previous_timerpk16s1beh ) >= variable.delayrpk16s1beh && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_using_item && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('rpk16')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start_indoor": {
+                    "on_entry": [
+                        "/stopsound @s rpk16.stop_indoor",
+                        "@s rpk16:start",
+                        "/playsound rpk16.start_indoor_mag @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "(query.life_time - variable.previous_timerpk16sbeh ) >= variable.delayrpk16sbeh && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_using_item && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor": "(query.life_time - variable.previous_timerpk16sbeh ) >= variable.delayrpk16sbeh && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_using_item && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default": "!q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('rpk16')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start_indoor2": {
+                    "on_entry": [
+                        "/playsound rpk16.start_indoor_mag2 @s",
+                        "@s rpk16:start",
+                        "/stopsound @s rpk16.stop_indoor2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start.mw @a[rm=1,r=17.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_near.mw @a[rm=17.5,r=35]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_dis.mw @a[rm=35,r=52.5]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_med_dis.mw @a[rm=52.5,r=70]",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_far_dismw @a[rm=70,r=800]",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "!q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_using_item"
+                        },
+                        {
+                            "shoot2": "(query.life_time - variable.previous_timerpk16s1beh ) >= variable.delayrpk16s1beh && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_using_item && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'outdoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "shoot_indoor2": "(query.life_time - variable.previous_timerpk16s1beh ) >= variable.delayrpk16s1beh && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_using_item && q.scoreboard('rpk16')>=1 && q.property('mw:gunindoor') == 'indoor' && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('rpk16')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "stop": {
+                    "on_entry": [
+                        "/stopsound @s rpk16.shoot_mag",
+                        "/stopsound @s rpk16.shoot_indoor_mag",
+                        "/playsound rpk16.stop_mag @s[tag=unindoor,tag=!sneak] ~~~",
+                        "/playsound rpk16.stop_indoor_mag @s[tag=indoor,tag=!sneak] ~~~",
+                        "/playsound rpk16.stop_indoor_mag2 @s[tag=indoor,tag=sneak] ~~~",
+                        "/stopsound @s rpk16.shoot_mag2",
+                        "/stopsound @s rpk16.shoot_indoor_mag2",
+                        "/playsound rpk16.stop_mag2 @s[tag=unindoor,tag=sneak] ~~~",
+                        "/playsound rpk16_stop.mw @a[rm=1,r=17.5]",
+                        "/playsound rpk16_stop_near.mw @a[rm=17.5,r=35]",
+                        "/playsound rpk16_stop_dis.mw @a[rm=35,r=52.5]",
+                        "/playsound rpk16_stop_med_dis.mw @a[rm=52.5,r=70]",
+                        "/playsound rpk16_stop_far_dismw @a[rm=70,r=800]",
+                        "/tag @s remove rpk16sound",
+                        "/playanimation @s rpk16aftershoot",
+                        "/stopsound @a rpk16_shoot.mw",
+                        "/stopsound @a rpk16_shoot_near.mw",
+                        "/stopsound @a rpk16_shoot_dis.mw",
+                        "/stopsound @a rpk16_shoot_far_dis.mw",
+                        "/stopsound @a rpk16_shoot_med_dis.mw",
+                        "/execute @a[tag=rpk16sound,c=1] ~~~ playsound rpk16_shoot.mw @a[r=35,rm=1]",
+                        "/execute @a[tag=rpk16sound,c=1] ~~~ playsound rpk16_shoot_near.mw @a[r=70,rm=35]",
+                        "/execute @a[tag=rpk16sound,c=1] ~~~ playsound rpk16_shoot_dis.mw @a[r=105,rm=70]",
+                        "/execute @a[tag=rpk16sound,c=1] ~~~ playsound rpk16_shoot_med_dis.mw @a[r=140,rm=105]",
+                        "/execute @a[tag=rpk16sound,c=1] ~~~ playsound rpk16_shoot_far_dis.mw @a[r=800,rm=140]",
+                        "@s unshoot",
+                        "/event entity @s[scores={rpk16=0}] rpk16:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.rpk16_sound_sup_mag": {
+            "initial_state": "setup",
+            "states": {
+                "default": {
+                    "on_entry": [
+                        "/scoreboard objectives add gunsound dummy",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "start": "variable.delayrpk16s2beh = 0.055; variable.previous_timerpk16s2beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'));"
+                        },
+                        {
+                            "start2": "variable.delayrpk16sbeh = 0.05; variable.previous_timerpk16sbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'));"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>=1"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>=1"
+                        },
+                        {
+                            "default": "(!q.is_using_item) || (q.scoreboard('rpk16')==0)"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "start": "variable.delayrpk16s2beh = 0.055; variable.previous_timerpk16s2beh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'));"
+                        },
+                        {
+                            "start2": "variable.delayrpk16sbeh = 0.05; variable.previous_timerpk16sbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>0 && q.variant !=9999 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach'));"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/playsound rpk16.shoot_sup_mag @s",
+                        "/tag @s add rpk16soundsupmag",
+                        "/stopsound @s rpk16.shoot_sup_mag2",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_sup_mag.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "!q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_using_item || (q.is_sprinting)"
+                        },
+                        {
+                            "stop2": "!q.is_using_item"
+                        },
+                        {
+                            "stop5": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:rpk16') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "stop3": "q.health ==0"
+                        },
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_sneaking && q.scoreboard('rpk16')>=1"
+                        },
+                        {
+                            "stop4": "(q.skin_id ==1) || (q.scoreboard('rpk16')==0)"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "/playsound rpk16.shoot_sup_mag2 @s",
+                        "/tag @s add rpk16soundsupmag",
+                        "/stopsound @s rpk16.shoot_sup_mag",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_shoot_sup_mag.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "@s hk416:shoot_animation",
+                        "/scoreboard players set @s gunsound 0"
+                    ],
+                    "transitions": [
+                        {
+                            "stop": "!q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_using_item"
+                        },
+                        {
+                            "stop3": "!q.is_using_item"
+                        },
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && !q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_sneaking && q.scoreboard('rpk16')>=1"
+                        },
+                        {
+                            "stop4": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:rpk16') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "stop5": "q.health ==0"
+                        },
+                        {
+                            "stop2": "(q.skin_id ==1) || (q.scoreboard('rpk16')==0)"
+                        }
+                    ]
+                },
+                "start": {
+                    "on_entry": [
+                        "/stopsound @s rpk16.stop_sup_mag2",
+                        "@s rpk16:start_sup",
+                        "/playsound rpk16.start_sup_mag @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_sup_mag.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot": "(query.life_time - variable.previous_timerpk16s2beh ) >= variable.delayrpk16s2beh && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_using_item && q.scoreboard('rpk16')>=1 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default": "!q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_using_item"
+                        },
+                        {
+                            "default3": "q.scoreboard('rpk16')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "start2": {
+                    "on_entry": [
+                        "/stopsound @s rpk16.stop_sup_mag2",
+                        "@s rpk16:start_sup",
+                        "/playsound rpk16.start_sup_mag2 @s",
+                        "/execute @s[scores={gunsound=1..}] ~~~ playsound rpk16_start_sup_mag.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "v.time = q.life_time;",
+                        "@s gun:end_rest",
+                        "@s gun:stop_sound",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "!q.is_riding && q.health > 0 && q.skin_id ==1000 && !q.is_using_item"
+                        },
+                        {
+                            "shoot2": "(query.life_time - variable.previous_timerpk16sbeh ) >= variable.delayrpk16sbeh && !q.is_riding && q.health > 0 && q.skin_id ==1000 && q.is_using_item && (q.life_time - v.time) >= 0.04 && q.scoreboard('rpk16')>=1 && q.property('mw:firemode') == 'fullauto'"
+                        },
+                        {
+                            "default3": "q.scoreboard('rpk16')==0 && (q.life_time - v.time) >= 0.2"
+                        }
+                    ]
+                },
+                "stop": {
+                    "on_entry": [
+                        "/stopsound @s rpk16.shoot_sup_mag",
+                        "/playsound rpk16.stop_sup_mag @s[tag=!sneak] ~~~",
+                        "/stopsound @s rpk16.shoot_sup_mag2",
+                        "/playsound rpk16.stop_sup_mag2 @s[tag=sneak] ~~~",
+                        "/playsound rpk16_stop_sup_mag.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove rpk16soundsupmag",
+                        "/playanimation @s rpk16aftershootsup",
+                        "/stopsound @a rpk16_shoot_sup_mag.mw",
+                        "/execute @a[tag=rpk16soundsupmag,c=1] ~~~ playsound rpk16_shoot_sup_mag.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={rpk16=0}] rpk16:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop2": {
+                    "on_entry": [
+                        "/stopsound @s rpk16.shoot_sup_mag",
+                        "/playsound rpk16.stop_sup_mag @s[tag=!sneak] ~~~",
+                        "/stopsound @s rpk16.shoot_sup_mag2",
+                        "/playsound rpk16.stop_sup_mag2 @s[tag=sneak] ~~~",
+                        "/playsound rpk16_stop_sup_mag.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove rpk16soundsupmag",
+                        "/playanimation @s rpk16aftershootsup",
+                        "/stopsound @a rpk16_shoot_sup_mag.mw",
+                        "/execute @a[tag=rpk16soundsupmag,c=1] ~~~ playsound rpk16_shoot_sup_mag.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={rpk16=0}] rpk16:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop3": {
+                    "on_entry": [
+                        "/stopsound @s rpk16.shoot_sup_mag",
+                        "/playsound rpk16.stop_sup_mag @s[tag=!sneak] ~~~",
+                        "/stopsound @s rpk16.shoot_sup_mag2",
+                        "/playsound rpk16.stop_sup_mag2 @s[tag=sneak] ~~~",
+                        "/playsound rpk16_stop_sup_mag.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove rpk16soundsupmag",
+                        "/playanimation @s rpk16aftershootsup",
+                        "/stopsound @a rpk16_shoot_sup_mag.mw",
+                        "/execute @a[tag=rpk16soundsupmag,c=1] ~~~ playsound rpk16_shoot_sup_mag.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={rpk16=0}] rpk16:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop4": {
+                    "on_entry": [
+                        "/stopsound @s rpk16.shoot_sup_mag",
+                        "/playsound rpk16.stop_sup_mag @s[tag=!sneak] ~~~",
+                        "/stopsound @s rpk16.shoot_sup_mag2",
+                        "/playsound rpk16.stop_sup_mag2 @s[tag=sneak] ~~~",
+                        "/playsound rpk16_stop_sup_mag.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove rpk16soundsupmag",
+                        "/playanimation @s rpk16aftershootsup",
+                        "/stopsound @a rpk16_shoot_sup_mag.mw",
+                        "/execute @a[tag=rpk16soundsupmag,c=1] ~~~ playsound rpk16_shoot_sup_mag.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={rpk16=0}] rpk16:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                },
+                "stop5": {
+                    "on_entry": [
+                        "/stopsound @s rpk16.shoot_sup_mag",
+                        "/playsound rpk16.stop_sup_mag @s[tag=!sneak] ~~~",
+                        "/stopsound @s rpk16.shoot_sup_mag2",
+                        "/playsound rpk16.stop_sup_mag2 @s[tag=sneak] ~~~",
+                        "/playsound rpk16_stop_sup_mag.mw @a[rm=1,r=80] ~~~ 1 1 0.4",
+                        "/tag @s remove rpk16soundsupmag",
+                        "/playanimation @s rpk16aftershootsup",
+                        "/stopsound @a rpk16_shoot_sup_mag.mw",
+                        "/execute @a[tag=rpk16soundsupmag,c=1] ~~~ playsound rpk16_shoot_sup_mag.mw @a[r=80,rm=1] ~~~ 1 1 0.4",
+                        "@s unshoot",
+                        "/event entity @s[scores={rpk16=0}] rpk16:empty",
+                        "/scoreboard players set @s gunsound 1"
+                    ],
+                    "transitions": [
+                        {
+                            "default": "(1.0)"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}

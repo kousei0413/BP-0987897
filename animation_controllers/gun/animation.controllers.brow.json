@@ -1,0 +1,248 @@
+{
+    "animation_controllers": {
+        "controller.animation.brow": {
+            "initial_state": "setup",
+            "states": {
+                "brow": {
+                    "on_entry": [
+                        "@s unreload",
+                        "/camerashake stop @s",
+                        "/scoreboard objectives add brow dummy",
+                        "/scoreboard players set @s brow 2"
+                    ],
+                    "transitions": [
+                        {
+                            "brow_1": "variable.browlaybrowbeh = 0.2; variable.previous_timebrowbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'brow' && q.skin_id ==260 && !q.is_riding && q.health > 0 && q.skin_id ==260);"
+                        },
+                        {
+                            "inspect": "variable.browlaybrowbeh = 5.3; variable.previous_timebrowbeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'brow' && !q.is_riding && q.health > 0 && q.skin_id ==260 && q.ground_speed ==0 && !q.is_sneaking);"
+                        }
+                    ]
+                },
+                "brow1": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "brow": "(1.0)"
+                        }
+                    ]
+                },
+                "brow_1": {
+                    "animations": [
+                        {
+                            "browshoot": "query.get_equipped_item_name('main_hand') == 'brow' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s brow 1",
+                        "/event entity @s[tag=!browammo] brow:shoot",
+                        "/event entity @s[tag=browammo] brow:shoot_ammo"
+                    ],
+                    "transitions": [
+                        {
+                            "brow_2": "(query.life_time - variable.previous_timebrowbeh ) >= variable.browlaybrowbeh && query.get_equipped_item_name == 'brow' && !q.is_riding && q.health > 0 && q.skin_id ==260 && !q.is_using_item"
+                        },
+                        {
+                            "reload": "q.skin_id ==260 && q.mark_variant ==26 && !q.is_using_item && !q.is_sneaking && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'brow'"
+                        }
+                    ]
+                },
+                "brow_2": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "brow_3": "variable.browlaybrowbeh = 0.25; variable.previous_timebrowbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'brow' && q.skin_id ==260 && !q.is_riding && q.health > 0 && q.skin_id ==260);"
+                        },
+                        {
+                            "reload": "q.skin_id ==260 && q.mark_variant ==26 && !q.is_using_item && !q.is_sneaking && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'brow'"
+                        }
+                    ]
+                },
+                "brow_3": {
+                    "animations": [
+                        {
+                            "browshoot": "query.get_equipped_item_name('main_hand') == 'brow' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s brow 0",
+                        "/event entity @s[tag=!browammo] brow:shoot2",
+                        "/event entity @s[tag=browammo] brow:shoot_ammo2"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(query.life_time - variable.previous_timebrowbeh) >= variable.browlaybrowbeh && query.get_equipped_item_name == 'brow' && !q.is_riding && q.health > 0"
+                        }
+                    ]
+                },
+                "empty": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "query.get_equipped_item_name('main_hand') == 'brow'"
+                        },
+                        {
+                            "fail": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:brow')"
+                        }
+                    ]
+                },
+                "fail": {
+                    "animations": [
+                        {
+                            "rootbrow": "query.get_equipped_item_name('main_hand') == 'brow' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s brow 0",
+                        "@s unreload",
+                        "/stopsound @s brow.reload",
+                        "/stopsound @a[rm=1,r=20] brow.reload1"
+                    ],
+                    "on_exit": [
+                        "@s ak47:reload"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.mark_variant ==26 && query.get_equipped_item_name('main_hand') == 'brow' && !q.is_saddled && q.skin_id ==260"
+                        }
+                    ]
+                },
+                "fail2": {
+                    "animations": [
+                        {
+                            "rootbrow": "query.get_equipped_item_name('main_hand') == 'brow' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unreload",
+                        "/stopsound @s brow.reload2",
+                        "/stopsound @a[rm=1,r=20] brow.reload21"
+                    ],
+                    "on_exit": [
+                        "@s ak47:reload2"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.mark_variant ==26 && query.get_equipped_item_name('main_hand') == 'brow' && !q.is_saddled && q.skin_id ==260"
+                        }
+                    ]
+                },
+                "inspect": {
+                    "animations": [
+                        {
+                            "browinspect": "query.get_equipped_item_name('main_hand') == 'brow' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s brow.show"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:brow')"
+                        },
+                        {
+                            "brow": "(query.life_time - variable.previous_timebrowbeh ) >= variable.browlaybrowbeh && query.get_equipped_item_name == 'brow' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "brow1": "q.is_using_item"
+                        }
+                    ]
+                },
+                "reload": {
+                    "transitions": [
+                        {
+                            "reload2": "variable.browlaybrowshakebeh = 2.64; variable.previous_timebrowshakebeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'brow' && !q.is_saddled);"
+                        }
+                    ]
+                },
+                "reload2": {
+                    "animations": [
+                        "browreload2"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "brow": "(query.life_time - variable.previous_timebrowshakebeh ) >= variable.browlaybrowshakebeh && (q.life_time - v.time) >= 1.76"
+                        },
+                        {
+                            "fail2": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:brow') && (q.life_time - v.time) < 1.76"
+                        }
+                    ]
+                },
+                "reload_empty": {
+                    "animations": [
+                        {
+                            "rootbrow": "query.get_equipped_item_name('main_hand') == 'brow' && !q.is_riding"
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty2": "variable.browlaybrowshakebeh = 2.89; variable.previous_timebrowshakebeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'brow' && !q.is_saddled);"
+                        }
+                    ]
+                },
+                "reload_empty2": {
+                    "animations": [
+                        {
+                            "browreload": "query.get_equipped_item_name('main_hand') == 'brow' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "brow": "(query.life_time - variable.previous_timebrowshakebeh ) >= variable.browlaybrowshakebeh && (q.life_time - v.time) >= 1.88"
+                        },
+                        {
+                            "fail": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:brow') && (q.life_time - v.time) < 1.88"
+                        }
+                    ]
+                },
+                "setup": {
+                    "animations": [
+                        {
+                            "rootbrow": "query.get_equipped_item_name('main_hand') == 'brow' && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add brow dummy",
+                        "/scoreboard players set @s brow 2"
+                    ],
+                    "transitions": [
+                        {
+                            "brow": "query.get_equipped_item_name == 'brow'"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}

@@ -1,0 +1,2615 @@
+{
+    "animation_controllers": {
+        "controller.animation.a10_scope_root": {
+            "initial_state": "setup2",
+            "states": {
+                "a10scope": {
+                    "on_entry": [
+                        "/event entity @s gun:a10scope",
+                        "/playsound a10_scope.draw @s",
+                        "/playsound a10_scope.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gundraw",
+                        "/camerashake add @s 0.007 0.2 rotational"
+                    ],
+                    "on_exit": [
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "a10scope_2": "(query.life_time - variable.previous_timeasrootbeh ) >= variable.delayasrootbeh"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "a10scope_2": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/effect @s slowness 0 0 true",
+                        "/effect @s speed 0 0 true",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:a10scope')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "aim": "(query.get_equipped_item_name == 'a10scope' && !q.is_riding && q.health > 0 && q.is_using_item)"
+                        },
+                        {
+                            "aim2": "(query.get_equipped_item_name == 'a10scope' && !q.is_riding && q.health > 0 && q.is_sneaking)"
+                        }
+                    ]
+                },
+                "a10scope_3": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/effect @s slowness 0 0 true",
+                        "/effect @s speed 0 0 true",
+                        "/scoreboard players set @s sprint 1",
+                        "/playsound a10_scope.aim2 @s",
+                        "/playsound a10_scope.aim21 @a[rm=1,r=20] ~~~"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:a10scope')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "aim": "(query.get_equipped_item_name == 'a10scope' && !q.is_riding && q.health > 0 && q.is_using_item)"
+                        },
+                        {
+                            "aim2": "(query.get_equipped_item_name == 'a10scope' && !q.is_riding && q.health > 0 && q.is_sneaking)"
+                        }
+                    ]
+                },
+                "aim": {
+                    "on_entry": [
+                        "/event entity @s a10scope:aim",
+                        "v.time = q.life_time;",
+                        "/effect @s slowness 9999 3 true",
+                        "/effect @s speed 9999 3 true",
+                        "/scoreboard players set @s sprint 0",
+                        "/playsound a10_scope.aim @s",
+                        "/playsound a10_scope.aim1 @a[r=20,rm=1] ~~~"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "shoot": "query.get_equipped_item_name == 'a10scope' && !q.is_riding && q.health > 0 && q.is_using_item && (q.life_time - v.time) >= 0.25"
+                        },
+                        {
+                            "a10scope_3": "((q.life_time - v.time) >= 4) || (v.attack_time)"
+                        },
+                        {
+                            "aim1": "q.is_sneaking"
+                        },
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:a10scope')"
+                        }
+                    ]
+                },
+                "aim1": {
+                    "on_entry": [
+                        "/event entity @s a10scope:aim",
+                        "v.time = q.life_time;",
+                        "/effect @s slowness 9999 3 true",
+                        "/effect @s speed 9999 23 true",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "shoot": "query.get_equipped_item_name == 'a10scope' && !q.is_riding && q.health > 0 && q.is_using_item && (q.life_time - v.time) >= 0.25"
+                        },
+                        {
+                            "a10scope_3": "((q.life_time - v.time) >= 4) || (v.attack_time)"
+                        },
+                        {
+                            "aim11": "!q.is_sneaking"
+                        },
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:a10scope')"
+                        }
+                    ]
+                },
+                "aim11": {
+                    "on_entry": [
+                        "/effect @s speed 0 0 true",
+                        "/event entity @s a10scope:aim",
+                        "v.time = q.life_time;",
+                        "/effect @s slowness 9999 3 true",
+                        "/effect @s speed 9999 3 true",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "shoot": "query.get_equipped_item_name == 'a10scope' && !q.is_riding && q.health > 0 && q.is_using_item && (q.life_time - v.time) >= 0.25"
+                        },
+                        {
+                            "a10scope_3": "((q.life_time - v.time) >= 4) || (v.attack_time)"
+                        },
+                        {
+                            "aim1": "q.is_sneaking"
+                        },
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:a10scope')"
+                        }
+                    ]
+                },
+                "aim2": {
+                    "on_entry": [
+                        "v.time = q.life_time;",
+                        "/effect @s slowness 9999 3 true",
+                        "/effect @s speed 9999 23 true",
+                        "/scoreboard players set @s sprint 0",
+                        "/playsound a10_scope.aim @s",
+                        "/playsound a10_scope.aim1 @a[r=20,rm=1] ~~~"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "shoot": "query.get_equipped_item_name == 'a10scope' && !q.is_riding && q.health > 0 && q.is_using_item && (q.life_time - v.time) >= 0.25"
+                        },
+                        {
+                            "a10scope_3": "(!q.is_sneaking)"
+                        },
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:a10scope')"
+                        }
+                    ]
+                },
+                "change": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.007 0.2 rotational",
+                        "/playsound a10_scope.change @s",
+                        "/playsound a10_scope.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "change2": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.007 0.2 rotational",
+                        "/playsound a10_scope.change @s",
+                        "/playsound a10_scope.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "done_reload": {
+                    "transitions": [
+                        {
+                            "a10scope": "variable.delayasrootbeh = 0.3; variable.previous_timeasrootbeh = query.life_time; return (query.get_equipped_item_name == 'a10scope' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "reload": {
+                    "on_entry": [
+                        "/scoreboard objectives add ksa10 dummy",
+                        "/scoreboard players set @s ksa10 0",
+                        "v.a10scope = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "/scoreboard players set @s ksa10 1",
+                        "/scoreboard players set @s airstrikeready 1"
+                    ],
+                    "transitions": [
+                        {
+                            "done_reload": "((q.life_time - v.a10scope) >= 180) || (q.scoreboard('ksreset')==1)"
+                        }
+                    ]
+                },
+                "reload_root": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/fill ~10~10~-10 ~-10~-3~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-2~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-1~10 air replace light_block",
+                        "/tag @s remove minigun"
+                    ],
+                    "on_exit": [
+                        "/event entity @s unshoot",
+                        "/effect @s slowness 0 0 true",
+                        "/effect @s speed 0 0 true",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "change2": "variable.delaychangebeh = 0.2; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup": {
+                    "on_entry": [
+                        "/event entity @s gun:stop"
+                    ],
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.2; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s ungun",
+                        "/tag @s remove minigun",
+                        "/event entity @s unshoot",
+                        "/event entity @s mw:gunchange",
+                        "/effect @s slowness 0 0 true",
+                        "/effect @s speed 0 0 true"
+                    ],
+                    "transitions": [
+                        {
+                            "a10scope": "variable.delayasrootbeh = 0.3; variable.previous_timeasrootbeh = query.life_time; return (query.get_equipped_item_name == 'a10scope' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/event entity @s a10scope:shoot",
+                        "/execute @s[tag=azur] ~~~ playsound azur.airstrike @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.airstrike2 @a[rm=1,r=40] ~~~ 1 1 0.5",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.airstrike @s",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.airstrike2 @a[rm=1,r=40] ~~~ 1 1 0.5",
+                        "/execute @s[tag=mara] ~~~ playsound mara.airstrike @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.airstrike2 @a[rm=1,r=40] ~~~ 1 1 0.5",
+                        "/execute @s[tag=nikto] ~~~ playsound nikto.airstrike @s",
+                        "/execute @s[tag=nikto] ~~~ playsound nikto.airstrike2 @a[rm=1,r=40] ~~~ 1 1 0.5",
+                        "/execute @s[tag=clukai] ~~~ playsound clukai.airstrike @s",
+                        "/execute @s[tag=clukai] ~~~ playsound clukai.airstrike2 @a[rm=1,r=40] ~~~ 1 1 0.5",
+                        "v.a10scope = q.life_time;",
+                        "/scoreboard objectives add airstrikeradio dummy",
+                        "/scoreboard players set @s airstrikeradio 1",
+                        "/execute @s[tag=a] ~~~ scoreboard players add @a[tag=!noteam,rm=1,scores={airstrikea=0..1}] airstrikea 1",
+                        "/execute @s[tag=b] ~~~ scoreboard players add @a[tag=!noteam,rm=1,scores={airstrikeb=0..1}] airstrikeb 1"
+                    ],
+                    "on_exit": [
+                        "/clear @s mw:a10scope",
+                        "/event entity @s unshoot",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_root": "(q.life_time - v.a10scope) >= 0.25"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.ak47_root": {
+            "initial_state": "setup2",
+            "states": {
+                "ax50": {
+                    "animations": [
+                        "ax50draw"
+                    ],
+                    "on_entry": [
+                        "/event entity @s gun:ax50",
+                        "/event entity @s stop:ax50",
+                        "/event entity @s gun:ax50",
+                        "/event entity @s mw:gundraw"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:ax50",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "ax50_2": "((query.life_time - variable.previous_timeax50rootbeh ) >= variable.delayax50rootbeh) || (q.is_using_item && q.skin_id ==270)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "ax50_2": {
+                    "on_entry": [
+                        "/event entity @s un:ax50",
+                        "/camerashake stop @s"
+                    ],
+                    "on_exit": [
+                        "/event entity @s stop:ax50",
+                        "/playsound ax50.change @a[r=20] ~~~"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ax50')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "brow": {
+                    "animations": [
+                        "browdraw"
+                    ],
+                    "on_entry": [
+                        "/event entity @s gun:brow",
+                        "/event entity @s stop:brow",
+                        "/event entity @s gun:brow",
+                        "/event entity @s mw:gundraw"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:brow",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "brow_2": "((query.life_time - variable.previous_timebrowrootbeh ) >= variable.delaybrowrootbeh) || (q.is_using_item && q.skin_id ==260)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "brow_2": {
+                    "on_entry": [
+                        "/event entity @s un:brow",
+                        "/camerashake stop @s"
+                    ],
+                    "on_exit": [
+                        "/event entity @s stop:brow",
+                        "/playsound brow.change @a[r=20] ~~~"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:brow')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "change": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/camerashake add @s 0.012 0.54 rotational",
+                        "/event entity @s unshoot",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "change2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/camerashake add @s 0.012 0.4 rotational",
+                        "/playsound de.change @s",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "change3": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/camerashake add @s 0.0175 0.95 rotational",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechange1beh ) >= variable.delaychange1beh && q.health > 0"
+                        }
+                    ]
+                },
+                "change4": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/camerashake add @s 0.0175 0.95 rotational",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechange11beh ) >= variable.delaychange11beh && q.health > 0"
+                        }
+                    ]
+                },
+                "de": {
+                    "on_entry": [
+                        "/event entity @s gun:de",
+                        "/playsound de.draw @s",
+                        "/playsound de.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s stop:de",
+                        "/camerashake add @s 0.01 0.4 rotational",
+                        "/event entity @s gun:de",
+                        "/event entity @s[scores={de=1..}] de:unreload",
+                        "/event entity @s[scores={de=0}] de:empty",
+                        "/event entity @s mw:gundraw"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:de",
+                        "/tag @s add glock",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "de_2": "(query.life_time - variable.previous_timeglockrootbeh ) >= variable.delayglockrootbeh"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "de_2": {
+                    "on_entry": [
+                        "/event entity @s un:de"
+                    ],
+                    "on_exit": [
+                        "/event entity @s stop:de"
+                    ],
+                    "transitions": [
+                        {
+                            "glock_change": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "glock_change": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/fill ~10~10~-10 ~-10~-3~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-2~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-1~10 air replace light_block",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "change2": "variable.delaychangebeh = 0.34; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "rytec_change": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/tag @s remove draw",
+                        "/tag @s remove ak103",
+                        "/tag @s remove ak74",
+                        "/fill ~10~10~-10 ~-10~-3~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-2~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-1~10 air replace light_block",
+                        "/tag @s remove gun",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "rytec_change2": "variable.delaychangeebeh = 0.73; variable.previous_timechangeebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "rytec_change2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/camerashake add @s 0.013 0.75 rotational",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangeebeh ) >= variable.delaychangeebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "setup": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/fill ~10~10~-10 ~-10~-3~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-2~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-1~10 air replace light_block",
+                        "/tag @s remove gun",
+                        "/tag @s remove minigun",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.5; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/tag @s remove draw",
+                        "/tag @s remove akimbo",
+                        "/fill ~10~10~-10 ~-10~-3~10 air replace light_block",
+                        "/event entity @s ungun",
+                        "/fill ~10~10~-10 ~-10~-2~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-1~10 air replace light_block",
+                        "/event entity @s unreload",
+                        "/tag @s remove minigun",
+                        "/event entity @s unshoot",
+                        "/event entity @s mw:gunchange",
+                        "/event entity @s gun:hasammo"
+                    ],
+                    "transitions": [
+                        {
+                            "sks": "variable.delaysksrootbeh = 1.07; variable.previous_timesksrootbeh = query.life_time; return (query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0);"
+                        },
+                        {
+                            "brow": "variable.delaybrowrootbeh = 0.62; variable.previous_timebrowrootbeh = query.life_time; return (query.get_equipped_item_name == 'brow' && !q.is_riding && q.health > 0);"
+                        },
+                        {
+                            "ax50": "variable.delayax50rootbeh = 1.135; variable.previous_timeax50rootbeh = query.life_time; return (query.get_equipped_item_name == 'ax50' && !q.is_riding && q.health > 0);"
+                        },
+                        {
+                            "de": "variable.delayglockrootbeh = 0.2; variable.previous_timeglockrootbeh = query.life_time; return (query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "sks": {
+                    "animations": [
+                        "sksdraw"
+                    ],
+                    "on_entry": [
+                        "/event entity @s gun:sks",
+                        "/event entity @s stop:sks",
+                        "/event entity @s gun:sks",
+                        "/event entity @s[scores={sks=1..}] de:unreload",
+                        "/event entity @s mw:gundraw"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:sks",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_2": "((query.life_time - variable.previous_timesksrootbeh ) >= variable.delaysksrootbeh) || (q.variant ==21)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "sks_2": {
+                    "on_entry": [
+                        "/event entity @s un:sks",
+                        "/camerashake stop @s"
+                    ],
+                    "on_exit": [
+                        "/event entity @s stop:sks",
+                        "/playsound sks.change @a[r=20] ~~~"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.ammo_box": {
+            "initial_state": "setup2",
+            "states": {
+                "change": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/event entity @s stop:ammobox",
+                        "/playsound ammo_box.change @s",
+                        "/playsound ammo_box.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "munitionbox": {
+                    "animations": [
+                        "ammoboxdraw"
+                    ],
+                    "on_entry": [
+                        "/event entity @s gun:ammobox",
+                        "/playsound ammo_box.draw @s",
+                        "/event entity @s stop:ammobox",
+                        "/playsound ammo_box.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gundraw",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:ammobox",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "munitionbox_2": "(query.life_time - variable.previous_timemunitionboxrootbeh ) >= variable.delaymunitionboxrootbeh"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "munitionbox_2": {
+                    "on_entry": [
+                        "/event entity @s un:ammobox",
+                        "/event entity @s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:munitionbox')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "throw": "variable.delaymunitionboxrootbeh = 0.73; variable.previous_timemunitionboxrootbeh = query.life_time; return (query.get_equipped_item_name == 'munitionbox' && !q.is_riding && q.health > 0 && q.is_using_item);"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.212; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s ungun",
+                        "/event entity @s unshoot",
+                        "/scoreboard players set @s sprint 1",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "munitionbox": "variable.delaymunitionboxrootbeh = 0.9; variable.previous_timemunitionboxrootbeh = query.life_time; return (query.get_equipped_item_name == 'munitionbox' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "throw": {
+                    "animations": [
+                        "ammoboxthrow"
+                    ],
+                    "on_entry": [
+                        "/event entity @s ammo_box:start_throw"
+                    ],
+                    "on_exit": [
+                        "/clear @s mw:munitionbox 0 1",
+                        "/event entity @s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "munitionbox_2": "(query.life_time - variable.previous_timemunitionboxrootbeh ) >= variable.delaymunitionboxrootbeh"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.armor_plate": {
+            "initial_state": "setup2",
+            "states": {
+                "armorplate": {
+                    "animations": [
+                        "armorplatestart"
+                    ],
+                    "on_entry": [
+                        "/event entity @s gun:armorplate",
+                        "/playsound armor_plate.start @s",
+                        "/playsound armor_plate.start1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gundraw",
+                        "/event entity @s armor_plate:start",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "armorplateloop": "q.all_animations_finished && query.get_equipped_item_name == 'armorplate'"
+                        },
+                        {
+                            "armorplateend": "query.get_equipped_item_name != 'armorplate'"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "armorplate_full": {
+                    "on_entry": [
+                        "/tellraw @s{\"rawtext\":[{\"text\":\"§e! Max Armor Plate Is 3 !\"}]}"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_using_item"
+                        }
+                    ]
+                },
+                "armorplateend": {
+                    "animations": [
+                        "armorplateend"
+                    ],
+                    "on_entry": [
+                        "/event entity @s unreload",
+                        "/playsound armor_plate.end @s",
+                        "/playsound armor_plate.end1 @a[rm=1,r=20] ~~~",
+                        "v.armor = (q.is_item_name_any('slot.armor.chest', 0, 'mw:bodyarmor') || q.is_item_name_any('slot.armor.chest', 0, 'mw:heavybodyarmor'));"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(q.health ==0) || (q.all_animations_finished)"
+                        },
+                        {
+                            "armorplate": "(query.get_equipped_item_name == 'armorplate' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.is_using_item && q.scoreboard('armorplate')<=2 && q.is_item_name_any('slot.armor.chest', 0, 'mw:bodyarmor')) || (query.get_equipped_item_name == 'armorplate' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.is_using_item && q.scoreboard('armorplate')<=2 && q.is_item_name_any('slot.armor.chest', 0, 'mw:heavybodyarmor'))"
+                        }
+                    ]
+                },
+                "armorplateloop": {
+                    "animations": [
+                        "armorplateloop"
+                    ],
+                    "on_entry": [
+                        "/event entity @s armor_plate:loop"
+                    ],
+                    "transitions": [
+                        {
+                            "armorplateend": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:armorplate')) || (q.scoreboard('armorplate') ==3)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "setup": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/tag @s remove minigun",
+                        "/event entity @s unshoot",
+                        "/event entity @s mw:gunchange",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "armorplate": "(query.get_equipped_item_name == 'armorplate' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.is_using_item && q.scoreboard('armorplate')<=2 && q.is_item_name_any('slot.armor.chest', 0, 'mw:bodyarmor')) || (query.get_equipped_item_name == 'armorplate' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.is_using_item && q.scoreboard('armorplate')<=2 && q.is_item_name_any('slot.armor.chest', 0, 'mw:heavybodyarmor'))"
+                        },
+                        {
+                            "armorplate_full": "query.get_equipped_item_name == 'armorplate' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.is_using_item && q.scoreboard('armorplate')>=3"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s ungun",
+                        "/event entity @s unshoot",
+                        "/tag @s remove minigun",
+                        "/event entity @s mw:gunchange",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "armorplate": "(query.get_equipped_item_name == 'armorplate' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.is_using_item && q.scoreboard('armorplate')<=2 && q.is_item_name_any('slot.armor.chest', 0, 'mw:bodyarmor')) || (query.get_equipped_item_name == 'armorplate' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.is_using_item && q.scoreboard('armorplate')<=2 && q.is_item_name_any('slot.armor.chest', 0, 'mw:heavybodyarmor'))"
+                        },
+                        {
+                            "armorplate_full": "query.get_equipped_item_name == 'armorplate' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.is_using_item && q.scoreboard('armorplate')>=3"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.kar98_root": {
+            "initial_state": "setup2",
+            "states": {
+                "change": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.014 0.54 rotational",
+                        "/event entity @s stop:kar98",
+                        "/playsound kar98.change @s",
+                        "/playsound kar98.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "kar98": {
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/event entity @s stop:kar98",
+                        "/camerashake add @s 0.011 0.3 rotational",
+                        "/camerashake add @s 0.008 0.5 rotational",
+                        "/event entity @s gun:kar98",
+                        "/playsound kar98.draw @s",
+                        "/playsound kar98.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gundraw",
+                        "/event entity @s[tag=kar98attachsup] gun:sup",
+                        "/event entity @s[tag=kar98attachstock] gun:stock",
+                        "/event entity @s[tag=kar98attachammo] gun:ammo",
+                        "/event entity @s[tag=kar98attachlaser] gun:laser",
+                        "/event entity @s[tag=kar98attachbipod] gun:grip",
+                        "/event entity @s[tag=kar98attachoptic] gun:optic"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:kar98",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98_2": "(query.life_time - variable.previous_timekar98rootbeh ) >= variable.delaykar98rootbeh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "kar98_2": {
+                    "on_entry": [
+                        "/event entity @s un:kar98"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:kar98') && q.variant !=10000 && q.variant !=11000 && q.variant !=12000 && q.variant !=13000 && q.variant !=14000 && q.variant !=15000 && q.variant !=20000 && q.variant !=30000 && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "uav": "!q.is_chested && !q.is_stackable && q.variant !=30 && q.variant !=31 && q.variant !=32 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && q.scoreboard('uav')==0 && !q.is_sneaking && q.variant !=5000 && q.variant !=6000"
+                        }
+                    ]
+                },
+                "setup": {
+                    "on_entry": [
+                        "/event entity @s stop:kar98",
+                        "/tag @s remove minigun",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.66; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:unsup",
+                        "/event entity @s gun:unammo",
+                        "/event entity @s gun:ungrip",
+                        "/event entity @s gun:unlaser",
+                        "/event entity @s gun:unstock",
+                        "/event entity @s gun:unoptic",
+                        "/event entity @s ungun",
+                        "/event entity @s unshoot",
+                        "/event entity @s attachment:reset",
+                        "/event entity @s mw:gunchange",
+                        "/event entity @s gun:hasammo"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98": "variable.delaykar98rootbeh = 0.3; variable.previous_timekar98rootbeh = query.life_time; return (query.get_equipped_item_name == 'kar98' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "uav": {
+                    "animations": [
+                        "uav"
+                    ],
+                    "on_entry": [
+                        "v.uav = q.life_time;",
+                        "/event entity @s gun:uav",
+                        "/scoreboard players set @s uav 1",
+                        "/hud @s hide touchs_control",
+                        "/playsound uav.draw @s"
+                    ],
+                    "on_exit": [
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] no_team",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] no_team",
+                        "/event entity @s gun:unuav",
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] b_team",
+                        "/execute @s[tag=a] ~~~ tp @e[name=uava] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ tp @e[name=uavb] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] a_team",
+                        "/hud @s reset",
+                        "/execute @s[tag=a] ~~~ summon mw:uav_ks ~~~ uava uava",
+                        "/execute @s[tag=b] ~~~ summon mw:uav_ks ~~~ uavb uavb",
+                        "/execute @s[tag=b] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uavb=0..1}] uavb 1",
+                        "/execute @s[tag=a] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uava=0..1}] uava 1"
+                    ],
+                    "transitions": [
+                        {
+                            "kar98_2": "(q.all_animations_finished) || ((q.life_time - v.uav) >=0.75 && q.is_using_item)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.laser_root": {
+            "initial_state": "setup2",
+            "states": {
+                "change": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/playsound laser.change @s",
+                        "/playsound laser.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "change2": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/playsound laser.change @s",
+                        "/playsound laser.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "done_reload": {
+                    "transitions": [
+                        {
+                            "laser": "variable.delaylrootbeh = 0.458; variable.previous_timelrootbeh = query.life_time; return (query.get_equipped_item_name == 'laser' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "laser": {
+                    "on_entry": [
+                        "/event entity @s gun:laser_ks",
+                        "/playsound laser.draw @s",
+                        "/playsound laser.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gundraw",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "laser_2": "(query.life_time - variable.previous_timelrootbeh ) >= variable.delaylrootbeh"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "laser_2": {
+                    "on_entry": [
+                        "/event entity @s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:laser')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "shoot": "variable.delaylrootbeh = 0.74; variable.previous_timelrootbeh = query.life_time; return (query.get_equipped_item_name == 'laser' && !q.is_riding && q.health > 0 && q.is_using_item);"
+                        }
+                    ]
+                },
+                "reload": {
+                    "on_entry": [
+                        "/scoreboard objectives add kssu34 dummy",
+                        "/scoreboard players set @s kssu34 0",
+                        "v.su34l = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "/scoreboard players set @s kssu34 1",
+                        "/scoreboard players set @s airstrikeready 1"
+                    ],
+                    "transitions": [
+                        {
+                            "done_reload": "((q.life_time - v.su34l) >= 180) || (q.scoreboard('ksreset')==1)"
+                        }
+                    ]
+                },
+                "reload_root": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/fill ~10~10~-10 ~-10~-3~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-2~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-1~10 air replace light_block",
+                        "/tag @s remove minigun"
+                    ],
+                    "transitions": [
+                        {
+                            "change2": "variable.delaychangebeh = 0.25; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.25; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s ungun",
+                        "/event entity @s unshoot",
+                        "/event entity @s mw:gunchange",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "laser": "variable.delaylrootbeh = 0.458; variable.previous_timelrootbeh = query.life_time; return (query.get_equipped_item_name == 'laser' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "/scoreboard players set @s airstrikeradio 1",
+                        "/event entity @s laser:shoot",
+                        "/execute @s[tag=azur] ~~~ playsound azur.airstrike @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.airstrike2 @a[rm=1,r=40] ~~~ 1 1 0.5",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.airstrike @s",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.airstrike2 @a[rm=1,r=40] ~~~ 1 1 0.5",
+                        "/execute @s[tag=mara] ~~~ playsound mara.airstrike @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.airstrike2 @a[rm=1,r=40] ~~~ 1 1 0.5",
+                        "/execute @s[tag=nikto] ~~~ playsound nikto.airstrike @s",
+                        "/execute @s[tag=nikto] ~~~ playsound nikto.airstrike2 @a[rm=1,r=40] ~~~ 1 1 0.5",
+                        "/execute @s[tag=clukai] ~~~ playsound clukai.airstrike @s",
+                        "/execute @s[tag=clukai] ~~~ playsound clukai.airstrike2 @a[rm=1,r=40] ~~~ 1 1 0.5",
+                        "/scoreboard objectives add airstrikeradio dummy",
+                        "/execute @s[tag=a] ~~~ scoreboard players add @a[tag=!noteam,rm=1,scores={airstrikea=0..1}] airstrikea 1",
+                        "/execute @s[tag=b] ~~~ scoreboard players add @a[tag=!noteam,rm=1,scores={airstrikeb=0..1}] airstrikeb 1"
+                    ],
+                    "on_exit": [
+                        "/clear @s mw:laser 0 1",
+                        "/event entity @s unshoot",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_root": "(query.life_time - variable.previous_timelrootbeh ) >= variable.delaylrootbeh"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.mk18_root": {
+            "initial_state": "equip",
+            "states": {
+                "change": {
+                    "on_entry": [
+                        "/camerashake add @s 0.012 0.54 rotational",
+                        "/event entity @s unshoot",
+                        "/event entity @s stop:mk18",
+                        "/playsound mk18.change @s",
+                        "/playsound mk18.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "equip": {
+                    "transitions": [
+                        {
+                            "mk181": "variable.delaymk18root1beh = 1.15; variable.previous_timemk18root1beh = query.life_time; return (query.get_equipped_item_name == 'mk18' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "mk18": {
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/event entity @s sig516_attachment:reset",
+                        "/scoreboard objectives add mk18firemode dummy",
+                        "/scoreboard players add @s mk18firemode 0",
+                        "/event entity @s stop:mk18",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/camerashake add @s 0.008 0.5 rotational",
+                        "/event entity @s gun:mk18",
+                        "/playsound mk18.draw @s",
+                        "/playsound mk18.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s[scores={mk18firemode=1}] gun:semiauto",
+                        "/event entity @s mw:gundraw",
+                        "/event entity @s[scores={mk18firemode=0}] gun:fullauto",
+                        "/event entity @s[scores={mk18attachmag=1}] sig516:mag",
+                        "/event entity @s[scores={mk18attachsup=1}] sig516:sup",
+                        "/event entity @s[scores={mk18attachoptic=1}] sig516:optic4",
+                        "/event entity @s[scores={mk18attachoptic=2}] sig516:optic2",
+                        "/event entity @s[scores={mk18attachgrip=1}] sig516:grip",
+                        "/event entity @s[scores={mk18attachgrip=2}] sig516:grip2",
+                        "/event entity @s[scores={mk18attachbarrel=1}] gun:barrel",
+                        "/event entity @s[scores={mk18attachlaser=1}] gun:laser",
+                        "/event entity @s[scores={mk18attachstock=1}] gun:stock"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_2": "(query.life_time - variable.previous_timemk18rootbeh ) >= variable.delaymk18rootbeh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "mk181": {
+                    "animations": [
+                        "mk18equip"
+                    ],
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/event entity @s sig516_attachment:reset",
+                        "/scoreboard objectives add mk18firemode dummy",
+                        "/scoreboard players add @s mk18firemode 0",
+                        "/event entity @s stop:mk18",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/camerashake add @s 0.008 0.5 rotational",
+                        "/event entity @s gun:mk18",
+                        "/playsound mk18.equip @s",
+                        "/playsound mk18.equip1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s[scores={mk18firemode=1}] gun:semiauto",
+                        "/event entity @s mw:gunequip",
+                        "/event entity @s[scores={mk18firemode=0}] gun:fullauto",
+                        "/event entity @s[scores={mk18attachmag=1}] sig516:mag",
+                        "/event entity @s[scores={mk18attachsup=1}] sig516:sup",
+                        "/event entity @s[scores={mk18attachoptic=1}] sig516:optic4",
+                        "/event entity @s[scores={mk18attachoptic=2}] sig516:optic2",
+                        "/event entity @s[scores={mk18attachgrip=1}] sig516:grip",
+                        "/event entity @s[scores={mk18attachgrip=2}] sig516:grip2",
+                        "/event entity @s[scores={mk18attachbarrel=1}] gun:barrel",
+                        "/event entity @s[scores={mk18attachlaser=1}] gun:laser",
+                        "/event entity @s[scores={mk18attachstock=1}] gun:stock",
+                        "/scoreboard players set @s mk18equip 0"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_2": "(query.life_time - variable.previous_timemk18root1beh ) >= variable.delaymk18root1beh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "mk182": {
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/event entity @s sig516_attachment:reset",
+                        "/scoreboard objectives add mk18firemode dummy",
+                        "/scoreboard players add @s mk18firemode 0",
+                        "/event entity @s stop:mk18",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/camerashake add @s 0.008 0.5 rotational",
+                        "/event entity @s gun:mk18",
+                        "/playsound mk18.draw @s",
+                        "/playsound mk18.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s[scores={mk18firemode=1}] gun:semiauto",
+                        "/event entity @s mw:gundraw",
+                        "/event entity @s[scores={mk18firemode=0}] gun:fullauto",
+                        "/event entity @s[scores={mk18attachmag=1}] sig516:mag",
+                        "/event entity @s[scores={mk18attachsup=1}] sig516:sup",
+                        "/event entity @s[scores={mk18attachoptic=1}] sig516:optic4",
+                        "/event entity @s[scores={mk18attachoptic=2}] sig516:optic2",
+                        "/event entity @s[scores={mk18attachgrip=1}] sig516:grip",
+                        "/event entity @s[scores={mk18attachgrip=2}] sig516:grip2",
+                        "/event entity @s[scores={mk18attachbarrel=1}] gun:barrel",
+                        "/event entity @s[scores={mk18attachlaser=1}] gun:laser",
+                        "/event entity @s[scores={mk18attachstock=1}] gun:stock"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_2": "(query.life_time - variable.previous_timemk18root2beh ) >= variable.delaymk18root2beh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "mk18_2": {
+                    "on_entry": [
+                        "/event entity @s un:mk18",
+                        "/event entity @s mw:gundraw"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mk18') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "uav": "!q.is_chested && !q.is_stackable && q.variant !=30 && q.variant !=31 && q.variant !=32 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && q.scoreboard('uav')==0 && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "setup": {
+                    "on_entry": [
+                        "/event entity @s mw:gunchange",
+                        "/event entity @s stop:mk18"
+                    ],
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.46; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s stop:gun",
+                        "/event entity @s gun:stop",
+                        "/event entity @s ungun",
+                        "/event entity @s unshoot",
+                        "/tag @s remove minigun",
+                        "/event entity @s mw:gunchange",
+                        "/event entity @s gun:hasammo",
+                        "/event entity @s gun:unlaser",
+                        "/event entity @s gun:unstock",
+                        "/event entity @s gun:unbarrel",
+                        "/event entity @s sig516:un_grip",
+                        "/event entity @s sig516:un_sup",
+                        "/event entity @s sig516:un_optic",
+                        "/event entity @s sig516:un_mag"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18": "variable.delaymk18rootbeh = 0.35; variable.previous_timemk18rootbeh = query.life_time; return (query.get_equipped_item_name == 'mk18' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.scoreboard('mk18equip')==0);"
+                        },
+                        {
+                            "mk181": "variable.delaymk18root1beh = 1.15; variable.previous_timemk18root1beh = query.life_time; return (query.get_equipped_item_name == 'mk18' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.scoreboard('mk18equip')==1 && q.scoreboard('mk18')>=1);"
+                        },
+                        {
+                            "mk182": "variable.delaymk18root2beh = 0.35; variable.previous_timemk18root2beh = query.life_time; return (query.get_equipped_item_name == 'mk18' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.scoreboard('mk18equip')==1 && q.scoreboard('mk18')==0);"
+                        }
+                    ]
+                },
+                "uav": {
+                    "animations": [
+                        "uav"
+                    ],
+                    "on_entry": [
+                        "v.uav = q.life_time;",
+                        "/event entity @s gun:uav",
+                        "/scoreboard players set @s uav 1",
+                        "/hud @s hide touchs_control",
+                        "/playsound uav.draw @s"
+                    ],
+                    "on_exit": [
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] no_team",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] no_team",
+                        "/event entity @s gun:unuav",
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] b_team",
+                        "/execute @s[tag=a] ~~~ tp @e[name=uava] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ tp @e[name=uavb] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] a_team",
+                        "/hud @s reset",
+                        "/execute @s[tag=a] ~~~ summon mw:uav_ks ~~~ uava uava",
+                        "/execute @s[tag=b] ~~~ summon mw:uav_ks ~~~ uavb uavb",
+                        "/execute @s[tag=b] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uavb=0..1}] uavb 1",
+                        "/execute @s[tag=a] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uava=0..1}] uava 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mk18_2": "(q.all_animations_finished) || ((q.life_time - v.uav) >=0.75 && q.is_using_item)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.mp7_root": {
+            "initial_state": "setup2",
+            "states": {
+                "change": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.013 0.3 rotational",
+                        "/event entity @s stop:mp7",
+                        "/playsound mp7.change @s",
+                        "/playsound mp7.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "dead": {
+                    "on_entry": [
+                        "/event entity @s stop:mp7"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "q.health >0"
+                        }
+                    ]
+                },
+                "mp7": {
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/scoreboard objectives add mp7firemode dummy",
+                        "/scoreboard players add @s mp7firemode 0",
+                        "/event entity @s stop:mp7",
+                        "/camerashake add @s 0.011 0.4 rotational",
+                        "/camerashake add @s 0.008 0.6 rotational",
+                        "/event entity @s gun:mp7",
+                        "/playsound mp7.draw @s",
+                        "/playsound mp7.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gundraw",
+                        "/event entity @s[scores={mp7attachsup=1..}] gun:sup",
+                        "/event entity @s[scores={mp7attachlaser=1..}] gun:laser",
+                        "/event entity @s[scores={mp7attachgrip=1..}] gun:grip",
+                        "/event entity @s[scores={mp7attachmag=1..}] gun:mag",
+                        "/event entity @s[scores={mp7attachoptic=1}] gun:optic",
+                        "/event entity @s[scores={mp7attachoptic=3}] gun:optic3",
+                        "/event entity @s[scores={mp7attachoptic=2}] gun:optic2",
+                        "/event entity @s[scores={mp7attachstock=1..}] gun:stock",
+                        "/event entity @s[scores={mp7=1..}] sig516:unreload",
+                        "/event entity @s[scores={mp7=0}] sig516:empty",
+                        "/event entity @s[scores={mp7firemode=1}] gun:semiauto",
+                        "/event entity @s[scores={mp7firemode=0}] gun:fullauto"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:mp7",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_2": "(query.life_time - variable.previous_timemp7rootbeh ) >= variable.delaymp7rootbeh"
+                        },
+                        {
+                            "setup2": "q.mark_variant ==0"
+                        },
+                        {
+                            "dead": "q.health ==0"
+                        }
+                    ]
+                },
+                "mp7_2": {
+                    "on_entry": [
+                        "/event entity @s un:mp7"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:mp7') && q.variant !=10000 && q.variant !=11000 && q.variant !=12000 && q.variant !=13000 && q.variant !=14000 && q.variant !=15000 && q.variant !=20000 && q.variant !=30000 && q.variant !=16000 && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "dead": "q.health ==0"
+                        },
+                        {
+                            "uav": "!q.is_chested && !q.is_stackable && q.variant !=30 && q.variant !=31 && q.variant !=32 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && q.scoreboard('uav')==0 && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "setup": {
+                    "on_entry": [
+                        "/event entity @s stop:mp7",
+                        "/event entity @s unreload",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.15; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s gun:unsup",
+                        "/event entity @s gun:ungrip",
+                        "/event entity @s gun:unoptic",
+                        "/event entity @s gun:unmag",
+                        "/event entity @s gun:unlaser",
+                        "/event entity @s gun:unstock",
+                        "/event entity @s ungun",
+                        "/event entity @s unshoot",
+                        "/tag @s remove minigun",
+                        "/event entity @s attachment:reset",
+                        "/event entity @s mw:gunchange",
+                        "/event entity @s gun:hasammo"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7": "variable.delaymp7rootbeh = 0.3; variable.previous_timemp7rootbeh = query.life_time; return (query.get_equipped_item_name == 'mp7' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "uav": {
+                    "animations": [
+                        "uav"
+                    ],
+                    "on_entry": [
+                        "v.uav = q.life_time;",
+                        "/event entity @s gun:uav",
+                        "/scoreboard players set @s uav 1",
+                        "/hud @s hide touchs_control",
+                        "/playsound uav.draw @s"
+                    ],
+                    "on_exit": [
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] no_team",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] no_team",
+                        "/event entity @s gun:unuav",
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] b_team",
+                        "/execute @s[tag=a] ~~~ tp @e[name=uava] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ tp @e[name=uavb] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] a_team",
+                        "/hud @s reset",
+                        "/execute @s[tag=a] ~~~ summon mw:uav_ks ~~~ uava uava",
+                        "/execute @s[tag=b] ~~~ summon mw:uav_ks ~~~ uavb uavb",
+                        "/execute @s[tag=b] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uavb=0..1}] uavb 1",
+                        "/execute @s[tag=a] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uava=0..1}] uava 1"
+                    ],
+                    "transitions": [
+                        {
+                            "mp7_2": "(q.all_animations_finished) || ((q.life_time - v.uav) >=0.75 && q.is_using_item)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.parachute_root": {
+            "initial_state": "setup2",
+            "states": {
+                "change": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/playsound parachute.change @s",
+                        "/playsound parachute.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange",
+                        "/stopsound @s parachute.fly"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "parachute": {
+                    "on_entry": [
+                        "/event entity @s gun:parachute",
+                        "/playsound parachute.draw @s",
+                        "/playsound parachute.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gundraw",
+                        "/scoreboard players set @s sprint 0",
+                        "/camerashake add @s 0.07 0.15 rotational",
+                        "/camerashake add @s 0.005 0.5 rotational"
+                    ],
+                    "on_exit": [
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "parachute_2": "(query.life_time - variable.previous_timeprootbeh ) >= variable.delayprootbeh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.is_on_ground)"
+                        }
+                    ]
+                },
+                "parachute_2": {
+                    "animations": [
+                        "parachutefly",
+                        "parachutesound"
+                    ],
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/ride @s summon_ride mw:parachute"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "(!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:parachute')) || (q.is_on_ground) || (!q.is_riding)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "setup": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/tag @s remove minigun",
+                        "/effect @s slow_falling 0 0 true",
+                        "/effect @s speed 0 0 true",
+                        "/ride @s stop_riding"
+                    ],
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.2083; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s ungun",
+                        "/event entity @s unshoot",
+                        "/event entity @s mw:gunchange",
+                        "/scoreboard players set @s sprint 1",
+                        "/effect @s slow_falling 0 0 true",
+                        "/effect @s speed 0 0 true"
+                    ],
+                    "transitions": [
+                        {
+                            "parachute": "variable.delayprootbeh = 0.166; variable.previous_timeprootbeh = query.life_time; return (query.get_equipped_item_name == 'parachute' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && !q.is_on_ground && q.is_using_item);"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.rpk16_root": {
+            "initial_state": "equip",
+            "states": {
+                "ak74m": {
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/scoreboard objectives add ak74mfiremode dummy",
+                        "/scoreboard players add @s ak74mfiremode 0",
+                        "/event entity @s stop:ak74m",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/camerashake add @s 0.008 0.4 rotational",
+                        "/event entity @s gun:ak74m",
+                        "/playsound ak74m.draw @s",
+                        "/playsound ak74m.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gundraw",
+                        "/event entity @s[scores={ak74mgrip=1}] gun:grip",
+                        "/event entity @s[scores={ak74mattachmag=1}] gun:mag",
+                        "/event entity @s[scores={ak74mbarrel=1}] gun:barrel",
+                        "/event entity @s[scores={ak74mattachlaser=1}] gun:laser",
+                        "/event entity @s[scores={ak74mattachsup=1}] gun:sup",
+                        "/event entity @s[scores={ak74mattachoptic=1}] gun:optic",
+                        "/event entity @s[scores={ak74mattachoptic=2}] gun:optic2",
+                        "/event entity @s[scores={ak74mattachstock=1}] gun:stock",
+                        "/event entity @s[scores={ak74mfiremode=1}] gun:semiauto",
+                        "/event entity @s[scores={ak74mfiremode=0}] gun:fullauto"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:ak74m"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_2": "(query.life_time - variable.previous_timeak74mrootbeh ) >= variable.delayak74mrootbeh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "ak74m1": {
+                    "animations": [
+                        "ak74mequip"
+                    ],
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/scoreboard objectives add ak74mfiremode dummy",
+                        "/scoreboard players add @s ak74mfiremode 0",
+                        "/event entity @s stop:ak74m",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/camerashake add @s 0.008 0.4 rotational",
+                        "/event entity @s gun:ak74m",
+                        "/playsound ak74m.equip @s",
+                        "/playsound ak74m.equip1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunequip",
+                        "/event entity @s[scores={ak74mgrip=1}] gun:grip",
+                        "/event entity @s[scores={ak74mbarrel=1}] gun:barrel",
+                        "/event entity @s[scores={ak74mattachlaser=1}] gun:laser",
+                        "/event entity @s[scores={ak74mattachsup=1}] gun:sup",
+                        "/event entity @s[scores={ak74mattachoptic=1}] gun:optic",
+                        "/event entity @s[scores={ak74mattachoptic=2}] gun:optic2",
+                        "/event entity @s[scores={ak74mattachstock=1}] gun:stock",
+                        "/event entity @s[scores={ak74mfiremode=1}] gun:semiauto",
+                        "/event entity @s[scores={ak74mfiremode=0}] gun:fullauto",
+                        "/event entity @s[scores={ak74mattachmag=1}] gun:mag",
+                        "/scoreboard players set @s ak74mequip 0",
+                        "/event entity @s stop:ak74m"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:ak74m"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_2": "(query.life_time - variable.previous_timeak74mroot1beh ) >= variable.delayak74mroot1beh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "ak74m_2": {
+                    "on_entry": [
+                        "/event entity @s un:ak74m",
+                        "/event entity @s mw:gundraw"
+                    ],
+                    "transitions": [
+                        {
+                            "setup1": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:ak74m') && q.variant !=10000 && q.variant !=11000 && q.variant !=12000 && q.variant !=13000 && q.variant !=14000 && q.variant !=15000 && q.variant !=20000 && q.variant !=30000 && q.variant !=18000 && q.variant !=16000 && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "uav2": "!q.is_chested && !q.is_stackable && q.variant !=30 && q.variant !=31 && q.variant !=32 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && q.scoreboard('uav')==0 && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "change": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.014 0.54 rotational",
+                        "/event entity @s stop:rpk16",
+                        "/playsound rpk16.change @s",
+                        "/playsound rpk16.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "change2": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.014 0.54 rotational",
+                        "/event entity @s stop:ak74m",
+                        "/playsound ak74m.change @s",
+                        "/playsound ak74m.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "change21": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/camerashake add @s 0.014 0.54 rotational",
+                        "/event entity @s stop:ak74m",
+                        "/playsound ak74m.change @s",
+                        "/playsound ak74m.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup21": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "equip": {
+                    "transitions": [
+                        {
+                            "rpk161": "variable.delayrpk16root1beh = 1.15; variable.previous_timerpk16root1beh = query.life_time; return (query.get_equipped_item_name == 'rpk16' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        },
+                        {
+                            "ak74m1": "variable.delayak74mroot1beh = 1.15; variable.previous_timeak74mroot1beh = query.life_time; return (query.get_equipped_item_name == 'ak74m' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "rpk16": {
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/scoreboard objectives add rpk16firemode dummy",
+                        "/scoreboard players add @s rpk16firemode 0",
+                        "/event entity @s stop:rpk16",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/camerashake add @s 0.008 0.6 rotational",
+                        "/event entity @s gun:rpk16",
+                        "/playsound rpk16.draw @s",
+                        "/playsound rpk16.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gundraw",
+                        "/event entity @s[scores={rpk16grip=1}] gun:grip",
+                        "/event entity @s[scores={rpk16barrel=1}] gun:barrel",
+                        "/event entity @s[scores={rpk16attachlaser=1}] gun:laser",
+                        "/event entity @s[scores={rpk16firemode=1}] gun:semiauto",
+                        "/event entity @s[scores={rpk16firemode=0}] gun:fullauto",
+                        "/event entity @s[tag=cursed] rpk16:cursed"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:rpk16"
+                    ],
+                    "transitions": [
+                        {
+                            "rpk16_2": "(query.life_time - variable.previous_timerpk16rootbeh ) >= variable.delayrpk16rootbeh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "rpk161": {
+                    "animations": [
+                        "rpk16equip"
+                    ],
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/scoreboard objectives add rpk16firemode dummy",
+                        "/scoreboard players add @s rpk16firemode 0",
+                        "/event entity @s stop:rpk16",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/camerashake add @s 0.008 0.6 rotational",
+                        "/event entity @s gun:rpk16",
+                        "/playsound rpk16.equip @s",
+                        "/playsound rpk16.equip1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunequip",
+                        "/event entity @s[scores={rpk16grip=1}] gun:grip",
+                        "/event entity @s[scores={rpk16barrel=1}] gun:barrel",
+                        "/event entity @s[scores={rpk16attachlaser=1}] gun:laser",
+                        "/event entity @s[scores={rpk16firemode=1}] gun:semiauto",
+                        "/event entity @s[scores={rpk16firemode=0}] gun:fullauto",
+                        "/event entity @s[tag=cursed] rpk16:cursed",
+                        "/scoreboard players set @s rpk16equip 0",
+                        "/event entity @s stop:rpk16"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:rpk16"
+                    ],
+                    "transitions": [
+                        {
+                            "rpk16_2": "(query.life_time - variable.previous_timerpk16root1beh ) >= variable.delayrpk16root1beh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "rpk16_2": {
+                    "on_entry": [
+                        "/event entity @s un:rpk16",
+                        "/event entity @s mw:gundraw"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:rpk16') && q.variant !=10000 && q.variant !=11000 && q.variant !=12000 && q.variant !=13000 && q.variant !=14000 && q.variant !=15000 && q.variant !=20000 && q.variant !=30000 && q.variant !=18000 && q.variant !=16000 && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "uav": "!q.is_chested && !q.is_stackable && q.variant !=30 && q.variant !=31 && q.variant !=32 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && q.scoreboard('uav')==0 && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "setup": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s mw:gunchange",
+                        "/event entity @s stop:rpk16"
+                    ],
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.46; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup1": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s stop:ak74m"
+                    ],
+                    "transitions": [
+                        {
+                            "change2": "variable.delaychangebeh = 0.4; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s ungun",
+                        "/event entity @s unshoot",
+                        "/event entity @s attachment:reset",
+                        "/event entity @s mw:gunchange",
+                        "/event entity @s gun:hasammo",
+                        "/event entity @s gun:ungrip",
+                        "/event entity @s gun:unsup",
+                        "/event entity @s gun:unoptic",
+                        "/event entity @s gun:unstock",
+                        "/event entity @s gun:unbarrel",
+                        "/event entity @s gun:unlaser",
+                        "/event entity @s gun:unmag"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m": "variable.delayak74mrootbeh = 0.3; variable.previous_timeak74mrootbeh = query.life_time; return (query.get_equipped_item_name == 'ak74m' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.scoreboard('ak74mequip')==0);"
+                        },
+                        {
+                            "ak74m1": "variable.delayak74mroot1beh = 1.1; variable.previous_timeak74mroot1beh = query.life_time; return (query.get_equipped_item_name == 'ak74m' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.scoreboard('ak74mequip')==1);"
+                        },
+                        {
+                            "rpk16": "variable.delayrpk16rootbeh = 0.45; variable.previous_timerpk16rootbeh = query.life_time; return (query.get_equipped_item_name == 'rpk16' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.scoreboard('rpk16equip')==0);"
+                        },
+                        {
+                            "rpk161": "variable.delayrpk16root1beh = 1.15; variable.previous_timerpk16root1beh = query.life_time; return (query.get_equipped_item_name == 'rpk16' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.scoreboard('rpk16equip')==1);"
+                        }
+                    ]
+                },
+                "uav": {
+                    "animations": [
+                        "uav"
+                    ],
+                    "on_entry": [
+                        "v.uav = q.life_time;",
+                        "/event entity @s gun:uav",
+                        "/scoreboard players set @s uav 1",
+                        "/hud @s hide touchs_control",
+                        "/playsound uav.draw @s"
+                    ],
+                    "on_exit": [
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] no_team",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] no_team",
+                        "/event entity @s gun:unuav",
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] b_team",
+                        "/execute @s[tag=a] ~~~ tp @e[name=uava] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ tp @e[name=uavb] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] a_team",
+                        "/hud @s reset",
+                        "/execute @s[tag=a] ~~~ summon mw:uav_ks ~~~ uava uava",
+                        "/execute @s[tag=b] ~~~ summon mw:uav_ks ~~~ uavb uavb",
+                        "/execute @s[tag=b] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uavb=0..1}] uavb 1",
+                        "/execute @s[tag=a] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uava=0..1}] uava 1"
+                    ],
+                    "transitions": [
+                        {
+                            "rpk16_2": "(q.all_animations_finished) || ((q.life_time - v.uav) >=0.75 && q.is_using_item)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "uav2": {
+                    "animations": [
+                        "uav"
+                    ],
+                    "on_entry": [
+                        "v.uav = q.life_time;",
+                        "/event entity @s gun:uav",
+                        "/scoreboard players set @s uav 1",
+                        "/hud @s hide touchs_control",
+                        "/playsound uav.draw @s"
+                    ],
+                    "on_exit": [
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] no_team",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] no_team",
+                        "/event entity @s gun:unuav",
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] b_team",
+                        "/execute @s[tag=a] ~~~ tp @e[name=uava] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ tp @e[name=uavb] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] a_team",
+                        "/hud @s reset",
+                        "/execute @s[tag=a] ~~~ summon mw:uav_ks ~~~ uava uava",
+                        "/execute @s[tag=b] ~~~ summon mw:uav_ks ~~~ uavb uavb",
+                        "/execute @s[tag=b] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uavb=0..1}] uavb 1",
+                        "/execute @s[tag=a] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uava=0..1}] uava 1"
+                    ],
+                    "transitions": [
+                        {
+                            "ak74m_2": "(q.all_animations_finished) || ((q.life_time - v.uav) >=0.75 && q.is_using_item)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.rr_root": {
+            "initial_state": "setup2",
+            "states": {
+                "change": {
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/playsound rr.change @s",
+                        "/playsound rr.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "laser": {
+                    "on_entry": [
+                        "/event entity @s gun:rr",
+                        "/playsound rr.draw @s",
+                        "/playsound rr.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gundraw",
+                        "/scoreboard players set @s sprint 0"
+                    ],
+                    "on_exit": [
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "laser_2": "(query.life_time - variable.previous_timerrrootbeh ) >= variable.delayrrrootbeh"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "laser_2": {
+                    "on_entry": [
+                        "/event entity @s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:rr')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "shoot": "variable.delayrrrootbeh = 1; variable.previous_timerrrootbeh = query.life_time; return (query.get_equipped_item_name == 'rr' && !q.is_riding && q.health > 0 && q.is_using_item);"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.45; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s ungun",
+                        "/event entity @s unshoot",
+                        "/event entity @s mw:gunchange",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "laser": "variable.delayrrrootbeh = 0.458; variable.previous_timerrrootbeh = query.life_time; return (query.get_equipped_item_name == 'rr' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "animations": [
+                        "rrshoot"
+                    ],
+                    "on_entry": [
+                        "/playanimation @s[scores={rr=1..}] rrshootfail",
+                        "/playanimation @s[scores={rr=0}] rrshoot",
+                        "/playsound rr.start_shoot @a[r=20] ~~~"
+                    ],
+                    "on_exit": [
+                        "/clear @s mw:rr 0 1",
+                        "/give @p[rm=1] mw:rr 1",
+                        "/tellraw @p[rm=1]{\"rawtext\":[{\"text\":\"§eIts Your Turn!\"}]}"
+                    ],
+                    "transitions": [
+                        {
+                            "laser_2": "(query.life_time - variable.previous_timerrrootbeh ) >= variable.delayrrrootbeh"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.semtex_root": {
+            "initial_state": "setup2",
+            "states": {
+                "flashbang": {
+                    "animations": [
+                        "flashbangdraw"
+                    ],
+                    "on_entry": [
+                        "/event entity @s gun:flashbang",
+                        "/scoreboard players set @s sprint 1",
+                        "/event entity @s stop:flashbang",
+                        "/event entity @s mw:gundraw"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:flashbang",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "flashbang_throw": "(q.skin_id ==120 && !q.is_using_item) || (q.skin_id==120 && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:flashbang'))"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.skin_id==12 && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:flashbang'))"
+                        }
+                    ]
+                },
+                "flashbang_throw": {
+                    "animations": [
+                        "flashbangthrow"
+                    ],
+                    "on_entry": [
+                        "/tag @s add flashbangthrow"
+                    ],
+                    "on_exit": [
+                        "/clear @s mw:flashbang 0 1",
+                        "/event entity @s unshoot",
+                        "/tag @s remove flashbangthrow"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "q.all_animations_finished"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "semtex": {
+                    "animations": [
+                        "semtexdraw"
+                    ],
+                    "on_entry": [
+                        "/event entity @s gun:semtex",
+                        "/scoreboard players set @s sprint 1",
+                        "/event entity @s stop:semtex",
+                        "/event entity @s mw:gundraw"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:semtex",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "semtex_throw": "(q.skin_id ==110 && !q.is_using_item) || (q.skin_id==110 && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:semtex'))"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.skin_id==11 && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:semtex'))"
+                        }
+                    ]
+                },
+                "semtex_throw": {
+                    "animations": [
+                        "semtexthrow"
+                    ],
+                    "on_entry": [
+                        "/tag @s add grenadethrow"
+                    ],
+                    "on_exit": [
+                        "/clear @s mw:semtex 0 1",
+                        "/event entity @s unshoot",
+                        "/tag @s remove grenadethrow"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "q.all_animations_finished"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s ungun",
+                        "/tag @s remove minigun",
+                        "/event entity @s unshoot",
+                        "/event entity @s mw:gunchange",
+                        "/scoreboard players set @s sprint 1"
+                    ],
+                    "transitions": [
+                        {
+                            "semtex": "query.get_equipped_item_name == 'semtex' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.is_using_item"
+                        },
+                        {
+                            "flashbang": "query.get_equipped_item_name == 'flashbang' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.is_using_item"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.sig516_root": {
+            "initial_state": "equip",
+            "states": {
+                "change": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/camerashake add @s 0.012 0.54 rotational",
+                        "/event entity @s unshoot",
+                        "/event entity @s stop:sig516",
+                        "/playsound sig516.change @s",
+                        "/playsound sig516.change1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "on_exit": [
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timechangebeh ) >= variable.delaychangebeh && q.health > 0"
+                        }
+                    ]
+                },
+                "equip": {
+                    "transitions": [
+                        {
+                            "sig5161": "variable.delaysig516root1beh = 1.15; variable.previous_timesig516root1beh = query.life_time; return (query.get_equipped_item_name == 'sig516' && !q.is_riding && q.health > 0 && q.mark_variant ==0);"
+                        }
+                    ]
+                },
+                "setup": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/event entity @s mw:gunchange",
+                        "/event entity @s stop:sig516"
+                    ],
+                    "transitions": [
+                        {
+                            "change": "variable.delaychangebeh = 0.46; variable.previous_timechangebeh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s stop:gun",
+                        "/event entity @s gun:stop",
+                        "/event entity @s ungun",
+                        "/event entity @s unshoot",
+                        "/tag @s remove minigun",
+                        "/event entity @s mw:gunchange",
+                        "/event entity @s gun:hasammo",
+                        "/event entity @s gun:unlaser",
+                        "/event entity @s gun:unbarrel",
+                        "/event entity @s gun:unstock",
+                        "/event entity @s sig516:un_grip",
+                        "/event entity @s sig516:un_sup",
+                        "/event entity @s sig516:un_optic",
+                        "/event entity @s sig516:un_mag"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516": "variable.delaysig516rootbeh = 0.35; variable.previous_timesig516rootbeh = query.life_time; return (query.get_equipped_item_name == 'sig516' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.scoreboard('sig516equip')==0);"
+                        },
+                        {
+                            "sig5162": "variable.delaysig516root2beh = 0.35; variable.previous_timesig516root2beh = query.life_time; return (query.get_equipped_item_name == 'sig516' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.scoreboard('sig516equip')==0 && q.scoreboard('sig516')==0);"
+                        },
+                        {
+                            "sig5161": "variable.delaysig516root1beh = 1.15; variable.previous_timesig516root1beh = query.life_time; return (query.get_equipped_item_name == 'sig516' && !q.is_riding && q.health > 0 && q.mark_variant ==0 && q.scoreboard('sig516equip')==1 && q.scoreboard('sig516')>=1);"
+                        }
+                    ]
+                },
+                "sig516": {
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/scoreboard objectives add sig516firemode dummy",
+                        "/scoreboard players add @s sig516firemode 0",
+                        "/event entity @s stop:sig516",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/camerashake add @s 0.008 0.5 rotational",
+                        "/event entity @s gun:sig516",
+                        "/playsound sig516.draw @s",
+                        "/playsound sig516.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s gun:sig516",
+                        "/event entity @s[scores={sig516firemode=1}] gun:semiauto",
+                        "/event entity @s mw:gundraw",
+                        "/event entity @s[scores={sig516firemode=0}] gun:fullauto",
+                        "/event entity @s[scores={sig516attachmag=1}] sig516:mag",
+                        "/event entity @s[scores={sig516attachsup=1}] sig516:sup",
+                        "/event entity @s[scores={sig516attachoptic=1}] sig516:optic",
+                        "/event entity @s[scores={sig516attachoptic=2}] sig516:optic2",
+                        "/event entity @s[scores={sig516attachoptic=3}] sig516:optic3",
+                        "/event entity @s[scores={sig516attachgrip=1}] sig516:grip",
+                        "/event entity @s[scores={sig516attachgrip=2}] sig516:grip2",
+                        "/event entity @s[scores={sig516attachbarrel=1}] gun:barrel",
+                        "/event entity @s[scores={sig516attachlaser=1}] gun:laser",
+                        "/event entity @s[scores={sig516attachstock=1}] gun:stock"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:sig516"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_2": "(query.life_time - variable.previous_timesig516rootbeh ) >= variable.delaysig516rootbeh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "sig5161": {
+                    "animations": [
+                        "mk18equip"
+                    ],
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/scoreboard objectives add sig516firemode dummy",
+                        "/scoreboard players add @s sig516firemode 0",
+                        "/event entity @s stop:sig516",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/camerashake add @s 0.008 0.5 rotational",
+                        "/event entity @s gun:sig516",
+                        "/playsound sig516.equip @s",
+                        "/playsound sig516.equip1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s gun:sig516",
+                        "/event entity @s[scores={sig516firemode=1}] gun:semiauto",
+                        "/event entity @s mw:gunequip",
+                        "/event entity @s[scores={sig516firemode=0}] gun:fullauto",
+                        "/event entity @s[scores={sig516attachmag=1}] sig516:mag",
+                        "/event entity @s[scores={sig516attachsup=1}] sig516:sup",
+                        "/event entity @s[scores={sig516attachoptic=1}] sig516:optic",
+                        "/event entity @s[scores={sig516attachoptic=2}] sig516:optic2",
+                        "/event entity @s[scores={sig516attachoptic=3}] sig516:optic3",
+                        "/event entity @s[scores={sig516attachgrip=1}] sig516:grip",
+                        "/event entity @s[scores={sig516attachgrip=2}] sig516:grip2",
+                        "/event entity @s[scores={sig516attachbarrel=1}] gun:barrel",
+                        "/event entity @s[scores={sig516attachlaser=1}] gun:laser",
+                        "/event entity @s[scores={sig516attachstock=1}] gun:stock",
+                        "/scoreboard players set @s sig516equip 0"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:sig516"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_2": "(query.life_time - variable.previous_timesig516root1beh ) >= variable.delaysig516root1beh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "sig5162": {
+                    "on_entry": [
+                        "/event entity @s attachment:reset",
+                        "/scoreboard objectives add sig516firemode dummy",
+                        "/scoreboard players add @s sig516firemode 0",
+                        "/event entity @s stop:sig516",
+                        "/camerashake add @s 0.012 0.3 rotational",
+                        "/camerashake add @s 0.008 0.5 rotational",
+                        "/event entity @s gun:sig516",
+                        "/playsound sig516.draw @s",
+                        "/playsound sig516.draw1 @a[rm=1,r=20] ~~~",
+                        "/event entity @s gun:sig516",
+                        "/event entity @s[scores={sig516firemode=1}] gun:semiauto",
+                        "/event entity @s mw:gundraw",
+                        "/event entity @s[scores={sig516firemode=0}] gun:fullauto",
+                        "/event entity @s[scores={sig516attachmag=1}] sig516:mag",
+                        "/event entity @s[scores={sig516attachsup=1}] sig516:sup",
+                        "/event entity @s[scores={sig516attachoptic=1}] sig516:optic",
+                        "/event entity @s[scores={sig516attachoptic=2}] sig516:optic2",
+                        "/event entity @s[scores={sig516attachoptic=3}] sig516:optic3",
+                        "/event entity @s[scores={sig516attachgrip=1}] sig516:grip",
+                        "/event entity @s[scores={sig516attachgrip=2}] sig516:grip2",
+                        "/event entity @s[scores={sig516attachbarrel=1}] gun:barrel",
+                        "/event entity @s[scores={sig516attachlaser=1}] gun:laser",
+                        "/event entity @s[scores={sig516attachstock=1}] gun:stock"
+                    ],
+                    "on_exit": [
+                        "/event entity @s un:sig516",
+                        "/event entity @s mw:gunchange"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_2": "(query.life_time - variable.previous_timesig516root2beh ) >= variable.delaysig516root2beh"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant ==0)"
+                        }
+                    ]
+                },
+                "sig516_2": {
+                    "on_entry": [
+                        "/event entity @s un:sig516",
+                        "/event entity @s mw:gundraw"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sig516') && !q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav')"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        },
+                        {
+                            "uav": "!q.is_chested && !q.is_stackable && q.variant !=30 && q.variant !=31 && q.variant !=32 && !q.is_item_name_any('slot.weapon.offhand', 0, 'attachment:attach') && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && q.scoreboard('uav')==0 && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "uav": {
+                    "animations": [
+                        "uav"
+                    ],
+                    "on_entry": [
+                        "v.uav = q.life_time;",
+                        "/event entity @s gun:uav",
+                        "/scoreboard players set @s uav 1",
+                        "/hud @s hide touchs_control",
+                        "/playsound uav.draw @s"
+                    ],
+                    "on_exit": [
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] no_team",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] no_team",
+                        "/event entity @s gun:unuav",
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] b_team",
+                        "/execute @s[tag=a] ~~~ tp @e[name=uava] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ tp @e[name=uavb] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] a_team",
+                        "/hud @s reset",
+                        "/execute @s[tag=a] ~~~ summon mw:uav_ks ~~~ uava uava",
+                        "/execute @s[tag=b] ~~~ summon mw:uav_ks ~~~ uavb uavb",
+                        "/execute @s[tag=b] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uavb=0..1}] uavb 1",
+                        "/execute @s[tag=a] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uava=0..1}] uava 1"
+                    ],
+                    "transitions": [
+                        {
+                            "sig516_2": "(q.all_animations_finished) || ((q.life_time - v.uav) >=0.75 && q.is_using_item)"
+                        },
+                        {
+                            "setup2": "q.health ==0"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.sukuna_domain": {
+            "initial_state": "setup",
+            "states": {
+                "domain": {
+                    "animations": [
+                        "sukunadomain"
+                    ],
+                    "on_exit": [
+                        "/effect @s blindness 2 255 true",
+                        "/effect @s darkness 0 0 true",
+                        "/event entity @s unshoot",
+                        "/effect @s resistance 0 0 true",
+                        "/tag @s remove sukuna"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "(query.life_time - variable.previous_timedomain2beh ) >= variable.delaydomain2beh && q.health > 0"
+                        }
+                    ]
+                },
+                "setup": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/fill ~10~10~-10 ~-10~-3~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-2~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-1~10 air replace light_block"
+                    ],
+                    "transitions": [
+                        {
+                            "start_domain": "variable.delaydomainbeh = 6.5; variable.previous_timedomainbeh = query.life_time; return (query.get_equipped_item_name == 'm16skin' && !q.is_riding && q.health > 0 && q.is_using_item);"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "on_entry": [
+                        "/event entity @s gun:stop",
+                        "/fill ~10~10~-10 ~-10~-3~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-2~10 air replace light_block",
+                        "/fill ~10~10~-10 ~-10~-1~10 air replace light_block",
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "domain": "variable.delaydomain2beh = 40; variable.previous_timedomain2beh = query.life_time; return (!q.is_riding && q.health > 0);"
+                        }
+                    ]
+                },
+                "start_domain": {
+                    "animations": [
+                        "sukunastartdomain"
+                    ],
+                    "on_entry": [
+                        "/event entity @s unshoot",
+                        "/effect @s resistance 99999 255 true",
+                        "/event entity @s domain",
+                        "/tag @s add sukuna"
+                    ],
+                    "on_exit": [
+                        "/particle mw:sukuna_domain3 ~~~",
+                        "/effect @a darkness 0 0 true",
+                        "/effect @a darkness 2 255 true",
+                        "/camerashake add @a[rm=140] 4 0.2 positional"
+                    ],
+                    "transitions": [
+                        {
+                            "setup2": "(query.life_time - variable.previous_timedomainbeh ) >= variable.delaydomainbeh && q.health > 0"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.uav_no_gun": {
+            "initial_state": "setup2",
+            "states": {
+                "nuke": {
+                    "animations": [
+                        "nuclear"
+                    ],
+                    "on_entry": [
+                        "v.uav = q.life_time;",
+                        "/event entity @s gun:uav",
+                        "/playsound uav.draw @s",
+                        "/scoreboard players set @s nuclear 1"
+                    ],
+                    "on_exit": [
+                        "/execute @s[tag=!noteam] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={nuclearincoming=0..1}] nuclearincoming 1",
+                        "/event entity @s gun:unuav",
+                        "/hud @s reset"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "(q.all_animations_finished) || ((q.life_time - v.uav) >=0.75 && q.is_using_item)"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant !=0) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:nuclear'))"
+                        }
+                    ]
+                },
+                "setup": {
+                    "transitions": [
+                        {
+                            "uav": "!q.is_chested && !q.is_stackable && q.variant !=30 && q.variant !=31 && q.variant !=32 && q.mark_variant ==0 && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && q.scoreboard('uav')==0 && q.is_using_item"
+                        },
+                        {
+                            "nuke": "!q.is_chested && !q.is_stackable && q.variant !=30 && q.variant !=31 && q.variant !=32 && q.mark_variant ==0 && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:nuclear') && q.scoreboard('nuclear')==0 && q.is_using_item"
+                        }
+                    ]
+                },
+                "setup2": {
+                    "transitions": [
+                        {
+                            "uav": "!q.is_chested && !q.is_stackable && q.variant !=30 && q.variant !=31 && q.variant !=32 && q.mark_variant ==0 && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav') && q.scoreboard('uav')==0 && q.is_using_item"
+                        },
+                        {
+                            "nuke": "!q.is_chested && !q.is_stackable && q.variant !=30 && q.variant !=31 && q.variant !=32 && q.mark_variant ==0 && q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:nuclear') && q.scoreboard('nuclear')==0 && q.is_using_item"
+                        }
+                    ]
+                },
+                "uav": {
+                    "animations": [
+                        "uav"
+                    ],
+                    "on_entry": [
+                        "v.uav = q.life_time;",
+                        "/event entity @s gun:uav",
+                        "/scoreboard players set @s uav 1",
+                        "/hud @s hide touchs_control",
+                        "/playsound uav.draw @s"
+                    ],
+                    "on_exit": [
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] no_team",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] no_team",
+                        "/event entity @s gun:unuav",
+                        "/execute @s[tag=a] ~~~ event entity @a[tag=b] b_team",
+                        "/execute @s[tag=a] ~~~ tp @e[name=uava] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ tp @e[name=uavb] -999 -999 -9999",
+                        "/execute @s[tag=b] ~~~ event entity @a[tag=a] a_team",
+                        "/hud @s reset",
+                        "/execute @s[tag=a] ~~~ summon mw:uav_ks ~~~ uava uava",
+                        "/execute @s[tag=b] ~~~ summon mw:uav_ks ~~~ uavb uavb",
+                        "/execute @s[tag=b] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uavb=0..1}] uavb 1",
+                        "/execute @s[tag=a] ~~~ scoreboard players add @a[rm=1,tag=!noteam,scores={uava=0..1}] uava 1",
+                        "/event entity @s ungun"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "(q.all_animations_finished) || ((q.life_time - v.uav) >=0.75 && q.is_using_item)"
+                        },
+                        {
+                            "setup2": "(q.health ==0) || (q.mark_variant !=0) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:uav'))"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}

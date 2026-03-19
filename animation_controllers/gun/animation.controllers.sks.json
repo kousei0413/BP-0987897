@@ -1,0 +1,1287 @@
+{
+    "animation_controllers": {
+        "controller.animation.sks": {
+            "initial_state": "setup",
+            "states": {
+                "31ammo": {
+                    "on_entry": [
+                        "@s unreload",
+                        "/tag @s remove sksreload",
+                        "/tag @s remove sks29",
+                        "/tag @s remove sks225",
+                        "/tag @s remove sks27",
+                        "/tag @s remove sks26",
+                        "/tag @s remove sks25",
+                        "/tag @s remove sks24",
+                        "/tag @s remove sks23",
+                        "/tag @s remove sks22",
+                        "/tag @s remove sks21",
+                        "/tag @s remove sks20",
+                        "/tag @s remove sks19",
+                        "/tag @s remove sks125",
+                        "/tag @s remove sks17",
+                        "/tag @s remove sks14",
+                        "/tag @s remove sks10",
+                        "/tag @s remove sks25",
+                        "/tag @s remove sks7",
+                        "/tag @s remove sks6",
+                        "/tag @s remove sks5",
+                        "/tag @s remove sks4",
+                        "/tag @s remove sks3",
+                        "/tag @s remove sks2",
+                        "/tag @s remove sks1",
+                        "/tag @s remove sks9",
+                        "/tag @s remove sks13",
+                        "/tag @s remove sks12",
+                        "/tag @s remove sks11",
+                        "/tag @s remove sks15",
+                        "/tag @s remove sks16",
+                        "/camerashake stop @s"
+                    ],
+                    "transitions": [
+                        {
+                            "31ammo2": "variable.delaysksbeh = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "inspect2": "variable.delaysksbeh = 5.2; variable.previous_timesksbeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0 && q.skin_id ==250 && q.ground_speed ==0 && !q.is_sneaking);"
+                        }
+                    ]
+                },
+                "31ammo1": {
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "31ammo": "(1.0)"
+                        }
+                    ]
+                },
+                "31ammo2": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks": "(query.life_time - variable.previous_timesksbeh ) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        }
+                    ]
+                },
+                "fail": {
+                    "animations": [
+                        {
+                            "rootsks": "query.get_equipped_item_name('main_hand') == 'sks' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s sks 0",
+                        "@s unreload",
+                        "/tag @s add empty",
+                        "/tag @s add sksempty",
+                        "/tag @s add reload",
+                        "/stopsound @s sks.reload"
+                    ],
+                    "on_exit": [
+                        "/clear @s mw:sksmag 0 1",
+                        "@s ak47:reload"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.mark_variant ==25 && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_saddled && q.skin_id ==250"
+                        }
+                    ]
+                },
+                "fail2": {
+                    "animations": [
+                        {
+                            "rootsks": "query.get_equipped_item_name('main_hand') == 'sks' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s[tag=sks29] sks 29",
+                        "/scoreboard players set @s[tag=sks225] sks 225",
+                        "/scoreboard players set @s[tag=sks27] sks 27",
+                        "/scoreboard players set @s[tag=sks26] sks 26",
+                        "/scoreboard players set @s[tag=sks25] sks 25",
+                        "/scoreboard players set @s[tag=sks24] sks 24",
+                        "/scoreboard players set @s[tag=sks23] sks 23",
+                        "/scoreboard players set @s[tag=sks22] sks 22",
+                        "/scoreboard players set @s[tag=sks21] sks 21",
+                        "/scoreboard players set @s[tag=sks20] sks 20",
+                        "/scoreboard players set @s[tag=sks19] sks 19",
+                        "/scoreboard players set @s[tag=sks125] sks 125",
+                        "/scoreboard players set @s[tag=sks17] sks 17",
+                        "/scoreboard players set @s[tag=sks16] sks 16",
+                        "/scoreboard players set @s[tag=sks15] sks 15",
+                        "/scoreboard players set @s[tag=sks14] sks 14",
+                        "/scoreboard players set @s[tag=sks13] sks 13",
+                        "/scoreboard players set @s[tag=sks12] sks 12",
+                        "/scoreboard players set @s[tag=sks11] sks 11",
+                        "/scoreboard players set @s[tag=sks10] sks 10",
+                        "/scoreboard players set @s[tag=sks9] sks 9",
+                        "/scoreboard players set @s[tag=sks25] sks 25",
+                        "/scoreboard players set @s[tag=sks7] sks 7",
+                        "/scoreboard players set @s[tag=sks6] sks 6",
+                        "/scoreboard players set @s[tag=sks5] sks 5",
+                        "/scoreboard players set @s[tag=sks4] sks 4",
+                        "/scoreboard players set @s[tag=sks3] sks 3",
+                        "/scoreboard players set @s[tag=sks2] sks 2",
+                        "/scoreboard players set @s[tag=sks1] sks 1",
+                        "@s unreload",
+                        "/tag @s add sksunempty",
+                        "/tag @s add reload2",
+                        "/stopsound @s sks.reload2"
+                    ],
+                    "on_exit": [
+                        "@s ak47:reload2"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.mark_variant ==25 && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_saddled && q.skin_id ==250"
+                        }
+                    ]
+                },
+                "inspect": {
+                    "animations": [
+                        {
+                            "sksinspect": "query.get_equipped_item_name('main_hand') == 'sks' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s sks.show"
+                    ],
+                    "transitions": [
+                        {
+                            "setup": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks')"
+                        },
+                        {
+                            "sks": "(query.life_time - variable.previous_timesksbeh ) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "sks1": "q.is_using_item"
+                        }
+                    ]
+                },
+                "inspect2": {
+                    "animations": [
+                        {
+                            "sksinspect": "query.get_equipped_item_name('main_hand') == 'sks' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s sks.show"
+                    ],
+                    "transitions": [
+                        {
+                            "31ammo": "((query.life_time - variable.previous_timesksbeh ) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks'))"
+                        },
+                        {
+                            "31ammo1": "q.is_using_item"
+                        }
+                    ]
+                },
+                "reload": {
+                    "on_entry": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "reload2": "variable.delaysksshakebeh = 3; variable.previous_timesksshakebeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'sks' && !q.is_saddled);"
+                        }
+                    ]
+                },
+                "reload2": {
+                    "animations": [
+                        "sksreload2"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;",
+                        "@s ak47:reload2"
+                    ],
+                    "transitions": [
+                        {
+                            "31ammo": "((query.life_time - variable.previous_timesksshakebeh) >= variable.delaysksshakebeh) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks') && (q.life_time - v.time) >= 1.59)"
+                        },
+                        {
+                            "fail2": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks') && (q.life_time - v.time) <= 1.59"
+                        }
+                    ]
+                },
+                "reload_empty": {
+                    "animations": [
+                        {
+                            "rootsks": "query.get_equipped_item_name('main_hand') == 'sks' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [],
+                    "transitions": [
+                        {
+                            "reload_empty2": "variable.delaysksshakebeh = 3.333; variable.previous_timesksshakebeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'sks' && !q.is_saddled);"
+                        }
+                    ]
+                },
+                "reload_empty2": {
+                    "animations": [
+                        {
+                            "sksreload": "query.get_equipped_item_name('main_hand') == 'sks' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "@s de:unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "sks": "((query.life_time - variable.previous_timesksshakebeh ) >= variable.delaysksshakebeh) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks') && (q.life_time - v.time) >= 2.43)"
+                        },
+                        {
+                            "fail": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks') && (q.life_time - v.time) <= 2.43"
+                        }
+                    ]
+                },
+                "setup": {
+                    "animations": [
+                        {
+                            "rootsks": "query.get_equipped_item_name('main_hand') == 'sks' && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add sks dummy",
+                        "/scoreboard players set @s sks 20"
+                    ],
+                    "transitions": [
+                        {
+                            "sks": "query.get_equipped_item_name == 'sks'"
+                        }
+                    ]
+                },
+                "sks": {
+                    "on_entry": [
+                        "/tag @s remove sksreload",
+                        "@s unreload",
+                        "/camerashake stop @s",
+                        "@s unshoot",
+                        "/tag @s remove reload",
+                        "/tag @s remove reload2",
+                        "/scoreboard players set @s sks 20"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_1": "variable.delaysksbeh = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "inspect": "variable.delaysksbeh = 5.2; variable.previous_timesksbeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0 && q.skin_id ==250 && q.ground_speed ==0 && !q.is_sneaking);"
+                        }
+                    ]
+                },
+                "sks1": {
+                    "on_entry": [
+                        "/camerashake stop @s",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks": "(1.0)"
+                        }
+                    ]
+                },
+                "sks_1": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air",
+                        "/tag @s add sksreload"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_2": "(query.life_time - variable.previous_timesksbeh ) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_10": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_11": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_11": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_12": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_12": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_13": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_13": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_14": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_14": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_15": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_15": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_16": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_16": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_17": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_17": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_18": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_18": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_19": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_19": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_20": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_2": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_3": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_20": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_21": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_21": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_22": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_22": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_23": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_23": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_24": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_24": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_25": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_25": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_26": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_26": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_27": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_27": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_28": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_28": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_29": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_29": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_30": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_3": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_4": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_30": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_31": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_31": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_32": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_32": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_33": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_33": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_34": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_34": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_35": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_35": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_36": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_36": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_37": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_37": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_38": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_38": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_39": "variable.delaysksbeh = 0.15; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_39": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/event entity @s[tag=!skssup] sks:shoot_empty",
+                        "/event entity @s[tag=skssup] sks:shoot_empty_sup",
+                        "/playsound sks.empty @s",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_60_1": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        }
+                    ]
+                },
+                "sks_4": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_5": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_5": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_6": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_6": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_7": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_60_1": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "query.get_equipped_item_name('main_hand') == 'sks'"
+                        },
+                        {
+                            "fail": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks')"
+                        }
+                    ]
+                },
+                "sks_60_2": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "query.get_equipped_item_name('main_hand') == 'sks'"
+                        },
+                        {
+                            "fail": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks')"
+                        }
+                    ]
+                },
+                "sks_7": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_8": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_8": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_9": "variable.delaysksbeh  = 0.05; variable.previous_timesksbeh = query.life_time; return (q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && q.skin_id ==250);"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                },
+                "sks_9": {
+                    "on_entry": [
+                        "/scoreboard players remove @s sks 1",
+                        "/scoreboard players add @s sksjammed 1",
+                        "/event entity @s[tag=!skssup] sks:shoot",
+                        "/event entity @s[tag=skssup] sks:shoot_sup",
+                        "/camerashake stop @s",
+                        "/camerashake add @s[tag=!sneak] 0.06 0.04 rotational",
+                        "/camerashake add @s[tag=sneak] 0.03 0.04 rotational",
+                        "/camerashake add @s 0.007 0.4 rotational",
+                        "/execute @s[tag=!skssup] ~~~ fill ~~1~ ~~3~ light_block 14 replace air"
+                    ],
+                    "on_exit": [
+                        "/fill ~5~10~-5 ~-5~-2~5 air 0 replace light_block 14"
+                    ],
+                    "transitions": [
+                        {
+                            "sks_10": "(query.life_time - variable.previous_timesksbeh) >= variable.delaysksbeh && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "reload": "q.skin_id ==250 && q.mark_variant ==25 && !q.is_using_item && !q.is_sprinting && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'sks' && !q.is_sneaking"
+                        }
+                    ]
+                }
+            }
+        },
+        "controller.animation.sks_semi": {
+            "initial_state": "defaultt",
+            "states": {
+                "default": {
+                    "on_entry": [
+                        "/effect @s speed 0 0 true",
+                        "/effect @s slowness 0 0 true",
+                        "/tag @s remove sneak"
+                    ],
+                    "transitions": [
+                        {
+                            "defaultt": "(1.0)"
+                        }
+                    ]
+                },
+                "default1": {
+                    "on_entry": [
+                        "/effect @s speed 0 0 true",
+                        "/effect @s slowness 0 0 true",
+                        "/tag @s remove sneak"
+                    ],
+                    "transitions": [
+                        {
+                            "shoot1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && !q.is_chested && !q.is_stackable"
+                        },
+                        {
+                            "sneak_reddot": "!q.is_sprinting && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && !q.is_chested && !q.is_stackable && q.is_sneaking && q.is_item_name_any('slot.inventory', 1, 'attachment:sksscope')"
+                        }
+                    ]
+                },
+                "default2": {
+                    "transitions": [
+                        {
+                            "shoot2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && !q.is_chested && !q.is_stackable"
+                        },
+                        {
+                            "sneak_reddot": "!q.is_sprinting && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && !q.is_chested && !q.is_stackable && q.is_sneaking && v.attack_time && q.is_item_name_any('slot.inventory', 1, 'attachment:sksscope')"
+                        },
+                        {
+                            "default": "(!q.is_sneaking) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks')) || (q.is_chested) || (q.is_stackable)"
+                        },
+                        {
+                            "null": "!q.is_item_name_any('slot.inventory', 1, 'attachment:sksscope')"
+                        }
+                    ]
+                },
+                "default3": {
+                    "transitions": [
+                        {
+                            "shoot3": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && !q.is_chested && !q.is_stackable"
+                        },
+                        {
+                            "sneak": "!q.is_sprinting && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && !q.is_chested && !q.is_stackable && q.is_sneaking && v.attack_time && q.is_item_name_any('slot.inventory', 1, 'attachment:sksscope')"
+                        },
+                        {
+                            "default1": "(!q.is_sneaking) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks')) || (q.is_chested) || (q.is_stackable)"
+                        },
+                        {
+                            "null": "!q.is_item_name_any('slot.inventory', 1, 'attachment:sksscope')"
+                        }
+                    ]
+                },
+                "defaultt": {
+                    "transitions": [
+                        {
+                            "shoot": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && !q.is_chested && !q.is_stackable"
+                        },
+                        {
+                            "sneak": "!q.is_sprinting && query.get_equipped_item_name == 'sks' && q.skin_id ==250 && !q.is_riding && q.health > 0 && !q.is_chested && !q.is_stackable && q.is_sneaking && q.is_item_name_any('slot.inventory', 1, 'attachment:sksscope')"
+                        }
+                    ]
+                },
+                "shoot": {
+                    "on_entry": [
+                        "@s stop:sks",
+                        "v.time = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "@s un:sks"
+                    ],
+                    "transitions": [
+                        {
+                            "defaultt": "((q.life_time - v.time) >= 0.025 && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0 && !q.is_using_item) || (q.is_chested) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks'))"
+                        },
+                        {
+                            "default1": "q.is_stackable"
+                        },
+                        {
+                            "null": "(q.is_chested) || (q.is_stackable)"
+                        }
+                    ]
+                },
+                "shoot1": {
+                    "on_entry": [
+                        "@s stop:sks",
+                        "v.time = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "@s un:sks"
+                    ],
+                    "transitions": [
+                        {
+                            "default1": "((q.life_time - v.time) >= 0.025 && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0 && !q.is_using_item) || (q.is_chested) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks'))"
+                        },
+                        {
+                            "default1": "q.is_stackable"
+                        },
+                        {
+                            "null": "(q.is_chested) || (q.is_stackable)"
+                        }
+                    ]
+                },
+                "shoot2": {
+                    "on_entry": [
+                        "@s stop:sks",
+                        "v.time = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "@s un:sks"
+                    ],
+                    "transitions": [
+                        {
+                            "default2": "((q.life_time - v.time) >= 0.025 && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0 && !q.is_using_item) || (q.is_chested) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks'))"
+                        },
+                        {
+                            "default1": "q.is_stackable"
+                        },
+                        {
+                            "default": "(!q.is_sneaking) || (q.mark_variant !=25) || (q.is_chested) || (q.is_stackable)"
+                        }
+                    ]
+                },
+                "shoot3": {
+                    "on_entry": [
+                        "@s stop:sks",
+                        "v.time = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "@s un:sks"
+                    ],
+                    "transitions": [
+                        {
+                            "default3": "((q.life_time - v.time) >= 0.025 && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0 && !q.is_using_item) || (q.is_chested) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks'))"
+                        },
+                        {
+                            "default1": "q.is_stackable"
+                        },
+                        {
+                            "default": "(!q.is_sneaking) || (q.mark_variant !=25) || (q.is_chested) || (q.is_stackable)"
+                        }
+                    ]
+                },
+                "sneak": {
+                    "on_entry": [
+                        "@s stop:sks",
+                        "v.time = q.life_time;",
+                        "/effect @s slowness 0 0 true",
+                        "/effect @s slowness 9999 5 true",
+                        "/effect @s speed 0 0 true",
+                        "/effect @s speed 9999 43 true",
+                        "/tag @s add sneak"
+                    ],
+                    "on_exit": [
+                        "@s un:sks"
+                    ],
+                    "transitions": [
+                        {
+                            "default2": "((q.life_time - v.time) >= 0.446 && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0) || (q.is_chested) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks'))"
+                        },
+                        {
+                            "default1": "q.is_stackable"
+                        },
+                        {
+                            "null": "!q.is_item_name_any('slot.inventory', 1, 'attachment:sksscope')"
+                        },
+                        {
+                            "default": "(!q.is_sneaking) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks')) || (q.is_chested) || (q.is_stackable)"
+                        }
+                    ]
+                },
+                "sneak_reddot": {
+                    "on_entry": [
+                        "@s stop:sks",
+                        "v.time = q.life_time;",
+                        "/effect @s slowness 0 0 true",
+                        "/effect @s slowness 9999 1 true",
+                        "/effect @s speed 0 0 true",
+                        "/tag @s add sneak",
+                        "/effect @s speed 99999 10 true"
+                    ],
+                    "on_exit": [
+                        "@s un:sks"
+                    ],
+                    "transitions": [
+                        {
+                            "default3": "((q.life_time - v.time) >= 0.208 && query.get_equipped_item_name == 'sks' && !q.is_riding && q.health > 0) || (q.is_chested) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks'))"
+                        },
+                        {
+                            "null": "!q.is_item_name_any('slot.inventory', 1, 'attachment:sksscope')"
+                        },
+                        {
+                            "default": "(!q.is_sneaking) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:sks')) || (q.is_chested) || (q.is_stackable)"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}

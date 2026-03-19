@@ -1,0 +1,515 @@
+{
+    "animation_controllers": {
+        "controller.animation.de": {
+            "initial_state": "setup",
+            "states": {
+                "de": {
+                    "on_entry": [
+                        "@s de:unreload",
+                        "/camerashake stop @s",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "de_1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'de' && q.skin_id ==4000 && !q.is_riding && q.health > 0 && q.scoreboard('de')>=2"
+                        },
+                        {
+                            "de_to_ext": "q.is_item_name_any('slot.inventory', 2, 'attachment:demag') && q.scoreboard('de')>=7"
+                        },
+                        {
+                            "de_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'de' && q.skin_id ==4000 && !q.is_riding && q.health > 0 && q.scoreboard('de')==1"
+                        },
+                        {
+                            "inspect": "variable.delaydebeh = 5.05; variable.previous_timedebeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0 && q.skin_id ==4000 && q.ground_speed ==0 && !q.is_sneaking && q.scoreboard('de')>=7);"
+                        },
+                        {
+                            "inspect_empty": "variable.delaydebeh = 6.8; variable.previous_timedebeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0 && q.skin_id ==4000 && q.ground_speed ==0 && !q.is_sneaking && q.scoreboard('de')==0);"
+                        },
+                        {
+                            "reload": "q.skin_id ==4000 && q.mark_variant ==4 && !q.is_using_item && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'de' && q.scoreboard('de')<=6 && !q.is_sprinting && !q.is_sneaking"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==4000 && q.mark_variant ==4 && !q.is_saddled && query.get_equipped_item_name('main_hand') == 'de' && q.scoreboard('de')==0 && q.is_using_item"
+                        }
+                    ]
+                },
+                "de1": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "de": "(1.0)"
+                        }
+                    ]
+                },
+                "de2": {
+                    "on_entry": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "de_ext": "(1.0)"
+                        }
+                    ]
+                },
+                "de_1": {
+                    "animations": [
+                        {
+                            "deshoot": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "de": "(q.life_time - v.time) >= 0.15 && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0 && q.skin_id ==4000 && !q.is_using_item"
+                        },
+                        {
+                            "de1": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de')"
+                        }
+                    ]
+                },
+                "de_2": {
+                    "animations": [
+                        {
+                            "deshoot": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(q.life_time - v.time) >= 0.15 && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0 && q.skin_id ==4000"
+                        }
+                    ]
+                },
+                "de_ext": {
+                    "on_entry": [
+                        "@s de:unreload",
+                        "/camerashake stop @s",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "de_ext1": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'de' && q.skin_id ==4000 && !q.is_riding && q.health > 0 && q.scoreboard('de')>=2"
+                        },
+                        {
+                            "de_to_normal": "!q.is_item_name_any('slot.inventory', 2, 'attachment:demag') && q.scoreboard('de')>=10"
+                        },
+                        {
+                            "de_2": "q.is_using_item && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'de' && q.skin_id ==4000 && !q.is_riding && q.health > 0 && q.scoreboard('de')==1"
+                        },
+                        {
+                            "inspect2": "variable.delaydebeh = 5.05; variable.previous_timedebeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0 && q.skin_id ==4000 && q.ground_speed ==0 && !q.is_sneaking && q.scoreboard('de')>=10);"
+                        },
+                        {
+                            "inspect_empty2": "variable.delaydebeh = 6.55; variable.previous_timedebeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0 && q.skin_id ==4000 && q.ground_speed ==0 && !q.is_sneaking && q.scoreboard('de')==0);"
+                        },
+                        {
+                            "reload": "q.skin_id ==4000 && q.mark_variant ==4 && !q.is_using_item && !q.is_saddled && v.attack_time && query.get_equipped_item_name('main_hand') == 'de' && q.scoreboard('de')<=9 && !q.is_sprinting && !q.is_sneaking"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==4000 && q.mark_variant ==4 && !q.is_saddled && query.get_equipped_item_name('main_hand') == 'de' && q.scoreboard('de')==0 && q.is_using_item"
+                        }
+                    ]
+                },
+                "de_ext1": {
+                    "animations": [
+                        {
+                            "deshoot": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "de_ext": "(q.life_time - v.time) >= 0.15 && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0 && q.skin_id ==4000 && !q.is_using_item"
+                        },
+                        {
+                            "de2": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de')"
+                        }
+                    ]
+                },
+                "de_to_ext": {
+                    "on_entry": [
+                        "@s de:unreload",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_to_ext": "q.skin_id ==4000 && q.mark_variant ==4 && !q.is_saddled && query.get_equipped_item_name('main_hand') == 'de'"
+                        }
+                    ]
+                },
+                "de_to_normal": {
+                    "on_entry": [
+                        "@s de:unreload",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_to_normal": "q.skin_id ==4000 && q.mark_variant ==4 && !q.is_saddled && query.get_equipped_item_name('main_hand') == 'de'"
+                        }
+                    ]
+                },
+                "empty": {
+                    "on_entry": [
+                        "/scoreboard players set @s de 0",
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "inspect_empty": "variable.delaydebeh = 6.8; variable.previous_timedebeh = query.life_time; return (v.attack_time && !q.is_sprinting && !q.is_saddled && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0 && q.skin_id ==4000 && q.ground_speed ==0 && !q.is_sneaking && q.scoreboard('de')==0);"
+                        },
+                        {
+                            "reload_empty": "q.skin_id ==4000 && q.mark_variant ==4 && !q.is_saddled && query.get_equipped_item_name('main_hand') == 'de' && q.scoreboard('de')==0 && q.is_using_item"
+                        }
+                    ]
+                },
+                "fail": {
+                    "animations": [
+                        {
+                            "rootde": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "/scoreboard players set @s de 0",
+                        "@s unreload",
+                        "/stopsound @s de.reload_ext",
+                        "/stopsound @a[rm=1,r=20] de.reload_ext1"
+                    ],
+                    "on_exit": [
+                        "@s ak47:reload"
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty": "q.mark_variant ==4 && query.get_equipped_item_name('main_hand') == 'de' && !q.is_saddled && q.skin_id ==4000"
+                        }
+                    ]
+                },
+                "fail2": {
+                    "animations": [
+                        {
+                            "rootde": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s unreload",
+                        "/stopsound @s de.reload_ext2",
+                        "/stopsound @a[rm=1,r=20] de.reload_ext21"
+                    ],
+                    "on_exit": [
+                        "@s ak47:reload2"
+                    ],
+                    "transitions": [
+                        {
+                            "reload": "q.mark_variant ==4 && query.get_equipped_item_name('main_hand') == 'de' && !q.is_saddled && q.skin_id ==4000"
+                        }
+                    ]
+                },
+                "fail_ext": {
+                    "on_entry": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "de_to_ext": "q.skin_id ==4000"
+                        }
+                    ]
+                },
+                "fail_normal": {
+                    "on_entry": [
+                        "@s unreload"
+                    ],
+                    "transitions": [
+                        {
+                            "de_to_normal": "q.skin_id ==4000"
+                        }
+                    ]
+                },
+                "inspect": {
+                    "animations": [
+                        {
+                            "deinspect": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect"
+                    ],
+                    "on_exit": [
+                        "@s unshoot"
+                    ],
+                    "transitions": [
+                        {
+                            "de": "(query.life_time - variable.previous_timedebeh ) >= variable.delaydebeh && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "de1": "(q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de'))"
+                        }
+                    ]
+                },
+                "inspect2": {
+                    "animations": [
+                        {
+                            "deinspect": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspect"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s de.show"
+                    ],
+                    "transitions": [
+                        {
+                            "de_ext": "(query.life_time - variable.previous_timedebeh ) >= variable.delaydebeh && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "de2": "(q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de'))"
+                        }
+                    ]
+                },
+                "inspect_empty": {
+                    "animations": [
+                        {
+                            "deinspectempty": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s inspectempty"
+                    ],
+                    "on_exit": [
+                        "@s unshoot",
+                        "/stopsound @s de.show_empty",
+                        "/stopsound @a[rm=1,r=20] de.show_empty1"
+                    ],
+                    "transitions": [
+                        {
+                            "empty": "(query.life_time - variable.previous_timedebeh ) >= variable.delaydebeh && query.get_equipped_item_name == 'de' && !q.is_riding && q.health > 0"
+                        },
+                        {
+                            "fail": "(q.is_using_item) || (!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de'))"
+                        }
+                    ]
+                },
+                "reload": {
+                    "transitions": [
+                        {
+                            "reload2": "variable.delaydeshakebeh = 2.1; variable.previous_timedeshakebeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'de' && !q.is_saddled && !q.is_angry);"
+                        },
+                        {
+                            "reload2_ext": "variable.delaydeshakebeh = 2.36; variable.previous_timedeshakebeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'de' && !q.is_saddled && q.is_angry);"
+                        }
+                    ]
+                },
+                "reload2": {
+                    "animations": [
+                        "dereload2"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "de": "(query.life_time - variable.previous_timedeshakebeh ) >= variable.delaydeshakebeh && (q.life_time - v.time) >= 1.25"
+                        },
+                        {
+                            "fail2": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de') && (q.life_time - v.time) < 1.25"
+                        }
+                    ]
+                },
+                "reload2_ext": {
+                    "animations": [
+                        "dereload2ext"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "de_ext": "(query.life_time - variable.previous_timedeshakebeh ) >= variable.delaydeshakebeh && (q.life_time - v.time) >= 1.25"
+                        },
+                        {
+                            "fail2": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de') && (q.life_time - v.time) < 1.25"
+                        }
+                    ]
+                },
+                "reload2_to_ext": {
+                    "animations": [
+                        "dereload2ext"
+                    ],
+                    "on_entry": [
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "@s de:mag"
+                    ],
+                    "transitions": [
+                        {
+                            "de_ext": "(query.life_time - variable.previous_timedeextbeh ) >= variable.delaydeextbeh && (q.life_time - v.time) >= 1.25"
+                        },
+                        {
+                            "fail_ext": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de') && (q.life_time - v.time) < 1.25"
+                        }
+                    ]
+                },
+                "reload2_to_normal": {
+                    "animations": [
+                        "dereload2"
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload2",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;"
+                    ],
+                    "on_exit": [
+                        "@s de:unmag"
+                    ],
+                    "transitions": [
+                        {
+                            "de": "(query.life_time - variable.previous_timedenorbeh ) >= variable.delaydenorbeh && (q.life_time - v.time) >= 1.25"
+                        },
+                        {
+                            "fail_normal": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de') && (q.life_time - v.time) < 1.25"
+                        }
+                    ]
+                },
+                "reload_empty": {
+                    "animations": [
+                        {
+                            "rootde": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "reload_empty2": "variable.delaydeshakebeh = 2.33; variable.previous_timedeshakebeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'de' && !q.is_saddled && !q.is_angry);"
+                        },
+                        {
+                            "reload_empty2_ext": "variable.delaydeshakebeh = 2.63; variable.previous_timedeshakebeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'de' && !q.is_saddled && q.is_angry);"
+                        }
+                    ]
+                },
+                "reload_empty2": {
+                    "animations": [
+                        {
+                            "dereload": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "de": "(query.life_time - variable.previous_timedeshakebeh ) >= variable.delaydeshakebeh && (q.life_time - v.time) >=1.66 && !q.is_angry"
+                        },
+                        {
+                            "de_ext": "(query.life_time - variable.previous_timedeshakebeh ) >= variable.delaydeshakebeh && (q.life_time - v.time) >=1.66 && q.is_angry"
+                        },
+                        {
+                            "fail": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de') && (q.life_time - v.time) < 1.66"
+                        }
+                    ]
+                },
+                "reload_empty2_ext": {
+                    "animations": [
+                        {
+                            "dereloadext": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_entry": [
+                        "@s ak47:reload",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=ghost] ~~~ playsound ghost.reload @s",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload2 @a[rm=1,r=40] ~~~ 1 1 0.7",
+                        "/execute @s[tag=mara] ~~~ playsound mara.reload @s",
+                        "/execute @s[tag=azur] ~~~ playsound azur.reload @s",
+                        "v.time = q.life_time;"
+                    ],
+                    "transitions": [
+                        {
+                            "de_ext": "(query.life_time - variable.previous_timedeshakebeh ) >= variable.delaydeshakebeh && (q.life_time - v.time) >=2 && q.is_angry"
+                        },
+                        {
+                            "de": "(query.life_time - variable.previous_timedeshakebeh ) >= variable.delaydeshakebeh && (q.life_time - v.time) >=2 && !q.is_angry"
+                        },
+                        {
+                            "fail": "!q.is_item_name_any('slot.weapon.mainhand', 0, 'mw:de') && (q.life_time - v.time) < 2"
+                        }
+                    ]
+                },
+                "reload_to_ext": {
+                    "on_entry": [
+                        "@s de:reload_to_ext"
+                    ],
+                    "transitions": [
+                        {
+                            "reload2_to_ext": "variable.delaydeextbeh = 2.36; variable.previous_timedeextbeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'de' && !q.is_saddled);"
+                        }
+                    ]
+                },
+                "reload_to_normal": {
+                    "transitions": [
+                        {
+                            "reload2_to_normal": "variable.delaydenorbeh = 2.1; variable.previous_timedenorbeh = query.life_time; return (query.get_equipped_item_name('main_hand') == 'de' && !q.is_saddled);"
+                        }
+                    ]
+                },
+                "setup": {
+                    "animations": [
+                        {
+                            "rootde": "query.get_equipped_item_name('main_hand') == 'de' && !q.is_riding"
+                        }
+                    ],
+                    "on_exit": [
+                        "/scoreboard objectives add de dummy",
+                        "/scoreboard players set @s de 7"
+                    ],
+                    "transitions": [
+                        {
+                            "de": "query.get_equipped_item_name == 'de'"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "format_version": "1.10.0"
+}
