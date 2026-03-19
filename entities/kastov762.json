@@ -1,0 +1,1304 @@
+{
+    "format_version": "1.12.0",
+    "minecraft:entity": {
+        "component_groups": {
+            "12mmhit": {
+                "minecraft:explode": {
+                    "causes_fire": false,
+                    "destroy_affected_by_griefing": true,
+                    "fire_affected_by_griefing": true,
+                    "fuse_length": 0.1,
+                    "fuse_lit": true,
+                    "power": 0
+                },
+                "minecraft:variant": {
+                    "value": 5
+                }
+            },
+            "12mmhit2": {
+                "minecraft:explode": {
+                    "causes_fire": false,
+                    "destroy_affected_by_griefing": true,
+                    "fire_affected_by_griefing": true,
+                    "fuse_length": 0.1,
+                    "fuse_lit": true,
+                    "power": 0
+                },
+                "minecraft:variant": {
+                    "value": 6
+                }
+            },
+            "12mmhit3": {
+                "minecraft:explode": {
+                    "causes_fire": false,
+                    "destroy_affected_by_griefing": true,
+                    "fire_affected_by_griefing": true,
+                    "fuse_length": 0.1,
+                    "fuse_lit": true,
+                    "power": 0
+                },
+                "minecraft:variant": {
+                    "value": 7
+                }
+            },
+            "ak47": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "angle_offset": -1,
+                    "gravity": 0.16,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        -0.075,
+                        -0.125,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                20,
+                                25
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 20,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 4.5
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "assaultrifle"
+                    ]
+                }
+            },
+            "ak472": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "angle_offset": -0.5,
+                    "gravity": 0.16,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        0,
+                        -0.125,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                20,
+                                25
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 20,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "assaultrifle"
+                    ]
+                }
+            },
+            "brow": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:is_sheared": {},
+                "minecraft:projectile": {
+                    "anchor": 3,
+                    "gravity": 0.15,
+                    "liquid_inertia": 0,
+                    "multiple_targets": false,
+                    "offset": [
+                        -0.05,
+                        -0.05,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "shotgun",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                20,
+                                30
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 25,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 8
+                },
+                "minecraft:scale": {
+                    "value": 0.125
+                },
+                "minecraft:timer": {
+                    "looping": true,
+                    "time": 0.5,
+                    "time_down_event": {
+                        "event": "despawn",
+                        "target": "self"
+                    }
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "shotgun"
+                    ]
+                }
+            },
+            "brow2": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:is_sheared": {},
+                "minecraft:projectile": {
+                    "anchor": 3,
+                    "gravity": 0.15,
+                    "liquid_inertia": 0,
+                    "multiple_targets": false,
+                    "offset": [
+                        0,
+                        -0.05,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "shotgun",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                20,
+                                30
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 25,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 7
+                },
+                "minecraft:scale": {
+                    "value": 0.125
+                },
+                "minecraft:timer": {
+                    "looping": true,
+                    "time": 0.5,
+                    "time_down_event": {
+                        "event": "despawn",
+                        "target": "self"
+                    }
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "shotgun"
+                    ]
+                }
+            },
+            "brow3": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 1
+                },
+                "minecraft:projectile": {
+                    "anchor": 3,
+                    "gravity": 0.05,
+                    "liquid_inertia": 0,
+                    "multiple_targets": false,
+                    "offset": [
+                        -0.05,
+                        -0.05,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "12mmhit",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                20,
+                                30
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 35,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 6
+                },
+                "minecraft:scale": {
+                    "value": 0.4
+                }
+            },
+            "brow4": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 1
+                },
+                "minecraft:projectile": {
+                    "anchor": 3,
+                    "gravity": 0.05,
+                    "liquid_inertia": 0,
+                    "multiple_targets": false,
+                    "offset": [
+                        0,
+                        -0.05,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "12mmhit",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                20,
+                                30
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 35,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 2.5
+                },
+                "minecraft:scale": {
+                    "value": 0.4
+                }
+            },
+            "hit": {
+                "minecraft:explode": {
+                    "causes_fire": false,
+                    "destroy_affected_by_griefing": true,
+                    "fire_affected_by_griefing": true,
+                    "fuse_length": 0.1,
+                    "fuse_lit": true,
+                    "power": 0
+                },
+                "minecraft:is_tamed": {},
+                "minecraft:variant": {
+                    "value": 1
+                }
+            },
+            "hit2": {
+                "minecraft:explode": {
+                    "causes_fire": false,
+                    "destroy_affected_by_griefing": true,
+                    "fire_affected_by_griefing": true,
+                    "fuse_length": 0.1,
+                    "fuse_lit": true,
+                    "power": 0
+                },
+                "minecraft:is_tamed": {},
+                "minecraft:variant": {
+                    "value": 2
+                }
+            },
+            "hit3": {
+                "minecraft:explode": {
+                    "causes_fire": false,
+                    "destroy_affected_by_griefing": true,
+                    "fire_affected_by_griefing": true,
+                    "fuse_length": 0.1,
+                    "fuse_lit": true,
+                    "power": 0
+                },
+                "minecraft:is_tamed": {},
+                "minecraft:variant": {
+                    "value": 3
+                }
+            },
+            "kar98": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "gravity": 0,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        -0.075,
+                        -0.15,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                40,
+                                48
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 25,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 10
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "de"
+                    ]
+                }
+            },
+            "kar982": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "angle_offset": -0.5,
+                    "gravity": 0,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        0,
+                        -0.065,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                40,
+                                48
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 25,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "de"
+                    ]
+                }
+            },
+            "kar98_ammo": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "gravity": 0,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        -0.075,
+                        -0.15,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                64,
+                                56
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 26,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 10
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "de"
+                    ]
+                }
+            },
+            "kar98_ammo2": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "angle_offset": -0.5,
+                    "gravity": 0,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        0,
+                        -0.065,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                56,
+                                64
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 26,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "de"
+                    ]
+                }
+            },
+            "m4": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "angle_offset": -1,
+                    "gravity": 0.2,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        -0.075,
+                        -0.125,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                20,
+                                15
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 20,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 5.5
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "assaultrifle"
+                    ]
+                }
+            },
+            "m42": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "angle_offset": -0.5,
+                    "gravity": 0.2,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        0,
+                        -0.125,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                20,
+                                15
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 20,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "assaultrifle"
+                    ]
+                }
+            },
+            "minecraft:exploding": {
+                "minecraft:explode": {
+                    "causes_fire": false,
+                    "destroy_affected_by_griefing": true,
+                    "fire_affected_by_griefing": true,
+                    "fuse_length": 0.1,
+                    "fuse_lit": true,
+                    "power": 0
+                }
+            },
+            "mp7": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "angle_offset": -1,
+                    "gravity": 0.25,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        -0.075,
+                        -0.125,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                13,
+                                17
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 18,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 4.25
+                },
+                "minecraft:scale": {
+                    "value": 0.25
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "pistol"
+                    ]
+                }
+            },
+            "mp72": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "angle_offset": -0.5,
+                    "gravity": 0.25,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        0,
+                        -0.075,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                13,
+                                17
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 18,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false
+                },
+                "minecraft:scale": {
+                    "value": 0.25
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "pistol"
+                    ]
+                }
+            },
+            "shotgun": {
+                "minecraft:explode": {
+                    "causes_fire": false,
+                    "destroy_affected_by_griefing": true,
+                    "fire_affected_by_griefing": false,
+                    "fuse_length": 0.2,
+                    "fuse_lit": true,
+                    "power": 0
+                },
+                "minecraft:variant": {
+                    "value": 8
+                }
+            },
+            "taqm": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "gravity": 0,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        -0.1,
+                        -0.15,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                15,
+                                25
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 41,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 5.25
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "de"
+                    ]
+                }
+            },
+            "taqm2": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "gravity": 0,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        0,
+                        -0.125,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                15,
+                                25
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 41,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "de"
+                    ]
+                }
+            },
+            "x13": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "gravity": 0,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        -0.05,
+                        -0.175,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                55,
+                                75
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 25,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false,
+                    "uncertaintyBase": 3.5
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "pistol"
+                    ]
+                }
+            },
+            "x132": {
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:mark_variant": {
+                    "value": 0
+                },
+                "minecraft:projectile": {
+                    "anchor": 1,
+                    "gravity": 0,
+                    "inertia": 1,
+                    "liquid_inertia": -100,
+                    "multiple_targets": false,
+                    "offset": [
+                        0,
+                        -0.05,
+                        0
+                    ],
+                    "on_hit": {
+                        "definition_event": {
+                            "affect_projectile": true,
+                            "event_trigger": {
+                                "event": "minecraft:explode",
+                                "target": "self"
+                            }
+                        },
+                        "impact_damage": {
+                            "damage": [
+                                55,
+                                75
+                            ],
+                            "destroy_on_hit": true,
+                            "knockback": false
+                        },
+                        "stick_in_ground": {
+                            "value": 0
+                        }
+                    },
+                    "power": 25,
+                    "reflectOnHurt": false,
+                    "should_bounce": false,
+                    "stop_on_hurt": false
+                },
+                "minecraft:type_family": {
+                    "family": [
+                        "pistol"
+                    ]
+                }
+            }
+        },
+        "components": {
+            "minecraft:break_blocks": {
+                "breakable_blocks": [
+                    "glass_pane",
+                    "leaves",
+                    "torch",
+                    "redstone_lamp",
+                    "redstone_torch",
+                    "soul_torch",
+                    "lantern",
+                    "sign",
+                    "glass",
+                    "tinted_glass",
+                    "tinted_glass_pane",
+                    "stained_glass",
+                    "stained_glass_pane"
+                ]
+            },
+            "minecraft:collision_box": {
+                "height": 0.01,
+                "width": 0.01
+            },
+            "minecraft:despawn": {
+                "despawn_from_distance": {}
+            },
+            "minecraft:explode": {
+                "causes_fire": false,
+                "destroy_affected_by_griefing": true,
+                "fire_affected_by_griefing": true,
+                "fuse_length": 4,
+                "fuse_lit": true,
+                "power": 0
+            },
+            "minecraft:physics": {
+                "has_collision": false
+            },
+            "minecraft:projectile": {
+                "anchor": 1,
+                "liquid_inertia": -100,
+                "multiple_targets": false,
+                "power": 40,
+                "reflectOnHurt": false,
+                "should_bounce": false,
+                "stop_on_hurt": false
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:scale": {
+                "value": 0.3
+            }
+        },
+        "description": {
+            "animations": {
+                "12mmhit": "animation.12mm_bullet_hit",
+                "12mmhit2": "animation.12mm_bullet_hit2",
+                "12mmhit3": "animation.12mm_bullet_hit3",
+                "hit": "animation.7_62mm_bullet_hit",
+                "hit2": "animation.7_62mm_bullet_hit2",
+                "hit3": "animation.7_62mm_bullet_hit3",
+                "hitwater": "controller.animation.7_62mm_hit_water",
+                "shotgun": "animation.shotgun_bullet_hit"
+            },
+            "identifier": "gun:kastov762_bullet",
+            "is_experimental": false,
+            "is_spawnable": false,
+            "is_summonable": true,
+            "runtime_identifier": "minecraft:snowball",
+            "scripts": {
+                "animate": [
+                    {
+                        "hit": "query.variant ==1 && !q.is_in_water && q.is_on_ground"
+                    },
+                    {
+                        "hit2": "query.variant ==2 && !q.is_in_water && q.is_on_ground"
+                    },
+                    {
+                        "hit3": "query.variant ==3 && !q.is_in_water && q.is_on_ground"
+                    },
+                    {
+                        "shotgun": "query.variant ==8 && !q.is_in_water && q.is_on_ground"
+                    },
+                    "hitwater",
+                    {
+                        "12mmhit": "query.variant ==5 && !q.is_in_water"
+                    },
+                    {
+                        "12mmhit2": "query.variant ==6 && !q.is_in_water"
+                    },
+                    {
+                        "12mmhit3": "query.variant ==7 && !q.is_in_water"
+                    }
+                ]
+            }
+        },
+        "events": {
+            "12mmhit": {
+                "randomize": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "12mmhit"
+                            ]
+                        },
+                        "weight": 2
+                    },
+                    {
+                        "add": {
+                            "component_groups": [
+                                "12mmhit3"
+                            ]
+                        },
+                        "weight": 1
+                    },
+                    {
+                        "add": {
+                            "component_groups": [
+                                "12mmhit2"
+                            ]
+                        },
+                        "weight": 1
+                    }
+                ]
+            },
+            "ak47": {
+                "add": {
+                    "component_groups": [
+                        "ak47"
+                    ]
+                }
+            },
+            "ak472": {
+                "add": {
+                    "component_groups": [
+                        "ak472"
+                    ]
+                }
+            },
+            "brow": {
+                "add": {
+                    "component_groups": [
+                        "brow"
+                    ]
+                }
+            },
+            "brow2": {
+                "add": {
+                    "component_groups": [
+                        "brow2"
+                    ]
+                }
+            },
+            "brow3": {
+                "add": {
+                    "component_groups": [
+                        "brow3"
+                    ]
+                }
+            },
+            "brow4": {
+                "add": {
+                    "component_groups": [
+                        "brow4"
+                    ]
+                }
+            },
+            "kar98": {
+                "add": {
+                    "component_groups": [
+                        "kar98"
+                    ]
+                }
+            },
+            "kar982": {
+                "add": {
+                    "component_groups": [
+                        "kar982"
+                    ]
+                }
+            },
+            "kar98_ammo": {
+                "add": {
+                    "component_groups": [
+                        "kar98_ammo"
+                    ]
+                }
+            },
+            "kar98_ammo2": {
+                "add": {
+                    "component_groups": [
+                        "kar98_ammo2"
+                    ]
+                }
+            },
+            "m4": {
+                "add": {
+                    "component_groups": [
+                        "m4"
+                    ]
+                }
+            },
+            "m42": {
+                "add": {
+                    "component_groups": [
+                        "m42"
+                    ]
+                }
+            },
+            "minecraft:explode": {
+                "randomize": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "minecraft:exploding",
+                                "hit"
+                            ]
+                        },
+                        "weight": 2
+                    },
+                    {
+                        "add": {
+                            "component_groups": [
+                                "minecraft:exploding",
+                                "hit2"
+                            ]
+                        },
+                        "weight": 1
+                    },
+                    {
+                        "add": {
+                            "component_groups": [
+                                "minecraft:exploding",
+                                "hit3"
+                            ]
+                        },
+                        "weight": 1
+                    }
+                ]
+            },
+            "mp7": {
+                "add": {
+                    "component_groups": [
+                        "mp7"
+                    ]
+                }
+            },
+            "mp72": {
+                "add": {
+                    "component_groups": [
+                        "mp72"
+                    ]
+                }
+            },
+            "shotgun": {
+                "add": {
+                    "component_groups": [
+                        "shotgun"
+                    ]
+                }
+            },
+            "taqm": {
+                "add": {
+                    "component_groups": [
+                        "taqm"
+                    ]
+                }
+            },
+            "taqm2": {
+                "add": {
+                    "component_groups": [
+                        "taqm2"
+                    ]
+                }
+            }
+        }
+    }
+}
